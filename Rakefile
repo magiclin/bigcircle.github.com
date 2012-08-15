@@ -25,6 +25,7 @@ themes_dir      = ".themes"   # directory for blog files
 new_post_ext    = "markdown"  # default new post file extension when using the new_post task
 new_page_ext    = "markdown"  # default new page file extension when using the new_page task
 server_port     = "4000"      # port for preview server eg. localhost:4000
+editor          = "open -a Mou"  # 用 mou 编辑
 
 
 desc "Initial setup for Octopress: copies the default theme into the path of Jekyll's generator. Rake install defaults to rake install[classic] to install a different theme run rake install[some_theme_name]"
@@ -86,6 +87,7 @@ task :preview do
   }
 
   [jekyllPid, compassPid, rackupPid].each { |pid| Process.wait(pid) }
+  system "sleep 2; open http://localhost:#{server_port}/"
 end
 
 # usage rake new_post[my-new-post] or rake new_post['my new post'] or rake new_post (defaults to "new-post")
@@ -108,6 +110,9 @@ task :new_post, :title do |t, args|
     post.puts "comments: true"
     post.puts "categories: "
     post.puts "---"
+  end
+  if #{editor}
+    system "sleep 1; #{editor} #{filename}"
   end
 end
 
@@ -144,6 +149,9 @@ task :new_page, :filename do |t, args|
       page.puts "sharing: true"
       page.puts "footer: true"
       page.puts "---"
+    end
+    if #{editor}
+      system "sleep 1; #{editor} #{filename}"
     end
   else
     puts "Syntax error: #{args.filename} contains unsupported characters"
@@ -299,7 +307,7 @@ task :setup_github_pages, :repo do |t, args|
   if args.repo
     repo_url = args.repo
   else
-    puts "Enter the read/write url for your repository" 
+    puts "Enter the read/write url for your repository"
     puts "(For example, 'git@github.com:your_username/your_username.github.com)"
     repo_url = get_stdin("Repository url: ")
   end
