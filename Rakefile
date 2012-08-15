@@ -27,7 +27,7 @@ new_page_ext    = "markdown"  # default new page file extension when using the n
 server_port     = "4000"      # port for preview server eg. localhost:4000
 editor          = "open -a Mou"  # 用 mou 编辑
 
-
+# 创建默认主题
 desc "Initial setup for Octopress: copies the default theme into the path of Jekyll's generator. Rake install defaults to rake install[classic] to install a different theme run rake install[some_theme_name]"
 task :install, :theme do |t, args|
   if File.directory?(source_dir) || File.directory?("sass")
@@ -48,6 +48,7 @@ end
 # Working with Jekyll #
 #######################
 
+# 产生 jekyll 站点
 desc "Generate jekyll site"
 task :generate do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
