@@ -3,8 +3,8 @@
 # ----------------------- #
 
 url: http://Bigcircle.github.com
-title: MarineKing
-subtitle: Web & Life
+title: dayuan's cabin
+subtitle: Web (:ES => Ruby) & Life
 author: bigcircle
 simple_search: http://google.com/search
 description:
@@ -89,8 +89,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: bigcircle
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
