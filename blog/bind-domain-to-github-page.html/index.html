@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>dayuan's cabin</title>
+  <title>给github page绑定域名 - dayuan's cabin</title>
   <meta name="author" content="bigcircle">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/index.html">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/bind-domain-to-github-page.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -64,15 +64,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/bind-domain-to-github-page.html/">给github Page绑定域名</a></h1>
+      <h1 class="entry-title">给github Page绑定域名</h1>
     
     
       <p class="meta">
@@ -90,14 +87,14 @@
 
 <time datetime="2012-08-20T16:26:00+08:00" pubdate data-updated="true">2012-08-20 16:26:00</time>
         
-         | <a href="/blog/bind-domain-to-github-page.html/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
+<div class="entry-content"><p>今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
 域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
 
 <h5 id="section">大概流程如下：</h5>
@@ -119,109 +116,16 @@
 <p>本来想贴几张图的，但是懒病又犯了。好在过程比较简单，图暂省</p>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/use-sudo-without-password.html/">免去sudo时输入密码</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
 
-<time datetime="2012-08-20T14:16:00+08:00" pubdate data-updated="true">2012-08-20 14:16:00</time>
-        
-         | <a href="/blog/use-sudo-without-password.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
-
-<h3 id="section">为什么不想敲密码</h3>
-<ul>
-  <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
-  <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
-  <li>能方便设置一些启动项，特别是一个项目启动项很多，为了懒就写一个启动脚本</li>
-  <li>自己的系统自己用，没必要像在服务器上对权限要求那么严格</li>
-  <li>当然也有忘记root密码的情况。。</li>
-</ul>
-
-<h3 id="section-1">怎么做</h3>
-<p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
-默认情况的权限是这样的</p>
-
-<pre><code>root ALL=(ALL) ALL
-%admin ALL=(ALL) ALL
-</code></pre>
-
-<p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
-修改如下：</p>
-
-<pre><code># 修改amdin组都不用输入密码
-%admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
-# 只是想让 marine 用户输入sudo不需要密码
-marine ALL=(ALL) NOPASSWD: ALL
-</code></pre>
-
-<p>当然可定制丰富的权限要求，不过那样还不如不设置，统一要求输入密码得了。</p>
-
-<h3 id="section-2">一个好用的小技巧</h3>
-<p>有时候当我们输入了一大串命令后敲下去发现需要写sudo，这个时候不得不找回上个命令，然后回到命令开头，然后加上sudo空格，稍微有点麻烦，可以用以下2个小方法</p>
-
-<pre><code>sudo !!   	# !! 表示上次执行的命令
-</code></pre>
-
-<p>或者用zsh的同学可以自定义个命令绑定快捷键，比如这样:</p>
-
-<pre><code>sudo-command-line() {
-	[[ -z $BUFFER ]] &amp;&amp; zle up-history
-	[[ $BUFFER != sudo\ * ]] &amp;&amp; BUFFER="sudo $BUFFER"
-   zle end-of-line
-}
-zle -N sudo-command-line
-bindkey "\e\e" sudo-command-line
-</code></pre>
-
-<p>定义快捷键: 连续按2个ESC自动在前面添加sudo，非常方便快捷</p>
-
-<p>前段时间看了个介绍 <a href="http://www.commandlinefu.com/commands/browse/sort-by-votes">linux命令的网站</a>，有很多实用方便的快捷键，大家有兴趣可以去淘几个</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/chu-shi-octopress.html/">初识Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -233,74 +137,44 @@ bindkey "\e\e" sudo-command-line
   
 
 
-<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
-        
-         | <a href="/blog/chu-shi-octopress.html/#disqus_thread">Comments</a>
-        
-      </p>
+<time datetime="2012-08-20T16:26:00+08:00" pubdate data-updated="true">2012-08-20 16:26:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/domain-github/'>domain github</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/bind-domain-to-github-page.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/bind-domain-to-github-page.html/" >Tweet</a>
+  
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/use-sudo-without-password.html/" title="Previous Post: 免去sudo时输入密码">&laquo; 免去sudo时输入密码</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-  <div class="entry-content"><p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
-折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
-
-<h3 id="octopress">octopress</h3>
-
-<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
-
-<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
-
-<pre><code>curl -L https://get.rvm.io | bash -s stable
-# 我用的 zsh ,根据自身情况换成 .bash_profile
-echo "
-# RVM
-[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] &amp;&amp; source '/Users/`whoami`/.rvm/scripts/rvm'
-[[ -s '$HOME/.rvm/scripts/rvm' ]] &amp;&amp; . '$HOME/.rvm/scripts/rvm" &gt;&gt; ~/.zshrc
-source ~/.zshrc				# 使刚才配置生效
-rvm install 1.9.3				
-rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
-</code></pre>
-
-<h6 id="octopress-">复制 Octopress 到本地</h6>
-
-<pre><code>git clone git clone git://github.com/imathis/octopress.git myblog
-cd myblog
-bundle install				# 安装所需 gem
-rake install				# 安装默认主题
-rake preview				# 本地预览, http://localhost:4000
-</code></pre>
-
-<h6 id="github">部署到 github</h6>
-
-<pre><code>rake setup_github_pages
-# 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支
-git@github.com:your_username/your_username.github.com.git
-rake generate				# 将所有内容生成静态文件
-rake deploy 				# 部署到github上
-
-# 创建 source 分支 用于保存作文和配置文件
-git add .
-git commit -m 'create source branch'
-git push origin source
-</code></pre>
-
-<p>OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
-不知不觉已经夜深人静了，明天把 Disqus 加上就可以留个小言啦。</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -325,7 +199,7 @@ git push origin source
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/Bigcircle">@Bigcircle</a> on GitHub
@@ -355,6 +229,7 @@ git push origin source
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -369,7 +244,10 @@ git push origin source
       var disqus_shortname = 'bigcircle';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/bind-domain-to-github-page.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/bind-domain-to-github-page.html/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
