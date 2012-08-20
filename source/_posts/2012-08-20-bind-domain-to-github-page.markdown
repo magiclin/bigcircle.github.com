@@ -3,7 +3,7 @@ layout: post
 title: "给github page绑定域名"
 date: 2012-08-20 16:26
 comments: true
-categories: [domain github]
+categories: [domain, github]
 ---
 今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
 域名基本上大家都推荐[Godaddy](http://www.godaddy.com) or [Name](http://www.name.com)，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦
