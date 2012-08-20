@@ -4,7 +4,7 @@
   <title><![CDATA[Category: github | dayuan's cabin]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-20T17:49:18+08:00</updated>
+  <updated>2012-08-20T18:02:01+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[给github page绑定域名]]></title>
-    <link href="http://Bigcircle.github.com/blog/bind-domain-to-github-page.html/"/>
+    <link href="http://Bigcircle.github.com/blog/bind-domain-with-github-page.html/"/>
     <updated>2012-08-20T16:26:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/bind-domain-to-github-page</id>
+    <id>http://Bigcircle.github.com/blog/bind-domain-with-github-page</id>
     <content type="html"><![CDATA[<p>今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
 域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
 
@@ -38,7 +38,6 @@
 </ul>
 
 <p>本来想贴几张图的，但是懒病又犯了。好在过程比较简单，图暂省</p>
-
 ]]></content>
   </entry>
   
