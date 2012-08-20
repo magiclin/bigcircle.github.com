@@ -21,4 +21,3 @@ categories: [domain, github]
 - 在项目代码下/source目录下创建CNAME文件，添入刚注册的域名，push到github上，静候DNS生效，差不多十几分钟就OK了
 
 本来想贴几张图的，但是懒病又犯了。好在过程比较简单，图暂省
-
