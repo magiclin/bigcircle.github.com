@@ -9,6 +9,7 @@ categories: [Octopress, Ruby]
 折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修
 
 ### octopress
+<!-- more -->
 
 基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。
 
@@ -21,9 +22,9 @@ categories: [Octopress, Ruby]
     [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'
     [[ -s '$HOME/.rvm/scripts/rvm' ]] && . '$HOME/.rvm/scripts/rvm" >> ~/.zshrc
     source ~/.zshrc				# 使刚才配置生效
-    rvm install 1.9.3				
+    rvm install 1.9.3
     rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
-    
+
 ###### 复制 Octopress 到本地
 
     git clone git clone git://github.com/imathis/octopress.git myblog
@@ -31,7 +32,7 @@ categories: [Octopress, Ruby]
     bundle install				# 安装所需 gem
     rake install				# 安装默认主题
     rake preview				# 本地预览, http://localhost:4000
-    
+
 ###### 部署到 github
 
     rake setup_github_pages
@@ -39,12 +40,12 @@ categories: [Octopress, Ruby]
     git@github.com:your_username/your_username.github.com.git
     rake generate				# 将所有内容生成静态文件
     rake deploy 				# 部署到github上
-    
+
     # 创建 source 分支 用于保存作文和配置文件
     git add .
     git commit -m 'create source branch'
     git push origin source
-    
+
 OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
 不知不觉已经夜深人静了，明天把 Disqus 加上就可以留个小言啦。
-    
+
