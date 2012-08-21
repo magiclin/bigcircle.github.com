@@ -10,7 +10,8 @@
 
   
   <meta name="description" content="今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
-域名基本上大家都推荐Godaddy or Name，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦 大概流程如下： 注册Name账户 &hellip;">
+域名基本上大家都推荐Godaddy or Name，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦 大概流程如下：
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -37,9 +38,6 @@
 <body   >
   <header role="banner"><hgroup>
   <h1><a href="/">dayuan's cabin</a></h1>
-  
-    <h2>Web (:Special => Ruby) & Life</h2>
-  
 </hgroup>
 
 </header>
@@ -101,24 +99,12 @@
 域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
 
 <h5 id="section">大概流程如下：</h5>
-<ul>
-  <li>注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码</li>
-  <li>挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算</li>
-  <li>可以用paypal或者直接用支持visa/mastercard的双币信用卡支付。我是现申请的paypal账号，绑定自己的招行信用卡。(招行信用卡各种好用，强烈推荐去办张2W额度的!!当然我的额度只有5k,不过支付十几美金还是可以的)，没有申请的同学网上申请的例子一大把，不要怕弄错了，其实过程很简单</li>
-  <li>申请好paypal，绑定完信用卡之后回到刚才的checkout页面，如果没有手抖多点了几个域名就可以支付了，选择paypal选项，要求输入基本信息，输入之，会跳转到paypal页面，又是验证信息，正确输入。(注意:扣钱是不需要你输入信用卡密码的，所以在支付之前一定要确认好)</li>
-  <li>确认完了就会自动扣款，马上手机短信就来了，扣钱很是快捷，这样你想要的域名就到手了。</li>
-</ul>
-
-<p>接下来就是解析DNS到自己的github page上</p>
-
-<ul>
-  <li>进入 Name 账户 « account « your domain « DNS Record Management . 账户设置里面右边有一大堆选择框，选择这个进入就会看到一个添加 Record Type的下拉框，默认就是A，继续把 github page ip写到 Record Answer 里面，Add Record，其他都不用填，这部分OK啦</li>
-  <li>在项目代码下/source目录下创建CNAME文件，添入刚注册的域名，push到github上，静候DNS生效，差不多十几分钟就OK了</li>
-</ul>
-
-<p>本来想贴几张图的，但是懒病又犯了。好在过程比较简单，图暂省</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/bind-domain-with-github-page.html/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -157,55 +143,12 @@
   <div class="entry-content"><p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
 
 <h3 id="section">为什么不想敲密码</h3>
-<ul>
-  <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
-  <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
-  <li>能方便设置一些启动项，特别是一个项目启动项很多，为了懒就写一个启动脚本</li>
-  <li>自己的系统自己用，没必要像在服务器上对权限要求那么严格</li>
-  <li>当然也有忘记root密码的情况。。</li>
-</ul>
-
-<h3 id="section-1">怎么做</h3>
-<p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
-默认情况的权限是这样的</p>
-
-<pre><code>root ALL=(ALL) ALL
-%admin ALL=(ALL) ALL
-</code></pre>
-
-<p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
-修改如下：</p>
-
-<pre><code># 修改amdin组都不用输入密码
-%admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
-# 只是想让 marine 用户输入sudo不需要密码
-marine ALL=(ALL) NOPASSWD: ALL
-</code></pre>
-
-<p>当然可定制丰富的权限要求，不过那样还不如不设置，统一要求输入密码得了。</p>
-
-<h3 id="section-2">一个好用的小技巧</h3>
-<p>有时候当我们输入了一大串命令后敲下去发现需要写sudo，这个时候不得不找回上个命令，然后回到命令开头，然后加上sudo空格，稍微有点麻烦，可以用以下2个小方法</p>
-
-<pre><code>sudo !!   	# !! 表示上次执行的命令
-</code></pre>
-
-<p>或者用zsh的同学可以自定义个命令绑定快捷键，比如这样:</p>
-
-<pre><code>sudo-command-line() {
-	[[ -z $BUFFER ]] &amp;&amp; zle up-history
-	[[ $BUFFER != sudo\ * ]] &amp;&amp; BUFFER="sudo $BUFFER"
-   zle end-of-line
-}
-zle -N sudo-command-line
-bindkey "\e\e" sudo-command-line
-</code></pre>
-
-<p>定义快捷键: 连续按2个ESC自动在前面添加sudo，非常方便快捷</p>
-
-<p>前段时间看了个介绍 <a href="http://www.commandlinefu.com/commands/browse/sort-by-votes">linux命令的网站</a>，有很多实用方便的快捷键，大家有兴趣可以去淘几个</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/use-sudo-without-password.html/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -245,50 +188,12 @@ bindkey "\e\e" sudo-command-line
 折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
 
 <h3 id="octopress">octopress</h3>
-
-<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
-
-<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
-
-<pre><code>curl -L https://get.rvm.io | bash -s stable
-# 我用的 zsh ,根据自身情况换成 .bash_profile
-echo "
-# RVM
-[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] &amp;&amp; source '/Users/`whoami`/.rvm/scripts/rvm'
-[[ -s '$HOME/.rvm/scripts/rvm' ]] &amp;&amp; . '$HOME/.rvm/scripts/rvm" &gt;&gt; ~/.zshrc
-source ~/.zshrc				# 使刚才配置生效
-rvm install 1.9.3				
-rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
-</code></pre>
-
-<h6 id="octopress-">复制 Octopress 到本地</h6>
-
-<pre><code>git clone git clone git://github.com/imathis/octopress.git myblog
-cd myblog
-bundle install				# 安装所需 gem
-rake install				# 安装默认主题
-rake preview				# 本地预览, http://localhost:4000
-</code></pre>
-
-<h6 id="github">部署到 github</h6>
-
-<pre><code>rake setup_github_pages
-# 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支
-git@github.com:your_username/your_username.github.com.git
-rake generate				# 将所有内容生成静态文件
-rake deploy 				# 部署到github上
-
-# 创建 source 分支 用于保存作文和配置文件
-git add .
-git commit -m 'create source branch'
-git push origin source
-</code></pre>
-
-<p>OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
-不知不觉已经夜深人静了，明天把 Disqus 加上就可以留个小言啦。</p>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/chu-shi-octopress.html/">Read on &rarr;</a>
+    </footer>
   
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[dayuan's cabin]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-20T18:02:01+08:00</updated>
+  <updated>2012-08-21T09:53:04+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -22,6 +22,7 @@
 域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
 
 <h5 id="section">大概流程如下：</h5>
+<!-- more -->
 <ul>
   <li>注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码</li>
   <li>挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算</li>
@@ -49,6 +50,7 @@
     <content type="html"><![CDATA[<p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
 
 <h3 id="section">为什么不想敲密码</h3>
+<!-- more -->
 <ul>
   <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
   <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
@@ -108,6 +110,7 @@ bindkey "\e\e" sudo-command-line
 折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
 
 <h3 id="octopress">octopress</h3>
+<!-- more -->
 
 <p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
 
@@ -120,7 +123,7 @@ echo "
 [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] &amp;&amp; source '/Users/`whoami`/.rvm/scripts/rvm'
 [[ -s '$HOME/.rvm/scripts/rvm' ]] &amp;&amp; . '$HOME/.rvm/scripts/rvm" &gt;&gt; ~/.zshrc
 source ~/.zshrc				# 使刚才配置生效
-rvm install 1.9.3				
+rvm install 1.9.3
 rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
 </code></pre>
 
