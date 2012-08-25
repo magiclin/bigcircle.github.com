@@ -4,7 +4,7 @@
   <title><![CDATA[dayuan's cabin]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-23T10:59:48+08:00</updated>
+  <updated>2012-08-25T18:34:02+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac设置goagent开机自启动]]></title>
+    <link href="http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac.html/"/>
+    <updated>2012-08-25T12:19:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac</id>
+    <content type="html"><![CDATA[<p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还是不是掉线，这个就无法忍了    <br />
+搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
+
+<!--more-->
+
+<ul>
+  <li><a href="http://keating.iteye.com/blog/1463521">开机自动启动GoAgent</a></li>
+  <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
+</ul>
+
+<p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂                                   <br />
+用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，和linux上的apt-get和yum实现一样的功能，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
+
+<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，在安装完之后会有一大堆提示，比如这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">To</span> <span class="n">launch</span> <span class="n">on</span> <span class="n">startup</span><span class="o">:</span>
+</span><span class="line"><span class="o">*</span> <span class="k">if</span> <span class="n">this</span> <span class="n">is</span> <span class="n">your</span> <span class="n">first</span> <span class="n">install</span><span class="o">:</span>
+</span><span class="line"><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span>
+</span><span class="line"><span class="n">cp</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Cellar</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="mf">5.5.25</span><span class="n">a</span><span class="o">/</span><span class="n">homebrew</span><span class="p">.</span><span class="n">mxcl</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">plist</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span>
+</span><span class="line"><span class="n">launchctl</span> <span class="n">load</span> <span class="o">-</span><span class="n">w</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span><span class="n">homebrew</span><span class="p">.</span><span class="n">mxcl</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">plist</span>
+</span><span class="line">
+</span><span class="line"><span class="o">*</span> <span class="k">if</span> <span class="n">this</span> <span class="n">is</span> <span class="n">an</span> <span class="n">upgrade</span> <span class="n">and</span> <span class="n">you</span> <span class="n">already</span> <span class="n">have</span> <span class="n">the</span> <span class="n">homebrew</span><span class="p">.</span><span class="n">mxcl</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">plist</span> <span class="n">loaded</span><span class="o">:</span>
+</span><span class="line"><span class="n">launchctl</span> <span class="n">unload</span> <span class="o">-</span><span class="n">w</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span><span class="n">homebrew</span><span class="p">.</span><span class="n">mxcl</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">plist</span>
+</span><span class="line"><span class="n">cp</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Cellar</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="mf">5.5.25</span><span class="n">a</span><span class="o">/</span><span class="n">homebrew</span><span class="p">.</span><span class="n">mxcl</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">plist</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span>
+</span><span class="line"><span class="n">launchctl</span> <span class="n">load</span> <span class="o">-</span><span class="n">w</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span><span class="n">homebrew</span><span class="p">.</span><span class="n">mxcl</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">plist</span>
+</span><span class="line">
+</span><span class="line"><span class="n">You</span> <span class="n">may</span> <span class="n">also</span> <span class="n">need</span> <span class="n">to</span> <span class="n">edit</span> <span class="n">the</span> <span class="n">plist</span> <span class="n">to</span> <span class="n">use</span> <span class="n">the</span> <span class="n">correct</span> <span class="s">&quot;UserName&quot;</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个就是提示你怎么设置开机启动，brew已经预先把启动文件都写好了，你只需要copy过去，设置启动就Ok了。~/Library/LaunchAgents 下存放用户登陆之后的启动服务，具体补课可以参考 <a href="http://kenwublog.com/mac-os-launchd-tuning">这篇</a>  <br />
+有人做了个dmg包和goagent源码配合使用，把那个app设置为开机启动也很方便，位于 <code>系统偏好设置 &gt; 用户与群组 &gt; 登陆项</code> 参考 <a href="http://dharmasong.net/2011/11/449.html">这</a>，这个应该是不爱折腾的最简单的方法</p>
+
+<p>下面开始小折腾的方法，也很简单</p>
+
+<ul>
+  <li>新建一个plist文件，比如说叫 com.google.goagent.plist，输入以下内容</li>
+</ul>
+
+<div><script src="https://gist.github.com/3461688.js?file=com.google.goagent.plist"></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+  &lt;key&gt;Label&lt;/key&gt;
+  &lt;string&gt;com.google.goagent&lt;/string&gt;
+  &lt;key&gt;ProgramArguments&lt;/key&gt;
+  &lt;array&gt;
+    &lt;string&gt;/usr/local/python&lt;/string&gt;
+    &lt;string&gt;/Users/yourname/goagent/local/proxy.py&lt;/string&gt;
+  &lt;/array&gt;
+  &lt;key&gt;RunAtLoad&lt;/key&gt;
+  &lt;true/&gt;
+  &lt;key&gt;KeepAlive&lt;/key&gt;
+  &lt;true/&gt;
+  &lt;UserName&gt;dayuan&lt;/UserName&gt;
+  &lt;key&gt;WorkingDirectory&lt;/key&gt;
+  &lt;string&gt;/Users/yourname/goagent/local&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></noscript></div>
+
+<p>代码很简单，书写要规范。设置RunAtLoad和KeepAlive为true，试用了一天感觉良好</p>
+
+<ul>
+  <li>接下来敲几个字就over了</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">cp</span> <span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">goagent</span><span class="p">.</span><span class="n">plist</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span>
+</span><span class="line"><span class="n">launchctl</span> <span class="n">load</span> <span class="o">-</span><span class="n">w</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span><span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">goagent</span><span class="p">.</span><span class="n">plist</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样下次开机的时候goagent就已经自动启动了，总结起来就是三步: <br />
+写一个启动文件 —— copy到对应目录 —— 设为启动</p>
+
+<p>默认开启8087端口</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">lsof</span> <span class="o">-</span><span class="n">i</span><span class="o">:</span><span class="mi">8087</span>
+</span><span class="line"><span class="n">Python</span> <span class="n">xxxxxx</span> <span class="n">TCP</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">8087</span> <span class="p">(</span><span class="n">LISTEN</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>用Chrome或者Firefox用proxy switch已经配置好的同学可以直接打开敏感词测试啦</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[集中注意力]]></title>
