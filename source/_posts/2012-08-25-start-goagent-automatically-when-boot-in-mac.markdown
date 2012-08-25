@@ -5,7 +5,7 @@ date: 2012-08-25 12:19
 comments: true
 categories: [mac]
 ---
-每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还是不是掉线，这个就无法忍了      
+每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了      
 搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的
 
 <!--more-->
@@ -14,7 +14,7 @@ categories: [mac]
 - [ubuntu下goagent开机自启动](http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html)
 
 用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂                                     
-用过 [Homebrew](http://mxcl.github.com/homebrew/) (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，和linux上的apt-get和yum实现一样的功能，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)
+用过 [Homebrew](http://mxcl.github.com/homebrew/) (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)
 
 如果你安装过mysql/mongo这类可以有开机启动项的软件，在安装完之后会有一大堆提示，比如这样
 
