@@ -8,3 +8,56 @@
 @import "base";
 @import "partials";
 @import "custom/styles";
+
+$toto_color: #2697e3;
+
+figure.code figcaption {
+  border-top:1px solid #fff;
+}
+
+.highlight {
+  border:none !important;
+}
+
+pre {border-radius:0px;}
+
+// 去掉代码块背景色
+.highlight, .gist-highlight {background:none !important;}
+// 设置代码块长度100% 和 去掉 .code 背景色
+.highlight {
+  table {
+    width:100%;
+    .gutter {display:none;}
+  }
+  code {background:none !important;}
+}
+
+html .gist .gist-file {
+  // 去掉 .gist-meta 边框
+  padding:0px !important;
+  .gist-meta {
+    background:none !important;
+    border:none !important;
+    a:first-child, a[href*="#file"] {display:none;};
+
+  }
+  .gist-syntax {background-color:none !important;}
+}
+html .gist .gist-file .gist-syntax {
+  // background-color:$toto_color !important;
+  .gist-highlight {
+    background:none !important;
+    border:none !important;
+  .line-numbers {
+    background:none !important;
+    box-shadow:none;
+    border-right:2px solid $toto_color !important;
+    span {
+      color:#2697e3 !important;
+      text-shadow:none;
+    }
+  }
+  }
+}
+
+.pre-code, html .gist .gist-file .gist-syntax .gist-highlight pre, .highlight code {background:none !important;}
