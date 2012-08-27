@@ -19,33 +19,42 @@ categories: [mac]
 其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
 默认情况的权限是这样的
 
-    root ALL=(ALL) ALL
-    %admin ALL=(ALL) ALL
+```bash
+root ALL=(ALL) ALL
+%admin ALL=(ALL) ALL
+```
 
 意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
 修改如下：
 
-    # 修改amdin组都不用输入密码
-    %admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
-    # 只是想让 marine 用户输入sudo不需要密码
-    marine ALL=(ALL) NOPASSWD: ALL
+```
+# 修改amdin组都不用输入密码
+%admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
+# 只是想让 marine 用户输入sudo不需要密码
+marine ALL=(ALL) NOPASSWD: ALL
+```
 
 当然可定制丰富的权限要求，不过那样还不如不设置，统一要求输入密码得了。
 
 ###一个好用的小技巧
 有时候当我们输入了一大串命令后敲下去发现需要写sudo，这个时候不得不找回上个命令，然后回到命令开头，然后加上sudo空格，稍微有点麻烦，可以用以下2个小方法
 
-    sudo !!   	# !! 表示上次执行的命令
+```
+# !! 表示上次执行的命令
+sudo !!
+```
 
 或者用zsh的同学可以自定义个命令绑定快捷键，比如这样:
 
-	sudo-command-line() {
-		[[ -z $BUFFER ]] && zle up-history
-		[[ $BUFFER != sudo\ * ]] && BUFFER="sudo $BUFFER"
-       zle end-of-line
-	}
-	zle -N sudo-command-line
-	bindkey "\e\e" sudo-command-line
+```
+sudo-command-line() {
+  [[ -z $BUFFER ]] && zle up-history
+  [[ $BUFFER != sudo\ * ]] && BUFFER="sudo $BUFFER"
+    zle end-of-line
+}
+zle -N sudo-command-line
+bindkey "\e\e" sudo-command-line
+```
 
 定义快捷键: 连续按2个ESC自动在前面添加sudo，非常方便快捷
 

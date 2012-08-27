@@ -26,7 +26,7 @@ Octopress可定制的功能很多，可以在侧边栏添加分类列表，最�
 
 -  更改配置 _config.yml
 
-```ruby
+```yaml
 default_asides: [asides/category_list.html, asides/recent_posts.html]
 ```
 
