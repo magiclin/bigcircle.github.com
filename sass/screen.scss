@@ -160,3 +160,15 @@ body #content > div > section {
 #content {
   margin-right:250px;
 }
+
+.self {
+  ul {
+    list-style: none;
+    margin-left: 20px;
+    color: lightblue;
+    font-size: 22px;
+    li {
+      padding-bottom: 15px;
+    }
+  }
+}
