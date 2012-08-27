@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-28T00:08:04+08:00</updated>
+  <updated>2012-08-28T00:20:51+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -117,38 +117,41 @@ default_asides: [asides/category_list.html, asides/recent_posts.html]
 
 <h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
 
-<pre><code>curl -L https://get.rvm.io | bash -s stable
-# 我用的 zsh ,根据自身情况换成 .bash_profile
-echo "
-# RVM
-[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] &amp;&amp; source '/Users/`whoami`/.rvm/scripts/rvm'
-[[ -s '$HOME/.rvm/scripts/rvm' ]] &amp;&amp; . '$HOME/.rvm/scripts/rvm" &gt;&gt; ~/.zshrc
-source ~/.zshrc				# 使刚才配置生效
-rvm install 1.9.3
-rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
-</code></pre>
+<p><code>bash
+    curl -L https://get.rvm.io | bash -s stable
+	# 我用的 zsh ,根据自身情况换成 .bash_profile
+    echo "
+    # RVM
+    [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] &amp;&amp; source '/Users/`whoami`/.rvm/scripts/rvm'
+    [[ -s '$HOME/.rvm/scripts/rvm' ]] &amp;&amp; . '$HOME/.rvm/scripts/rvm" &gt;&gt; ~/.zshrc
+    source ~/.zshrc				# 使刚才配置生效
+    rvm install 1.9.3
+    rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
+</code></p>
 
 <h6 id="octopress-">复制 Octopress 到本地</h6>
 
-<pre><code>git clone git clone git://github.com/imathis/octopress.git myblog
-cd myblog
-bundle install				# 安装所需 gem
-rake install				# 安装默认主题
-rake preview				# 本地预览, http://localhost:4000
-</code></pre>
+<p><code>
+    git clone git clone git://github.com/imathis/octopress.git myblog
+    cd myblog
+    bundle install				# 安装所需 gem
+    rake install				# 安装默认主题
+    rake preview				# 本地预览, http://localhost:4000
+</code></p>
 
 <h6 id="github">部署到 github</h6>
 
-<pre><code>rake setup_github_pages
-# 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支
-git@github.com:your_username/your_username.github.com.git
-rake generate				# 将所有内容生成静态文件
-rake deploy 				# 部署到github上
+<p>```
+    rake setup_github_pages
+	# 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支
+    git@github.com:your_username/your_username.github.com.git
+    rake generate				# 将所有内容生成静态文件
+    rake deploy 				# 部署到github上</p>
 
-# 创建 source 分支 用于保存作文和配置文件
+<pre><code># 创建 source 分支 用于保存作文和配置文件
 git add .
 git commit -m 'create source branch'
-git push origin source
+git push origin source ```
 </code></pre>
 
 <p>OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
