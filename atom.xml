@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-27T23:41:43+08:00</updated>
+  <updated>2012-08-28T00:08:04+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -23,13 +23,15 @@
 <p>主要修改了以下几个方面：
 <!-- more --></p>
 
-<ul>
-  <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
-  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点</li>
-  <li>所有背景统一为一个背景</li>
-  <li>去掉各种边边框框，让样式尽量简单一点</li>
-  <li>修改引用gist代码和普通代码的高亮和样式</li>
-</ul>
+<blockquote>
+  <ul>
+    <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
+    <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点 </li>
+    <li>所有背景统一为一个背景</li>
+    <li>去掉各种边边框框，让样式尽量简单一点</li>
+    <li>修改引用gist代码和普通代码的高亮和样式</li>
+  </ul>
+</blockquote>
 
 <p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾</p>
 
