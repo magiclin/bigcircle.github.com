@@ -92,7 +92,10 @@ article {
       position: relative;
       text-transform: none;
       float:right;
-      margin:20px 20px 0 0;
+      margin:10px 20px 0 0;
+      a {
+        color: $toto_color !important;
+      }
     }
   }
   footer {
