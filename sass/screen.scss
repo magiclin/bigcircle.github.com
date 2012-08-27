@@ -71,3 +71,81 @@ html .gist .gist-file {
 }
 
 .pre-code, html .gist .gist-file .gist-syntax .gist-highlight pre, .highlight code {background:none !important;}
+
+// 文章样式修改
+article {
+  padding:25px 0px 0px 21px !important;
+  header {
+    margin-bottom:15px;
+    padding-top:10px !important;
+    h1 {
+      display:inline-block;
+      color:$toto_color !important;
+      font-size:30px !important;
+      a {
+        color :$toto_color !important;
+        font-size:24px;
+      }
+    }
+    p.meta {
+      display:inline-block;
+      position: relative;
+      text-transform: none;
+      float:right;
+      margin:20px 20px 0 0;
+    }
+  }
+  footer {
+    margin:5px 0 !important;
+    padding:0 !important;
+    a[rel="full-article"] {
+      background:none !important;
+      padding-left:0 !important;
+      color:#aaa !important;
+      font-size:18px !important;
+      font:inherit;
+    }
+    a[rel="full-article"]:hover {color:$toto_color !important;};
+    .sharing {padding-bottom:1em;}
+    .meta a {
+      font-size:16px;
+      text-decoration:none;
+    }
+  }
+}
+
+body > nav {
+  background:none !important;
+  padding-left:40px;
+  border-bottom:2px solid $toto_color;
+  a {color:#2697e3 !important; }
+}
+body > footer {
+  background:none !important;
+  text-align:center;
+  padding-top:2em;
+  margin-bottom:1em;
+}
+
+.sidebar {
+  background:none !important;
+  color:lightblue !important;
+}
+
+body > header h1 a {
+  color:lightblue !important;
+  font-style:italic;
+}
+
+body #content > div > section {
+  padding-left:25px !important;
+  h1 {color:lightblue !important;}
+}
+
+#blog-archives {
+  h1 {
+    margin-left:50px !important;
+    > a {color :$toto_color !important;}
+  }
+  footer span {margin-left:50px !important;}
+}
