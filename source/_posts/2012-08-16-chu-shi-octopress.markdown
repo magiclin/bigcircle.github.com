@@ -15,6 +15,7 @@ categories: [Octopress, Ruby]
 
 ###### 安装 rvm & ruby
 
+```bash
     curl -L https://get.rvm.io | bash -s stable
 	# 我用的 zsh ,根据自身情况换成 .bash_profile
     echo "
@@ -24,17 +25,21 @@ categories: [Octopress, Ruby]
     source ~/.zshrc				# 使刚才配置生效
     rvm install 1.9.3
     rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
+```
 
 ###### 复制 Octopress 到本地
 
+```
     git clone git clone git://github.com/imathis/octopress.git myblog
     cd myblog
     bundle install				# 安装所需 gem
     rake install				# 安装默认主题
     rake preview				# 本地预览, http://localhost:4000
+```
 
 ###### 部署到 github
 
+```
     rake setup_github_pages
 	# 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支
     git@github.com:your_username/your_username.github.com.git
@@ -45,6 +50,7 @@ categories: [Octopress, Ruby]
     git add .
     git commit -m 'create source branch'
     git push origin source
+```
 
 OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
 不知不觉已经夜深人静了，明天把 Disqus 加上就可以留个小言啦。
