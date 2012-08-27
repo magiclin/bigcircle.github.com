@@ -4,7 +4,7 @@
   <title><![CDATA[dayuan's cabin]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-27T14:08:14+08:00</updated>
+  <updated>2012-08-27T14:55:39+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -68,7 +68,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">default_asides</span><span class="p">:</span> <span class="o">[</span><span class="n">asides</span><span class="o">/</span><span class="n">category_list</span><span class="o">.</span><span class="n">html</span><span class="p">,</span> <span class="n">asides</span><span class="o">/</span><span class="n">recent_posts</span><span class="o">.</span><span class="n">html</span><span class="o">]</span>
+</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_posts.html</span><span class="p-Indicator">]</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>同时把侧边栏默认显示在最下面，保留可以在侧面打开的功能，页面布局看起来就简单多了</p>
@@ -330,37 +330,53 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 <p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
 默认情况的权限是这样的</p>
 
-<pre><code>root ALL=(ALL) ALL
-%admin ALL=(ALL) ALL
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">root <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
+</span><span class="line">%admin <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
 修改如下：</p>
 
-<pre><code># 修改amdin组都不用输入密码
-%admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
-# 只是想让 marine 用户输入sudo不需要密码
-marine ALL=(ALL) NOPASSWD: ALL
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># 修改amdin组都不用输入密码</span>
+</span><span class="line">%admin <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> NOPASSWD: NOPASSWD ALL
+</span><span class="line"><span class="c"># 只是想让 marine 用户输入sudo不需要密码</span>
+</span><span class="line">marine <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> NOPASSWD: ALL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>当然可定制丰富的权限要求，不过那样还不如不设置，统一要求输入密码得了。</p>
 
 <h3 id="section-2">一个好用的小技巧</h3>
 <p>有时候当我们输入了一大串命令后敲下去发现需要写sudo，这个时候不得不找回上个命令，然后回到命令开头，然后加上sudo空格，稍微有点麻烦，可以用以下2个小方法</p>
 
-<pre><code>sudo !!   	# !! 表示上次执行的命令
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># !! 表示上次执行的命令</span>
+</span><span class="line">sudo !!
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>或者用zsh的同学可以自定义个命令绑定快捷键，比如这样:</p>
 
-<pre><code>sudo-command-line() {
-	[[ -z $BUFFER ]] &amp;&amp; zle up-history
-	[[ $BUFFER != sudo\ * ]] &amp;&amp; BUFFER="sudo $BUFFER"
-   zle end-of-line
-}
-zle -N sudo-command-line
-bindkey "\e\e" sudo-command-line
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">sudo-command-line<span class="o">()</span> <span class="o">{</span>
+</span><span class="line">  <span class="o">[[</span> -z <span class="nv">$BUFFER</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> zle up-history
+</span><span class="line">  <span class="o">[[</span> <span class="nv">$BUFFER</span> !<span class="o">=</span> sudo<span class="se">\ </span>* <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nv">BUFFER</span><span class="o">=</span><span class="s2">&quot;sudo $BUFFER&quot;</span>
+</span><span class="line">    zle end-of-line
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">zle -N sudo-command-line
+</span><span class="line">bindkey <span class="s2">&quot;\e\e&quot;</span> sudo-command-line
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>定义快捷键: 连续按2个ESC自动在前面添加sudo，非常方便快捷</p>
 

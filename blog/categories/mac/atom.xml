@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | dayuan's cabin]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-27T14:08:14+08:00</updated>
+  <updated>2012-08-27T14:55:39+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -202,37 +202,42 @@ Python xxxxxx TCP localhost:8087 (LISTEN)
 <p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
 默认情况的权限是这样的</p>
 
-<pre><code>root ALL=(ALL) ALL
+<p><code>bash
+root ALL=(ALL) ALL
 %admin ALL=(ALL) ALL
-</code></pre>
+</code></p>
 
 <p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
 修改如下：</p>
 
-<pre><code># 修改amdin组都不用输入密码
+<p><code>
+# 修改amdin组都不用输入密码
 %admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
 # 只是想让 marine 用户输入sudo不需要密码
 marine ALL=(ALL) NOPASSWD: ALL
-</code></pre>
+</code></p>
 
 <p>当然可定制丰富的权限要求，不过那样还不如不设置，统一要求输入密码得了。</p>
 
 <h3 id="section-2">一个好用的小技巧</h3>
 <p>有时候当我们输入了一大串命令后敲下去发现需要写sudo，这个时候不得不找回上个命令，然后回到命令开头，然后加上sudo空格，稍微有点麻烦，可以用以下2个小方法</p>
 
-<pre><code>sudo !!   	# !! 表示上次执行的命令
-</code></pre>
+<p><code>
+# !! 表示上次执行的命令
+sudo !!
+</code></p>
 
 <p>或者用zsh的同学可以自定义个命令绑定快捷键，比如这样:</p>
 
-<pre><code>sudo-command-line() {
-	[[ -z $BUFFER ]] &amp;&amp; zle up-history
-	[[ $BUFFER != sudo\ * ]] &amp;&amp; BUFFER="sudo $BUFFER"
-   zle end-of-line
+<p><code>
+sudo-command-line() {
+  [[ -z $BUFFER ]] &amp;&amp; zle up-history
+  [[ $BUFFER != sudo\ * ]] &amp;&amp; BUFFER="sudo $BUFFER"
+    zle end-of-line
 }
 zle -N sudo-command-line
 bindkey "\e\e" sudo-command-line
-</code></pre>
+</code></p>
 
 <p>定义快捷键: 连续按2个ESC自动在前面添加sudo，非常方便快捷</p>
 
