@@ -74,7 +74,7 @@ html .gist .gist-file {
 
 // 文章样式修改
 article {
-  padding:25px 0px 0px 21px !important;
+  padding:25px 20px 0px 21px !important;
   header {
     margin-bottom:15px;
     padding-top:10px !important;
@@ -125,11 +125,14 @@ body > footer {
   text-align:center;
   padding-top:2em;
   margin-bottom:1em;
+  p a {color:$toto_color !important;}
 }
 
 .sidebar {
   background:none !important;
   color:lightblue !important;
+  margin-left:35px;
+  width:232px;
 }
 
 body > header h1 a {
@@ -148,4 +151,12 @@ body #content > div > section {
     > a {color :$toto_color !important;}
   }
   footer span {margin-left:50px !important;}
+}
+
+#main {
+  overflow:hidden;
+}
+
+#content {
+  margin-right:250px;
 }
