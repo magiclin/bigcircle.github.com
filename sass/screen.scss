@@ -27,9 +27,19 @@ pre {border-radius:0px;}
 .highlight {
   table {
     width:100%;
-    .gutter {display:none;}
+    // .gutter {display:none;}
   }
   code {background:none !important;}
+  .line-numbers {
+    background:none !important;
+    box-shadow:none;
+    width:19px;
+    border-right:2px solid $toto_color !important;
+    span {
+      color:$toto_color !important;
+      text-shadow:none;
+    }
+  }
 }
 
 html .gist .gist-file {
@@ -43,7 +53,7 @@ html .gist .gist-file {
   }
   .gist-syntax {background-color:none !important;}
 }
-html .gist .gist-file .gist-syntax {
+.highight, html .gist .gist-file .gist-syntax {
   // background-color:$toto_color !important;
   .gist-highlight {
     background:none !important;
@@ -53,7 +63,7 @@ html .gist .gist-file .gist-syntax {
     box-shadow:none;
     border-right:2px solid $toto_color !important;
     span {
-      color:#2697e3 !important;
+      color:$toto_color !important;
       text-shadow:none;
     }
   }
