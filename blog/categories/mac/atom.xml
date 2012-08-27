@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | dayuan's cabin]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-27T12:06:07+08:00</updated>
+  <updated>2012-08-27T14:08:14+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -59,7 +59,29 @@ launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</li>
   <li>新建一个plist文件，比如说叫 com.google.goagent.plist，输入以下内容</li>
 </ul>
 
-<p>{% gist 3461688 com.google.goagent.plist %}</p>
+<p><div><script src='https://gist.github.com/3461688.js?file=com.google.goagent.plist'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+  &lt;key&gt;Label&lt;/key&gt;
+  &lt;string&gt;com.google.goagent&lt;/string&gt;
+  &lt;key&gt;ProgramArguments&lt;/key&gt;
+  &lt;array&gt;
+    &lt;string&gt;/usr/local/python&lt;/string&gt;
+    &lt;string&gt;/Users/yourname/goagent/local/proxy.py&lt;/string&gt;
+  &lt;/array&gt;
+  &lt;key&gt;RunAtLoad&lt;/key&gt;
+  &lt;true/&gt;
+  &lt;key&gt;KeepAlive&lt;/key&gt;
+  &lt;true/&gt;
+  &lt;UserName&gt;dayuan&lt;/UserName&gt;
+  &lt;key&gt;WorkingDirectory&lt;/key&gt;
+  &lt;string&gt;/Users/yourname/goagent/local&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></noscript></div>
+</p>
 
 <p>代码很简单，书写要规范。设置RunAtLoad和KeepAlive为true，试用了一天感觉良好</p>
 
