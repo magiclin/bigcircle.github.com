@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>rails view select 方法学习 - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂 rails的actionview提供了简单的select方法生产表单选择项，根据 Api 指示，用法如下： 1
+select(object, method, choices, options &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rails View Select 方法学习</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T10:52:00+08:00" pubdate data-updated="true">2012-08-28 10:52:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂</p>
+
+<p>rails的actionview提供了简单的select方法生产表单选择项，根据 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html">Api</a> 指示，用法如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+<ul>
+  <li>object是指select选项所修饰的目标对象，通常是一个Model对象</li>
+  <li>method是目标对象的属性（方法）名</li>
+  <li>choices可以是任何可枚举的对象，数组，Hash或者是包含了选择框的数据库查询结果</li>
+  <li>options选项</li>
+  <li>html_options是html相关选项</li>
+</ul>
+
+<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One. <br />
+例如对于  @post.person_id =&gt; 2  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="s2">&quot;person_id&quot;</span><span class="p">,</span> <span class="no">Person</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">p</span><span class="o">.</span><span class="n">id</span> <span class="o">]</span> <span class="p">},</span> <span class="p">{</span><span class="ss">:include_blank</span> <span class="o">=&gt;</span> <span class="s1">&#39;None&#39;</span><span class="p">})</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;post[person_id]&quot;</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="no">None</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;1&quot;&gt;David&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;2&quot;</span> <span class="n">selected</span><span class="o">=</span><span class="s2">&quot;selected&quot;</span><span class="o">&gt;</span><span class="no">Sam</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;3&quot;&gt;Tobias&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>index =&gt; nil 不显示空选项或提示项，直接显示第一个值</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="s2">&quot;album[]&quot;</span><span class="p">,</span> <span class="s2">&quot;genre&quot;</span><span class="p">,</span> <span class="sx">%w[rap rock country]</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">:index</span> <span class="o">=&gt;</span> <span class="kp">nil</span> <span class="p">})</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;album[][genre]&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;album__genre&quot;</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;rap&quot;</span><span class="o">&gt;</span><span class="n">rap</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;rock&quot;&gt;rock&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="o">&gt;</span><span class="n">country</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">&lt;/se</span><span class="n">lect</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>:disabled =&gt; value 设置一个单独的值或者Prco对象 html标签属性为disable</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span> <span class="no">Post</span><span class="o">::</span><span class="no">CATEGORIES</span><span class="p">,</span> <span class="p">{</span><span class="ss">:disabled</span> <span class="o">=&gt;</span> <span class="s1">&#39;restricted&#39;</span><span class="p">})</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;post[category]&quot;</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option&gt;joke&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;</span><span class="n">poem</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option disabled=&quot;disabled&quot;&gt;restricted&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>当用到collection_select时，可以鉴定一个Proc对象是否disable</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">collection_select</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="ss">:category_id</span><span class="p">,</span> <span class="no">Category</span><span class="o">.</span><span class="n">all</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="p">{</span><span class="ss">:disabled</span> <span class="o">=&gt;</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span><span class="n">category</span><span class="o">|</span> <span class="n">category</span><span class="o">.</span><span class="n">archived?</span> <span class="p">}})</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;post[category_id]&quot;</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">disabled</span><span class="o">=</span><span class="s2">&quot;disabled&quot;</span><span class="o">&gt;</span><span class="mi">2008</span> <span class="n">stuff</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;2&quot; disabled=&quot;disabled&quot;&gt;Christmas&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;3&quot;</span><span class="o">&gt;</span><span class="no">Jokes</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;4&quot;&gt;Poems&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>html_option 里面还可以写各种js事件，比如这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="ss">:person</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="no">Persion</span><span class="o">.</span><span class="n">all</span><span class="p">,</span> <span class="p">{</span><span class="ss">:onchange</span> <span class="o">=&gt;</span> <span class="s1">&#39;doSomething()&#39;</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="selecttaghttpapirubyonrailsorgclassesactionviewhelpersformtaghelperhtmlmethod-i-selecttag"><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-select_tag">select_tag</a></h5>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">select_tag</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">option_tags</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>option =&gt; {:multiple, :disable, :include_blank, :prompt} 
+后三个和select里面用法一样，mutiple 允许同时传递多个值，相当于一个多选框</p>
+
+<p>option_tags 可以自己手写几个option标签，或者用现成的方法，其实就是option标签的helper方法，Api 中的几个 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select">例子</a></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">options_for_select</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">selected</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">options_from_collection_for_select</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">value_method</span><span class="p">,</span> <span class="n">text_method</span><span class="p">,</span> <span class="n">selected</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="collectionselecthttpapirubyonrailsorgclassesactionviewhelpersformoptionshelperhtmlmethod-i-collectionselect"><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-collection_select">collection_select</a></h5>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">collection_select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">value_method</span><span class="p">,</span> <span class="n">text_method</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>collect_select 比 select 多了2个选项，value_method 和 text_method 分别表示 collection 你想选择的对应字段，相当于 select + options_from_collection_for_select 的组合，大致功能其实和 select 差不多</p>
+
+<p>一篇老外5年前写的介绍这几个 select 的 <a href="http://shiningthrough.co.uk/Select-helper-methods-in-Ruby-on-Rails">文章</a>，rails 的中文文档还是太少了。</p>
+
+<p>剩下几个出场率太低的helper</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">grouped_collection_select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">group_method</span><span class="p">,</span> <span class="n">group_label_method</span><span class="p">,</span> <span class="n">option_key_method</span><span class="p">,</span> <span class="n">option_value_method</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class="line">
+</span><span class="line"><span class="n">grouped_options_for_select</span><span class="p">(</span><span class="n">grouped_options</span><span class="p">,</span> <span class="n">selected_key</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">prompt</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">option_groups_from_collection_for_select</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">group_method</span><span class="p">,</span> <span class="n">group_label_method</span><span class="p">,</span> <span class="n">option_key_method</span><span class="p">,</span> <span class="n">option_value_method</span><span class="p">,</span> <span class="n">selected_key</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>grouped_collection_select用法和 collection_select 差不多，只是会生成 optgroup 标签来标识二级选项</li>
+  <li>grouped_options_for_select 也是一样，比 options_for_select 多一层 optgroup 标签</li>
+  <li>option_groups_from_collection_for_select 同options_from_collection_for_select，都只是在原有基础上修改了下</li>
+</ul>
+
+<p>Rails 源码在此，有兴趣的可以拜读下 <a href="https://github.com/rails/rails/blob/27c8debdc6b242c845a279187205a2b057e18469/actionpack/lib/action_view/helpers/form_options_helper.rb#L156">Here</a></p>
+
+<p>用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询 <br />
+不过对于不熟悉语法的人可能读起来就不如直接 select &gt; option 直接明了，需要花时间去明白什么意思，各有利弊吧</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T10:52:00+08:00" pubdate data-updated="true">2012-08-28 10:52:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/modify-octopress-style-and-color.html/" title="Previous Post: 修改Octopress主题样式">&larr; 修改Octopress主题样式</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/octopress/'>Octopress (3)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>Ruby (1)</a></li>
+<li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (3)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (1)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/explain-select-on-rails-hepler.html/">rails view select 方法学习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/modify-octopress-style-and-color.html/">修改Octopress主题样式</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-category-list-for-octopress.html/">给Octopress添加分类列表</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Mac设置goagent开机自启动</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/how-to-focus-your-attention.html/">集中注意力</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
