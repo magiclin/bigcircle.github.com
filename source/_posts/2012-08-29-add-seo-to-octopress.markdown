@@ -4,6 +4,8 @@ title: "Octopress Seo"
 date: 2012-08-29 21:50
 comments: true
 categories: [Octopress]
+keywords: octopress, seo
+description: how to optimize octopress for seo
 ---
 用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：
 
