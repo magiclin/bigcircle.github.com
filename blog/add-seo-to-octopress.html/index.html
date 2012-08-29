@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Octopress Seo - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="how to optimize octopress for seo">
+  <meta name="keywords" content="octopress, seo">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/add-seo-to-octopress.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Octopress Seo</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-29T21:50:00+08:00" pubdate data-updated="true">2012-08-29 21:50:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
+
+<ul>
+  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a> </li>
+  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
+<!--more--></li>
+  <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
+  <li><a href="http://shanewfx.github.com/blog/2012/08/13/improve-blog-theme/">添加about，友情链接</a></li>
+</ul>
+
+<p>不如我一向遵循 <code>less is more, more is less</code> 的原则，不想把 blog 弄的太臃肿，而且这些功能对我也基本用处不大，没有微博上碎嘴的习惯，豆瓣上也只去电影区看影评，tag云感觉和category重复，友链暂时也没有，等等。先存个链接，说不定什么时候就想加上。。</p>
+
+<p>目前先保持简洁的风格，稍微做下 seo 优化，过程参考 <a href="http://www.yatishmehta.in/seo-for-octopress">这篇</a></p>
+
+<h5 id="meta-data-description">添加 meta data description</h5>
+
+<p>文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 ‘keywords’, ‘description’，会在 generate 文章的时候自动生成相应的 meta 标签</p>
+
+<p>如果文章 header 写成这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">layout: post
+</span><span class="line">title: &quot;SEO for Octopress&quot;
+</span><span class="line">date: 2012-04-22 09:55
+</span><span class="line">comments: true
+</span><span class="line">categories: [seo,octopress]
+</span><span class="line">keywords: seo,octopress,heroku
+</span><span class="line">description: How to optimize Octopress for SEO,Heroku
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>生成的post head标签中会生成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;title&gt;</span>SEO for Octopress <span class="nt">&lt;/title&gt;</span>
+</span><span class="line"><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;Yatish Mehta&quot;</span><span class="nt">&gt;</span>
+</span><span class="line"><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;description&quot;</span> <span class="na">content=</span><span class="s">&quot;How to optimize Octopress for SEO&quot;</span><span class="nt">&gt;</span>
+</span><span class="line"><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;keywords&quot;</span> <span class="na">content=</span><span class="s">&quot;seo,octopress&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果不想每次都得手动添加，可以修改 Rakefile - new_post task任务</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;layout: post&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;title: </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">title</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&amp;/</span><span class="p">,</span><span class="s1">&#39;&amp;amp;&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;date: </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d %H:%M&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;comments: true&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;categories: &quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;keywords: &quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;description: &quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="meta-data">主页的 meta data</h5>
+
+<p>上面的方法只能给每个 post 生成对应的 meta标签，如果要给主页添加 meta 标签，修改 source/_includes/head.html，添加以下内容</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="n">meta</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;author&quot;</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;{{ site.author }}&quot;</span><span class="o">&gt;</span>
+</span><span class="line"><span class="p">{</span><span class="o">%</span> <span class="n">capture</span> <span class="n">description</span> <span class="sx">%}{% if page.description %}</span><span class="p">{{</span> <span class="n">page</span><span class="o">.</span><span class="n">description</span> <span class="p">}}{</span><span class="o">%</span> <span class="k">elsif</span> <span class="n">site</span><span class="o">.</span><span class="n">description</span> <span class="sx">%}{{ site.description }</span><span class="p">}{</span><span class="o">%</span><span class="k">else</span><span class="sx">%}{{ content | raw_content }</span><span class="p">}{</span><span class="o">%</span> <span class="n">endif</span> <span class="sx">%}{% endcapture %}</span>
+</span><span class="line"><span class="o">&lt;</span><span class="n">meta</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;description&quot;</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;{{ description | strip_html | condense_spaces | truncate:150 }}&quot;</span><span class="o">&gt;</span>
+</span><span class="line"><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">keywords</span> <span class="sx">%}&lt;meta name=&quot;keywords&quot; content=&quot;{{ page.keywords }</span><span class="p">}</span><span class="s2">&quot;&gt;{%else%}&lt;meta name=&quot;</span><span class="n">keywords</span><span class="s2">&quot; content=&quot;</span><span class="p">{{</span> <span class="n">site</span><span class="o">.</span><span class="n">keywords</span> <span class="p">}}</span><span class="s2">&quot;&gt;{% endif %}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这段内容其实已经被引入了 Octopress 源码里面了，所以只需要在 _config.yml 文件中填充全局的 keywords 和 description, 比如这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">description</span><span class="p">:</span> <span class="no">Tips</span><span class="p">,</span> <span class="n">tricks</span><span class="p">,</span> <span class="ow">and</span> <span class="n">hacks</span> <span class="n">on</span> <span class="no">Ruby</span> <span class="n">on</span> <span class="no">Rails</span> <span class="n">development</span><span class="o">.</span>
+</span><span class="line"><span class="n">keywords</span><span class="p">:</span> <span class="n">ruby</span><span class="p">,</span><span class="n">ruby</span> <span class="n">on</span> <span class="n">rails</span><span class="p">,</span><span class="n">salesforce</span><span class="p">,</span><span class="n">gem</span><span class="p">,</span><span class="n">web</span> <span class="n">development</span><span class="p">,</span><span class="no">Ajax</span><span class="p">,</span><span class="no">SEO</span><span class="p">,</span><span class="n">scraping</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样 /blog 主页就会自动生成对应的 meta</p>
+
+<h5 id="section">指向单独的域名</h5>
+
+<p>有时候你的域名可能同时对带 www 前缀和不带前缀同时有效，这种情况有可能会影响网站的 page rank，你需要把其中的一个作为主域名，重定向另一个指向这个域名</p>
+
+<p>以上只是一些简单的 seo 技巧，本着有总比没有强点的原则稍加修改就OK了</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-29T21:50:00+08:00" pubdate data-updated="true">2012-08-29 21:50:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/add-seo-to-octopress.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/add-seo-to-octopress.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/compile-textmate.html/" title="Previous Post: 编译Textmate">&larr; 编译Textmate</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/octopress/'>Octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>Ruby (1)</a></li>
+<li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (1)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/add-seo-to-octopress.html/">Octopress Seo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/compile-textmate.html/">编译Textmate</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/explain-select-on-rails-hepler.html/">rails view select 方法学习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/modify-octopress-style-and-color.html/">修改Octopress主题样式</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-category-list-for-octopress.html/">给Octopress添加分类列表</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/add-seo-to-octopress.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/add-seo-to-octopress.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

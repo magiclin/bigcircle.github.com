@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-29T00:46:31+08:00</updated>
+  <updated>2012-08-29T23:50:39+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,117 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress Seo]]></title>
+    <link href="http://Bigcircle.github.com/blog/add-seo-to-octopress.html/"/>
+    <updated>2012-08-29T21:50:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/add-seo-to-octopress</id>
+    <content type="html"><![CDATA[<p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
+
+<ul>
+  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a> </li>
+  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
+<!--more--></li>
+  <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
+  <li><a href="http://shanewfx.github.com/blog/2012/08/13/improve-blog-theme/">添加about，友情链接</a></li>
+</ul>
+
+<p>不如我一向遵循 <code>less is more, more is less</code> 的原则，不想把 blog 弄的太臃肿，而且这些功能对我也基本用处不大，没有微博上碎嘴的习惯，豆瓣上也只去电影区看影评，tag云感觉和category重复，友链暂时也没有，等等。先存个链接，说不定什么时候就想加上。。</p>
+
+<p>目前先保持简洁的风格，稍微做下 seo 优化，过程参考 <a href="http://www.yatishmehta.in/seo-for-octopress">这篇</a></p>
+
+<h5 id="meta-data-description">添加 meta data description</h5>
+
+<p>文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 ‘keywords’, ‘description’，会在 generate 文章的时候自动生成相应的 meta 标签</p>
+
+<p>如果文章 header 写成这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">layout: post
+</span><span class="line">title: &quot;SEO for Octopress&quot;
+</span><span class="line">date: 2012-04-22 09:55
+</span><span class="line">comments: true
+</span><span class="line">categories: [seo,octopress]
+</span><span class="line">keywords: seo,octopress,heroku
+</span><span class="line">description: How to optimize Octopress for SEO,Heroku
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>生成的post head标签中会生成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;title&gt;</span>SEO for Octopress <span class="nt">&lt;/title&gt;</span>
+</span><span class="line"><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;Yatish Mehta&quot;</span><span class="nt">&gt;</span>
+</span><span class="line"><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;description&quot;</span> <span class="na">content=</span><span class="s">&quot;How to optimize Octopress for SEO&quot;</span><span class="nt">&gt;</span>
+</span><span class="line"><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;keywords&quot;</span> <span class="na">content=</span><span class="s">&quot;seo,octopress&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果不想每次都得手动添加，可以修改 Rakefile - new_post task任务</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;layout: post&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;title: </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">title</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&amp;/</span><span class="p">,</span><span class="s1">&#39;&amp;amp;&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;date: </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d %H:%M&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;comments: true&quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;categories: &quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;keywords: &quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;description: &quot;</span>
+</span><span class="line">  <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="meta-data">主页的 meta data</h5>
+
+<p>上面的方法只能给每个 post 生成对应的 meta标签，如果要给主页添加 meta 标签，修改 source/_includes/head.html，添加以下内容</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="n">meta</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;author&quot;</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;{{ site.author }}&quot;</span><span class="o">&gt;</span>
+</span><span class="line"><span class="p">{</span><span class="o">%</span> <span class="n">capture</span> <span class="n">description</span> <span class="sx">%}{% if page.description %}</span><span class="p">{{</span> <span class="n">page</span><span class="o">.</span><span class="n">description</span> <span class="p">}}{</span><span class="o">%</span> <span class="k">elsif</span> <span class="n">site</span><span class="o">.</span><span class="n">description</span> <span class="sx">%}{{ site.description }</span><span class="p">}{</span><span class="o">%</span><span class="k">else</span><span class="sx">%}{{ content | raw_content }</span><span class="p">}{</span><span class="o">%</span> <span class="n">endif</span> <span class="sx">%}{% endcapture %}</span>
+</span><span class="line"><span class="o">&lt;</span><span class="n">meta</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;description&quot;</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;{{ description | strip_html | condense_spaces | truncate:150 }}&quot;</span><span class="o">&gt;</span>
+</span><span class="line"><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">keywords</span> <span class="sx">%}&lt;meta name=&quot;keywords&quot; content=&quot;{{ page.keywords }</span><span class="p">}</span><span class="s2">&quot;&gt;{%else%}&lt;meta name=&quot;</span><span class="n">keywords</span><span class="s2">&quot; content=&quot;</span><span class="p">{{</span> <span class="n">site</span><span class="o">.</span><span class="n">keywords</span> <span class="p">}}</span><span class="s2">&quot;&gt;{% endif %}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这段内容其实已经被引入了 Octopress 源码里面了，所以只需要在 _config.yml 文件中填充全局的 keywords 和 description, 比如这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">description</span><span class="p">:</span> <span class="no">Tips</span><span class="p">,</span> <span class="n">tricks</span><span class="p">,</span> <span class="ow">and</span> <span class="n">hacks</span> <span class="n">on</span> <span class="no">Ruby</span> <span class="n">on</span> <span class="no">Rails</span> <span class="n">development</span><span class="o">.</span>
+</span><span class="line"><span class="n">keywords</span><span class="p">:</span> <span class="n">ruby</span><span class="p">,</span><span class="n">ruby</span> <span class="n">on</span> <span class="n">rails</span><span class="p">,</span><span class="n">salesforce</span><span class="p">,</span><span class="n">gem</span><span class="p">,</span><span class="n">web</span> <span class="n">development</span><span class="p">,</span><span class="no">Ajax</span><span class="p">,</span><span class="no">SEO</span><span class="p">,</span><span class="n">scraping</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样 /blog 主页就会自动生成对应的 meta</p>
+
+<h5 id="section">指向单独的域名</h5>
+
+<p>有时候你的域名可能同时对带 www 前缀和不带前缀同时有效，这种情况有可能会影响网站的 page rank，你需要把其中的一个作为主域名，重定向另一个指向这个域名</p>
+
+<p>以上只是一些简单的 seo 技巧，本着有总比没有强点的原则稍加修改就OK了</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[编译Textmate]]></title>

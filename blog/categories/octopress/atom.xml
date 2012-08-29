@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-29T00:46:31+08:00</updated>
+  <updated>2012-08-29T23:50:39+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress Seo]]></title>
+    <link href="http://Bigcircle.github.com/blog/add-seo-to-octopress.html/"/>
+    <updated>2012-08-29T21:50:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/add-seo-to-octopress</id>
+    <content type="html"><![CDATA[<p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
+
+<ul>
+  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a> </li>
+  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
+<!--more--></li>
+  <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
+  <li><a href="http://shanewfx.github.com/blog/2012/08/13/improve-blog-theme/">添加about，友情链接</a></li>
+</ul>
+
+<p>不如我一向遵循 <code>less is more, more is less</code> 的原则，不想把 blog 弄的太臃肿，而且这些功能对我也基本用处不大，没有微博上碎嘴的习惯，豆瓣上也只去电影区看影评，tag云感觉和category重复，友链暂时也没有，等等。先存个链接，说不定什么时候就想加上。。</p>
+
+<p>目前先保持简洁的风格，稍微做下 seo 优化，过程参考 <a href="http://www.yatishmehta.in/seo-for-octopress">这篇</a></p>
+
+<h5 id="meta-data-description">添加 meta data description</h5>
+
+<p>文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 ‘keywords’, ‘description’，会在 generate 文章的时候自动生成相应的 meta 标签</p>
+
+<p>如果文章 header 写成这样</p>
+
+<p><code>html
+layout: post
+title: "SEO for Octopress"
+date: 2012-04-22 09:55
+comments: true
+categories: [seo,octopress]
+keywords: seo,octopress,heroku
+description: How to optimize Octopress for SEO,Heroku
+</code></p>
+
+<p>生成的post head标签中会生成</p>
+
+<p>```</p>
+<title>SEO for Octopress </title>
+<meta name="author" content="Yatish Mehta" />
+
+<meta name="description" content="How to optimize Octopress for SEO" />
+
+<meta name="keywords" content="seo,octopress" />
+
+<p>```</p>
+
+<p>如果不想每次都得手动添加，可以修改 Rakefile - new_post task任务</p>
+
+<p><code>ruby
+open(filename, 'w') do |post|
+  post.puts "---"
+  post.puts "layout: post"
+  post.puts "title: \"#{title.gsub(/&amp;/,'&amp;amp;')}\""
+  post.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+  post.puts "comments: true"
+  post.puts "categories: "
+  post.puts "keywords: "
+  post.puts "description: "
+  post.puts "---"
+end
+</code></p>
+
+<h5 id="meta-data">主页的 meta data</h5>
+
+<p>上面的方法只能给每个 post 生成对应的 meta标签，如果要给主页添加 meta 标签，修改 source/_includes/head.html，添加以下内容</p>
+
+<p><code>ruby
+&lt;meta name="author" content="bigcircle"&gt;
+
+&lt;meta name="description" content="Category: Octopress"&gt;
+&lt;meta name="keywords" content="ruby, rails, web development, octopress, blog"&gt;
+</code></p>
+
+<p>这段内容其实已经被引入了 Octopress 源码里面了，所以只需要在 _config.yml 文件中填充全局的 keywords 和 description, 比如这样</p>
+
+<p><code>
+description: Tips, tricks, and hacks on Ruby on Rails development.
+keywords: ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping
+</code></p>
+
+<p>这样 /blog 主页就会自动生成对应的 meta</p>
+
+<h5 id="section">指向单独的域名</h5>
+
+<p>有时候你的域名可能同时对带 www 前缀和不带前缀同时有效，这种情况有可能会影响网站的 page rank，你需要把其中的一个作为主域名，重定向另一个指向这个域名</p>
+
+<p>以上只是一些简单的 seo 技巧，本着有总比没有强点的原则稍加修改就OK了</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[修改Octopress主题样式]]></title>
@@ -55,7 +146,7 @@
 <section>
   <h1>Categories</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/octopress/'>Octopress (3)</a></li>
+    <li class='category'><a href='/blog/categories/octopress/'>Octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/ruby/'>Ruby (1)</a></li>
 <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
