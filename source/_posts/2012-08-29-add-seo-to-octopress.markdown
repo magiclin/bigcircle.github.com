@@ -42,6 +42,22 @@ description: How to optimize Octopress for SEO,Heroku
 <meta name="keywords" content="seo,octopress">
 ```
 
+如果不想每次都得手动添加，可以修改 Rakefile - new_post task任务
+
+```ruby
+open(filename, 'w') do |post|
+  post.puts "---"
+  post.puts "layout: post"
+  post.puts "title: \"#{title.gsub(/&/,'&amp;')}\""
+  post.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+  post.puts "comments: true"
+  post.puts "categories: "
+  post.puts "keywords: "
+  post.puts "description: "
+  post.puts "---"
+end
+```
+
 ##### 主页的 meta data
 
 上面的方法只能给每个 post 生成对应的 meta标签，如果要给主页添加 meta 标签，修改 source/_includes/head.html，添加以下内容
@@ -66,4 +82,4 @@ keywords: ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping
 
 有时候你的域名可能同时对带 www 前缀和不带前缀同时有效，这种情况有可能会影响网站的 page rank，你需要把其中的一个作为主域名，重定向另一个指向这个域名
 
-以上只是一些简单的 seo 技巧，有总比没有稍微强点
+以上只是一些简单的 seo 技巧，本着有总比没有强点的原则稍加修改就OK了
