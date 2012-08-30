@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-30T14:50:08+08:00</updated>
+  <updated>2012-08-31T00:10:16+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,382 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[你可能错过的 Rails 技巧(二)]]></title>
+    <link href="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-2.html/"/>
+    <updated>2012-08-30T21:39:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-2</id>
+    <content type="html"><![CDATA[<p>接着上期说 <a href="http://dayuan.im/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a></p>
+
+<h6 id="section">11 - 显示数据迁移记录</h6>
+
+<p><code>ruby
+rake db:migrate:status
+</code></p>
+
+<p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
+
+<p>```
+database: db/development.sqlite3</p>
+
+<p>status   Migration ID    Migration Name
+ —————————————
+   up     20120414155612  Create users
+   up     20120414160528  Create articles
+  down    20120414161355  Create comments
+```</p>
+
+<h6 id="csv-">12 - 导入 csv 文件</h6>
+
+<p>csv 文件内容如下</p>
+
+<p><code>
+Name,Email
+James,james@example.com
+Dana,dana@example.com
+Summer,summer@example.com
+</code></p>
+
+<p>创建 rake 任务导入 users 表</p>
+
+<p><code>
+require 'csv'
+namespace :users do
+  desc "Import users from a CSV file"
+  task :import =&gt; :environment do
+    path = ENV.fetch("CSV_FILE") {
+      File.join(File.dirname(__FILE__), *%w[.. .. db data users.csv])
+    }
+    CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
+      User.create(row.to_hash)
+    end
+  end
+end
+</code></p>
+
+<h6 id="csv">13 - 数据库中储存 csv</h6>
+
+<p>```
+class Article &lt;  ActiveRecord::Base
+  require ‘csv’
+  module CSVSerializer
+    module_function
+    def load(field); field.to_s.parse_csv; end
+    def dump(object); Array(object).to_csv; end
+  end
+  serialize :categories, CSVSerializer</p>
+
+<p>attr_accessible :body, :subject, :categories
+end
+```</p>
+
+<p>serialize 用于在文本字段储存序列化的值，如序列，Hash，Array等，例如</p>
+
+<p><code>
+user = User.create(:preferences =&gt; { "background" =&gt; "black", "display" =&gt; large })
+User.find(user.id).preferences # =&gt; { "background" =&gt; "black", "display" =&gt; large }
+</code></p>
+
+<p>这个例子中将 CSVSerializer to_csv序列化之后储存在 categories 这个文本类型字段中</p>
+
+<h6 id="pluck-">14 - 用 pluck 查询</h6>
+
+<p>```
+$ rails c
+loading development environment(Rails 3.2.3)</p>
+
+<blockquote>
+  <blockquote>
+    <p>User.select(:email).map(&amp;:email)
+  User Load(0.1ms) SELECT email FROM “users”
+=&gt; [“james@example.com”, “dana@example.com”, “summer@example.com”]
+User.pluck(:email)
+   (0.2ms) SELECT email FROM “users”
+=&gt; [“james@example.com”, “dana@example.com”, “summer@example.com”]
+User.uniq.pluck(:email)
+   (0.2ms) SELECT DISTINCT email FROM “users”
+=&gt; [“james@example.com”, “dana@example.com”, “summer@example.com”]
+```</p>
+  </blockquote>
+</blockquote>
+
+<p>pluck 的实现方式其实也是 select 之后再 map</p>
+
+<p><code>
+def pluck(column_name)
+  column_name = column_name.to_s
+  klass.connection.select_all(select(column_name).arel).map! do |attributes|
+    klass.type_cast_attribute(attributes.keys.first, klass.initialize_attributes(attributes))
+  end
+end
+</code></p>
+
+<h6 id="group-count">15 - 使用 group count</h6>
+
+<p>创建 article 关联 model event</p>
+
+<p><code>
+rails g resource event article:belongs_to triggle
+</code></p>
+
+<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录， <br />
+group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 count(:group =&gt; :trigger)</p>
+
+<p>```
+$ rails c</p>
+
+<blockquote>
+  <blockquote>
+    <p>article = Article.last
+=&gt; #&lt;Article id:1, …&gt;
+{edit:3, view:10}.each do |trigger, count|
+?&gt;   count.times do
+?&gt;     Event.new(trigger: trigger).tap{ |e| e.article= article; e.save! }
+?&gt;   end
+=&gt; {:edit =&gt; 3, :view =&gt; 10}
+Event.count
+=&gt; 13
+Event.group(:trigger).count
+=&gt; {“edit” =&gt; 3, “view” =&gt; 10}
+```</p>
+  </blockquote>
+</blockquote>
+
+<h6 id="section-1">16 - 覆盖关联关系</h6>
+
+<p>```
+class Car &lt; ActiveRecord::Base
+  belongs_to :owner
+  belongs_to :previous_owner, class_name: “Owner”</p>
+
+<p>def owner=(new_owner)
+    self.previous_owner = owner
+    super
+  end
+end
+```</p>
+
+<p>car更改 owner 时，如果有了 new_owner，就把原 owner 赋给 previous_owner，注意要加上 super</p>
+
+<h6 id="section-2">17 - 构造示例数据</h6>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; User.find(1)
+=&gt; #&lt;User id: 1, name: "James", email: "
+￼￼￼￼￼￼￼james@example.com", ...&gt;
+￼￼￼￼￼&gt;&gt; jeg2 = User.instantiate("id" =&gt; 1, "email" =&gt; "
+￼￼￼￼=&gt; #&lt;User id: 1, email: "james@example.com"&gt;
+&gt;&gt; jeg2.name = "James Edward Gray II"
+￼￼￼￼=&gt; "James Edward Gray II"
+&gt;&gt; jeg2.save!
+=&gt; true
+&gt;&gt; User.find(1)
+￼￼￼￼￼￼james@example.com", ...&gt;
+</code></p>
+
+<p>伪造一条记录，并不是数据库中的真实数据，也不会把原有数据覆盖</p>
+
+<h6 id="postgresql--string">18 - PostgreSQL 中使用无限制的 string</h6>
+
+<p>去掉适配器中对 string 长度的限制，这个应该是 PostgreSQL 数据库的特性</p>
+
+<p><code>
+module PsqlApp
+  class Application &lt; Rails::Application
+    # Switch to limitless strings
+    initializer "postgresql.no_default_string_limit" do
+      ActiveSupport.on_load(:active_record) do
+        adapter = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+        adapter::NATIVE_DATABASE_TYPES[:string].delete(:limit)
+      end
+    end
+ end
+end
+</code></p>
+
+<p>创建 user 表，bio 字符串</p>
+
+<p><code>
+rails g resource user bio
+</code></p>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; very_long_bio = "X" * 10_000; :set
+=&gt; :set
+&gt;&gt; User.create!(bio: very_long_bio)
+=&gt; #&lt;User id: 1, bio:
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XX...", created_at: "2012-04-14 23:02:08",
+updated_at: "2012-04-14 23:02:08"&gt;
+&gt;&gt; User.last.bio.size
+=&gt; 10000
+</code></p>
+
+<h6 id="postgresql-">19 - PostgreSQL 中使用全文搜索</h6>
+
+<p><code>
+rails g resource article subject body:text
+</code></p>
+
+<p>更改迁移文件，添加索引和 articles_search_update 触发器</p>
+
+<p><code>
+class CreateArticles &lt; ActiveRecord::Migration
+  def change
+    create_table :articles do |t|
+      t.string :subject
+      t.text   :body
+      t.column :search, "tsvector"
+      t.timestamps
+    end
+    execute &lt;&lt;-END_SQL
+      CREATE INDEX articles_search_index
+      ON articles USING gin(search);
+      CREATE TRIGGER articles_search_update
+      BEFORE INSERT OR UPDATE ON articles
+      FOR EACH ROW EXECUTE PROCEDURE
+      tsvector_update_trigger( search, 'pg_catalog.english', subject, body);
+    END_SQL
+  end
+end
+</code></p>
+
+<p>Model 中添加 search 方法</p>
+
+<p><code>
+class Article &lt; ActiveRecord::Base
+  attr_accessible :body, :subject
+  def self.search(query)
+    sql = sanitize_sql_array(["plainto_tsquery('english', ?)", query])
+    where(
+      "search @@ #{sql}"
+    ).order(
+      "ts_rank_cd(search, #{sql}) DESC"
+    )
+end end
+</code></p>
+
+<p>PostgreSQL 数据库没用过，这段看例子吧</p>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; Article.create!(subject: "Full Text Search")
+=&gt; #&lt;Article id: 1, ...&gt;
+&gt;&gt; Article.create!(body: "A stemmed search.")
+=&gt; #&lt;Article id: 2, ...&gt;
+&gt;&gt; Article.create!(body: "You won't find me!")
+=&gt; #&lt;Article id: 3, ...&gt;
+&gt;&gt; Article.search("search").map { |a| a.subject || a.body }
+=&gt; ["Full Text Search", "A stemmed search."]
+&gt;&gt; Article.search("stemming").map { |a| a.subject || a.body }
+=&gt; ["A stemmed search."]
+</code></p>
+
+<h6 id="section-3">21 - 每个用户使用不同的数据库</h6>
+
+<p>```
+- user_database.rb</p>
+
+<p>def connect_to_user_database(name)
+  config = ActiveRecord::Base.configurations[“development”].merge(“database” =&gt; “db/#{name}.sqlite3”)
+  ActiveRecord::Base.establish_connection(config)
+end
+```</p>
+
+<p>创建 rake 任务：新增用户数据库和创建</p>
+
+<p>```
+require “user_database”</p>
+
+<p>namespace :db do
+  desc “Add a new user database”
+  task :add =&gt; %w[environment load_config] do
+    name = ENV.fetch(“DB_NAME”) { fail “DB_NAME is required” }
+    connect_to_user_database(name)
+    ActiveRecord::Base.connection
+  end</p>
+
+<p>namespace :migrate do
+    desc “Migrate all user databases”
+    task :all =&gt; %w[environment load_config] do
+      ActiveRecord::Migration.verbose = ENV.fetch(“VERBOSE”, “true”) == “true”
+      Dir.glob(“db/*.sqlite3”) do |file|
+        next if file == “db/test.sqlite3”
+        connect_to_user_database(File.basename(file, “.sqlite3”))
+        ActiveRecord::Migrator.migrate(
+          ActiveRecord::Migrator.migrations_paths,
+          ENV[“VERSION”] &amp;&amp; ENV[“VERSION”].to_i
+        ) do |migration|
+          ENV[“SCOPE”].blank? || (ENV[“SCOPE”] == migration.scope)
+        end
+      end 
+    end
+  end 
+end
+```</p>
+
+<p>执行几个rake 任务创建不同的数据库</p>
+
+<p><code>
+$ rails g resource user name
+$ rake db:add DB_NAME=ruby_rogues
+$ rake db:add DB_NAME=grays
+$ rake db:migrate:all
+==  CreateUsers: migrating ==================================
+-- create_table(:users)
+   -&gt; 0.0008s
+==  CreateUsers: migrated (0.0008s) =========================
+==  CreateUsers: migrating ==================================
+-- create_table(:users)
+   -&gt; 0.0007s
+==  CreateUsers: migrated (0.0008s) =========================
+</code></p>
+
+<p>创建几条记录，为不同的数据库创建不同的数据</p>
+
+<p><code>
+$ rails c
+&gt;&gt; connect_to_user_database("ruby_rogues")
+=&gt; #&lt;ActiveRecord::ConnectionAdapters::ConnectionPool...&gt;
+&gt;&gt; User.create!(name: "Chuck")
+=&gt; #&lt;User id: 1, name: "Chuck", ...&gt;
+&gt;&gt; User.create!(name: "Josh")
+=&gt; #&lt;User id: 2, name: "Josh", ...&gt;
+&gt;&gt; User.create!(name: "Avdi")
+=&gt; #&lt;User id: 3, name: "Avdi", ...&gt;
+...
+&gt;&gt; connect_to_user_database("grays")
+=&gt; #&lt;ActiveRecord::ConnectionAdapters::ConnectionPool...&gt;
+&gt;&gt; User.create!(name: "James")
+=&gt; #&lt;User id: 1, name: "James", ...&gt;
+&gt;&gt; User.create!(name: "Dana")
+=&gt; #&lt;User id: 2, name: "Dana", ...&gt;
+&gt;&gt; User.create!(name: "Summer")
+=&gt; #&lt;User id: 3, name: "Summer", ...&gt;
+</code></p>
+
+<p>ApplicationController 里面添加 before_filter 根据登陆的二级域名判断连接哪个数据库</p>
+
+<p><code>
+class ApplicationController &lt; ActionController::Base
+  protect_from_forgery
+  before_filter :connect_to_database
+private
+  def connect_to_database
+    connect_to_user_database(request.subdomains.first)
+  end 
+end
+</code></p>
+
+<p>中场休息，未完待续。。。内容真心多啊，不过有用的不多</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[你可能错过的 Rails 技巧(一)]]></title>

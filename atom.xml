@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-30T14:50:08+08:00</updated>
+  <updated>2012-08-31T00:10:16+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,576 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[你可能错过的 Rails 技巧(二)]]></title>
+    <link href="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-2.html/"/>
+    <updated>2012-08-30T21:39:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-2</id>
+    <content type="html"><![CDATA[<p>接着上期说 <a href="http://dayuan.im/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a></p>
+
+<h6 id="section">11 - 显示数据迁移记录</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate:status</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">database</span><span class="p">:</span> <span class="n">db</span><span class="o">/</span><span class="n">development</span><span class="o">.</span><span class="n">sqlite3</span>
+</span><span class="line">
+</span><span class="line"> <span class="n">status</span>   <span class="no">Migration</span> <span class="no">ID</span>    <span class="no">Migration</span> <span class="no">Name</span>
+</span><span class="line"> <span class="o">---------------------------------------</span>
+</span><span class="line">   <span class="n">up</span>     <span class="mi">20120414155612</span>  <span class="no">Create</span> <span class="n">users</span>
+</span><span class="line">   <span class="n">up</span>     <span class="mi">20120414160528</span>  <span class="no">Create</span> <span class="n">articles</span>
+</span><span class="line">  <span class="n">down</span>    <span class="mi">20120414161355</span>  <span class="no">Create</span> <span class="n">comments</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="csv-">12 - 导入 csv 文件</h6>
+
+<p>csv 文件内容如下</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Name</span><span class="p">,</span><span class="no">Email</span>
+</span><span class="line"><span class="no">James</span><span class="p">,</span><span class="n">james</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span><span class="line"><span class="no">Dana</span><span class="p">,</span><span class="n">dana</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span><span class="line"><span class="no">Summer</span><span class="p">,</span><span class="n">summer</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建 rake 任务导入 users 表</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class="line"><span class="n">namespace</span> <span class="ss">:users</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">desc</span> <span class="s2">&quot;Import users from a CSV file&quot;</span>
+</span><span class="line">  <span class="n">task</span> <span class="ss">:import</span> <span class="o">=&gt;</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">path</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;CSV_FILE&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">      <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="o">*</span><span class="sx">%w[.. .. db data users.csv]</span><span class="p">)</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="no">CSV</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class="line">      <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">to_hash</span><span class="p">)</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="csv">13 - 数据库中储存 csv</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span>  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class="line">  <span class="k">module</span> <span class="nn">CSVSerializer</span>
+</span><span class="line">    <span class="kp">module_function</span>
+</span><span class="line">    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">field</span><span class="p">);</span> <span class="n">field</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">parse_csv</span><span class="p">;</span> <span class="k">end</span>
+</span><span class="line">    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">object</span><span class="p">);</span> <span class="nb">Array</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">;</span> <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="n">serialize</span> <span class="ss">:categories</span><span class="p">,</span> <span class="no">CSVSerializer</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">attr_accessible</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:subject</span><span class="p">,</span> <span class="ss">:categories</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>serialize 用于在文本字段储存序列化的值，如序列，Hash，Array等，例如</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:preferences</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">&quot;background&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;display&quot;</span> <span class="o">=&gt;</span> <span class="n">large</span> <span class="p">})</span>
+</span><span class="line"><span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">preferences</span> <span class="c1"># =&gt; { &quot;background&quot; =&gt; &quot;black&quot;, &quot;display&quot; =&gt; large }</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个例子中将 CSVSerializer to_csv序列化之后储存在 categories 这个文本类型字段中</p>
+
+<h6 id="pluck-">14 - 用 pluck 查询</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="n">loading</span> <span class="n">development</span> <span class="n">environment</span><span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:email</span><span class="p">)</span>
+</span><span class="line">  <span class="no">User</span> <span class="no">Load</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="n">ms</span><span class="p">)</span> <span class="no">SELECT</span> <span class="n">email</span> <span class="no">FROM</span> <span class="s2">&quot;users&quot;</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;james@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;dana@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;summer@example.com&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span>
+</span><span class="line">   <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span> <span class="no">SELECT</span> <span class="n">email</span> <span class="no">FROM</span> <span class="s2">&quot;users&quot;</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;james@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;dana@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;summer@example.com&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">uniq</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span>
+</span><span class="line">   <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">ms</span><span class="p">)</span> <span class="no">SELECT</span> <span class="no">DISTINCT</span> <span class="n">email</span> <span class="no">FROM</span> <span class="s2">&quot;users&quot;</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;james@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;dana@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;summer@example.com&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>pluck 的实现方式其实也是 select 之后再 map</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">pluck</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+</span><span class="line">  <span class="n">column_name</span> <span class="o">=</span> <span class="n">column_name</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class="line">  <span class="n">klass</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="nb">select</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span><span class="o">.</span><span class="n">arel</span><span class="p">)</span><span class="o">.</span><span class="n">map!</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="o">|</span>
+</span><span class="line">    <span class="n">klass</span><span class="o">.</span><span class="n">type_cast_attribute</span><span class="p">(</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">klass</span><span class="o">.</span><span class="n">initialize_attributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">))</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="group-count">15 - 使用 group count</h6>
+
+<p>创建 article 关联 model event</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rails</span> <span class="n">g</span> <span class="n">resource</span> <span class="n">event</span> <span class="n">article</span><span class="ss">:belongs_to</span> <span class="n">triggle</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录， <br />
+group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 count(:group =&gt; :trigger)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">last</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;Article id:1, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">edit</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">view</span><span class="p">:</span><span class="mi">10</span><span class="p">}</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">trigger</span><span class="p">,</span> <span class="n">count</span><span class="o">|</span>
+</span><span class="line"><span class="sc">?&gt;</span>   <span class="n">count</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class="line"><span class="sc">?&gt;</span>     <span class="no">Event</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">trigger</span><span class="p">:</span> <span class="n">trigger</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span><span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">article</span><span class="o">=</span> <span class="n">article</span><span class="p">;</span> <span class="n">e</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span>
+</span><span class="line"><span class="sc">?&gt;</span>   <span class="k">end</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:edit</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:view</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Event</span><span class="o">.</span><span class="n">count</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="mi">13</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Event</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="ss">:trigger</span><span class="p">)</span><span class="o">.</span><span class="n">count</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="s2">&quot;edit&quot;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;view&quot;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="section-1">16 - 覆盖关联关系</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Car</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="n">belongs_to</span> <span class="ss">:owner</span>
+</span><span class="line">  <span class="n">belongs_to</span> <span class="ss">:previous_owner</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Owner&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">owner</span><span class="o">=</span><span class="p">(</span><span class="n">new_owner</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">previous_owner</span> <span class="o">=</span> <span class="n">owner</span>
+</span><span class="line">    <span class="k">super</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>car更改 owner 时，如果有了 new_owner，就把原 owner 赋给 previous_owner，注意要加上 super</p>
+
+<h6 id="section-2">17 - 构造示例数据</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, name: &quot;James&quot;, email: &quot;</span>
+</span><span class="line"><span class="err">￼￼￼￼￼￼￼</span><span class="n">james</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span><span class="s2">&quot;, ...&gt;</span>
+</span><span class="line"><span class="s2">￼￼￼￼￼&gt;&gt; jeg2 = User.instantiate(&quot;</span><span class="nb">id</span><span class="s2">&quot; =&gt; 1, &quot;</span><span class="n">email</span><span class="s2">&quot; =&gt; &quot;</span>
+</span><span class="line"><span class="err">￼￼￼￼</span><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, email: &quot;james@example.com&quot;&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">jeg2</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;James Edward Gray II&quot;</span>
+</span><span class="line"><span class="err">￼￼￼￼</span><span class="o">=&gt;</span> <span class="s2">&quot;James Edward Gray II&quot;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">jeg2</span><span class="o">.</span><span class="n">save!</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line"><span class="err">￼￼￼￼￼￼</span><span class="n">james</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span><span class="s2">&quot;, ...&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>伪造一条记录，并不是数据库中的真实数据，也不会把原有数据覆盖</p>
+
+<h6 id="postgresql--string">18 - PostgreSQL 中使用无限制的 string</h6>
+
+<p>去掉适配器中对 string 长度的限制，这个应该是 PostgreSQL 数据库的特性</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">module</span> <span class="nn">PsqlApp</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class="line">    <span class="c1"># Switch to limitless strings</span>
+</span><span class="line">    <span class="n">initializer</span> <span class="s2">&quot;postgresql.no_default_string_limit&quot;</span> <span class="k">do</span>
+</span><span class="line">      <span class="no">ActiveSupport</span><span class="o">.</span><span class="n">on_load</span><span class="p">(</span><span class="ss">:active_record</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">        <span class="n">adapter</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ConnectionAdapters</span><span class="o">::</span><span class="no">PostgreSQLAdapter</span>
+</span><span class="line">        <span class="n">adapter</span><span class="o">::</span><span class="no">NATIVE_DATABASE_TYPES</span><span class="o">[</span><span class="ss">:string</span><span class="o">].</span><span class="n">delete</span><span class="p">(</span><span class="ss">:limit</span><span class="p">)</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line"> <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建 user 表，bio 字符串</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rails</span> <span class="n">g</span> <span class="n">resource</span> <span class="n">user</span> <span class="n">bio</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">very_long_bio</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span> <span class="o">*</span> <span class="mi">10_000</span><span class="p">;</span> <span class="ss">:set</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="ss">:set</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">bio</span><span class="p">:</span> <span class="n">very_long_bio</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, bio:</span>
+</span><span class="line"><span class="s2">&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+</span><span class="line"><span class="s2">XX...&quot;</span><span class="p">,</span> <span class="n">created_at</span><span class="p">:</span> <span class="s2">&quot;2012-04-14 23:02:08&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="n">updated_at</span><span class="p">:</span> <span class="s2">&quot;2012-04-14 23:02:08&quot;</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">bio</span><span class="o">.</span><span class="n">size</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="mi">10000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="postgresql-">19 - PostgreSQL 中使用全文搜索</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rails</span> <span class="n">g</span> <span class="n">resource</span> <span class="n">article</span> <span class="n">subject</span> <span class="n">body</span><span class="ss">:text</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>更改迁移文件，添加索引和 articles_search_update 触发器</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">CreateArticles</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">change</span>
+</span><span class="line">    <span class="n">create_table</span> <span class="ss">:articles</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class="line">      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:subject</span>
+</span><span class="line">      <span class="n">t</span><span class="o">.</span><span class="n">text</span>   <span class="ss">:body</span>
+</span><span class="line">      <span class="n">t</span><span class="o">.</span><span class="n">column</span> <span class="ss">:search</span><span class="p">,</span> <span class="s2">&quot;tsvector&quot;</span>
+</span><span class="line">      <span class="n">t</span><span class="o">.</span><span class="n">timestamps</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">    <span class="n">execute</span> <span class="o">&lt;&lt;-</span><span class="no">END_SQL</span>
+</span><span class="line"><span class="sh">      CREATE INDEX articles_search_index</span>
+</span><span class="line"><span class="sh">      ON articles USING gin(search);</span>
+</span><span class="line"><span class="sh">      CREATE TRIGGER articles_search_update</span>
+</span><span class="line"><span class="sh">      BEFORE INSERT OR UPDATE ON articles</span>
+</span><span class="line"><span class="sh">      FOR EACH ROW EXECUTE PROCEDURE</span>
+</span><span class="line"><span class="sh">      tsvector_update_trigger( search, &#39;pg_catalog.english&#39;, subject, body);</span>
+</span><span class="line"><span class="no">    END_SQL</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Model 中添加 search 方法</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="n">attr_accessible</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:subject</span>
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span class="line">    <span class="n">sql</span> <span class="o">=</span> <span class="n">sanitize_sql_array</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;plainto_tsquery(&#39;english&#39;, ?)&quot;</span><span class="p">,</span> <span class="n">query</span><span class="o">]</span><span class="p">)</span>
+</span><span class="line">    <span class="n">where</span><span class="p">(</span>
+</span><span class="line">      <span class="s2">&quot;search @@ </span><span class="si">#{</span><span class="n">sql</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">    <span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span>
+</span><span class="line">      <span class="s2">&quot;ts_rank_cd(search, </span><span class="si">#{</span><span class="n">sql</span><span class="si">}</span><span class="s2">) DESC&quot;</span>
+</span><span class="line">    <span class="p">)</span>
+</span><span class="line"><span class="k">end</span> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>PostgreSQL 数据库没用过，这段看例子吧</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Article</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">subject</span><span class="p">:</span> <span class="s2">&quot;Full Text Search&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;Article id: 1, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Article</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="s2">&quot;A stemmed search.&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;Article id: 2, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Article</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="s2">&quot;You won&#39;t find me!&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;Article id: 3, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="o">||</span> <span class="n">a</span><span class="o">.</span><span class="n">body</span> <span class="p">}</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;Full Text Search&quot;</span><span class="p">,</span> <span class="s2">&quot;A stemmed search.&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;stemming&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">.</span><span class="n">subject</span> <span class="o">||</span> <span class="n">a</span><span class="o">.</span><span class="n">body</span> <span class="p">}</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;A stemmed search.&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="section-3">21 - 每个用户使用不同的数据库</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">-</span> <span class="n">user_database</span><span class="o">.</span><span class="n">rb</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">connect_to_user_database</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class="line">  <span class="n">config</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">configurations</span><span class="o">[</span><span class="s2">&quot;development&quot;</span><span class="o">].</span><span class="n">merge</span><span class="p">(</span><span class="s2">&quot;database&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;db/</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">.sqlite3&quot;</span><span class="p">)</span>
+</span><span class="line">  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建 rake 任务：新增用户数据库和创建</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;user_database&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">namespace</span> <span class="ss">:db</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">desc</span> <span class="s2">&quot;Add a new user database&quot;</span>
+</span><span class="line">  <span class="n">task</span> <span class="ss">:add</span> <span class="o">=&gt;</span> <span class="sx">%w[environment load_config]</span> <span class="k">do</span>
+</span><span class="line">    <span class="nb">name</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;DB_NAME&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="nb">fail</span> <span class="s2">&quot;DB_NAME is required&quot;</span> <span class="p">}</span>
+</span><span class="line">    <span class="n">connect_to_user_database</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class="line">    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">namespace</span> <span class="ss">:migrate</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">desc</span> <span class="s2">&quot;Migrate all user databases&quot;</span>
+</span><span class="line">    <span class="n">task</span> <span class="ss">:all</span> <span class="o">=&gt;</span> <span class="sx">%w[environment load_config]</span> <span class="k">do</span>
+</span><span class="line">      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;VERBOSE&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span>
+</span><span class="line">      <span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;db/*.sqlite3&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class="line">        <span class="k">next</span> <span class="k">if</span> <span class="n">file</span> <span class="o">==</span> <span class="s2">&quot;db/test.sqlite3&quot;</span>
+</span><span class="line">        <span class="n">connect_to_user_database</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;.sqlite3&quot;</span><span class="p">))</span>
+</span><span class="line">        <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migrator</span><span class="o">.</span><span class="n">migrate</span><span class="p">(</span>
+</span><span class="line">          <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migrator</span><span class="o">.</span><span class="n">migrations_paths</span><span class="p">,</span>
+</span><span class="line">          <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;VERSION&quot;</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;VERSION&quot;</span><span class="o">].</span><span class="n">to_i</span>
+</span><span class="line">        <span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">migration</span><span class="o">|</span>
+</span><span class="line">          <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;SCOPE&quot;</span><span class="o">].</span><span class="n">blank?</span> <span class="o">||</span> <span class="p">(</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;SCOPE&quot;</span><span class="o">]</span> <span class="o">==</span> <span class="n">migration</span><span class="o">.</span><span class="n">scope</span><span class="p">)</span>
+</span><span class="line">        <span class="k">end</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>执行几个rake 任务创建不同的数据库</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">g</span> <span class="n">resource</span> <span class="n">user</span> <span class="nb">name</span>
+</span><span class="line"><span class="err">$</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:add</span> <span class="no">DB_NAME</span><span class="o">=</span><span class="n">ruby_rogues</span>
+</span><span class="line"><span class="err">$</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:add</span> <span class="no">DB_NAME</span><span class="o">=</span><span class="n">grays</span>
+</span><span class="line"><span class="err">$</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate:all</span>
+</span><span class="line"><span class="o">==</span>  <span class="no">CreateUsers</span><span class="p">:</span> <span class="n">migrating</span> <span class="o">==================================</span>
+</span><span class="line"><span class="o">--</span> <span class="n">create_table</span><span class="p">(</span><span class="ss">:users</span><span class="p">)</span>
+</span><span class="line">   <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="mo">000</span><span class="mi">8</span><span class="n">s</span>
+</span><span class="line"><span class="o">==</span>  <span class="no">CreateUsers</span><span class="p">:</span> <span class="n">migrated</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">000</span><span class="mi">8</span><span class="n">s</span><span class="p">)</span> <span class="o">=========================</span>
+</span><span class="line"><span class="o">==</span>  <span class="no">CreateUsers</span><span class="p">:</span> <span class="n">migrating</span> <span class="o">==================================</span>
+</span><span class="line"><span class="o">--</span> <span class="n">create_table</span><span class="p">(</span><span class="ss">:users</span><span class="p">)</span>
+</span><span class="line">   <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="mo">0007</span><span class="n">s</span>
+</span><span class="line"><span class="o">==</span>  <span class="no">CreateUsers</span><span class="p">:</span> <span class="n">migrated</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">000</span><span class="mi">8</span><span class="n">s</span><span class="p">)</span> <span class="o">=========================</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建几条记录，为不同的数据库创建不同的数据</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">connect_to_user_database</span><span class="p">(</span><span class="s2">&quot;ruby_rogues&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::ConnectionAdapters::ConnectionPool...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Chuck&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, name: &quot;Chuck&quot;, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Josh&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 2, name: &quot;Josh&quot;, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Avdi&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 3, name: &quot;Avdi&quot;, ...&gt;</span>
+</span><span class="line"><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">connect_to_user_database</span><span class="p">(</span><span class="s2">&quot;grays&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::ConnectionAdapters::ConnectionPool...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;James&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 1, name: &quot;James&quot;, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 2, name: &quot;Dana&quot;, ...&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Summer&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;User id: 3, name: &quot;Summer&quot;, ...&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ApplicationController 里面添加 before_filter 根据登陆的二级域名判断连接哪个数据库</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="n">protect_from_forgery</span>
+</span><span class="line">  <span class="n">before_filter</span> <span class="ss">:connect_to_database</span>
+</span><span class="line"><span class="kp">private</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">connect_to_database</span>
+</span><span class="line">    <span class="n">connect_to_user_database</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">subdomains</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>中场休息，未完待续。。。内容真心多啊，不过有用的不多</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[你可能错过的 Rails 技巧(一)]]></title>
