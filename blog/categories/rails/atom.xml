@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-29T23:50:39+08:00</updated>
+  <updated>2012-08-30T14:50:08+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,243 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[你可能错过的 Rails 技巧(一)]]></title>
+    <link href="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-1.html/"/>
+    <updated>2012-08-30T11:22:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-1</id>
+    <content type="html"><![CDATA[<p>记得前段时间 RailsConf2012 之后看过一个不错的pdf，<a href="https://speakerdeck.com/u/jeg2/p/10-things-you-didnt-know-rails-could-do">10 things you didn’t know rails could do</a></p>
+
+<p>说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下</p>
+
+<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天
+<!--more--></p>
+
+<h6 id="rails-app">1 - 最小的rails app</h6>
+
+<p>```ruby
+%w(action_controller/railtie coderay markaby).map &amp;method(:require)</p>
+
+<p>run TheSmallestRailsApp ||= Class.new(Rails::Application) {
+  config.secret_token = routes.append {
+    root to: proc {
+      [200, {“Content-Type” =&gt; “text/html”}, [Markaby::Builder.new.html {
+        title @title = “The Smallest Rails App”
+        h3 “I am #@title!”
+        p “Here is my source code:”
+        div { CodeRay.scan_file(<strong>FILE</strong>).div(line_numbers: :table) }
+        p { a “Make me smaller”, href: “//goo.gl/YdRpy” }
+      }]]
+    }
+  }.to_s
+  initialize!
+}
+```</p>
+
+<h6 id="todo">2 - 提醒功能 TODO</h6>
+
+<p>```
+class UsersController &lt; ApplicationController
+  # TODO:  Make it possible to create new users.
+end</p>
+
+<p>class User &lt; ActiveRecord::Base
+  # FIXME: Should token really  be accessible?
+  attr_accessible :bil, :email, :name, :token
+end</p>
+
+<p>&lt;%# OPTIMIZE: Paginate this listing. %&gt;
+&lt;%= render Article.all %&gt;
+```</p>
+
+<p>执行 <code>rake notes</code></p>
+
+<p>```
+app/controllers/users_controller.rb:
+  * [ 2] [TODO] Make it possible to create new users.</p>
+
+<p>app/models/user.rb:
+  * [ 2] [FIXME] Should token really be accessible?</p>
+
+<p>app/views/articles/index.html.erb:
+  * [ 1] [OPTIMIZE] Paginate this listing.
+```</p>
+
+<p>查看单独的 TODO / FIXME / OPTIMIZE </p>
+
+<p>```
+rake notes:todo</p>
+
+<p>app/controllers/users_controller.rb:
+  * [ 2] Make it possible to create new users.
+```</p>
+
+<p>可以自定义提醒名称</p>
+
+<p><code>
+class Article &lt; ActiveRecord::Base
+  belongs_to :user
+  attr_accessible :body, :subject
+  # JEG2: Add that code from your blog here.
+end
+</code>
+不过需要敲一长串，可以alias个快捷键</p>
+
+<p>```
+rake notes:custom ANNOTATION=JEG2</p>
+
+<p>app/models/article.rb:
+  * [ 4]Add that code from your blog here.
+```</p>
+
+<h6 id="rails-c">3 - 沙箱模式执行 rails c</h6>
+
+<p><code>
+rails c --sandbox
+</code></p>
+
+<p>沙箱模式会有回滚事务机制，对数据库的操作在退出之前都会自动回滚到之前未修改的数据</p>
+
+<h6 id="rails-c--rails-helper-">4 - 在 rails c 控制台中使用 rails helper 方法</h6>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; helper.number_to_currency(100)
+=&gt; "$100.00"
+&gt;&gt; helper.time_ago_in_words(3.days.ago)
+=&gt; "3 days"
+</code></p>
+
+<h6 id="thin--webrick">5 - 开发模式用 thin 代替 webrick</h6>
+
+<p>```
+group :development do
+  gem ‘thin’
+end</p>
+
+<p>rails s thin / thin start
+```</p>
+
+<h6 id="section">6 - 允许自定义配置</h6>
+
+<p>```
+ - lib/custom/railtie.rb</p>
+
+<p>module Custom
+   class Railtie &lt; Rails::Railtie
+     config.custom = ActiveSupport::OrderedOptions.new
+   end
+ end</p>
+
+<ul>
+  <li>config/application.rb</li>
+</ul>
+
+<p>require_relative “../lib/custom/railtie”</p>
+
+<p>module Blog
+   class Application &lt; Rails::Application
+     # …
+     config.custom.setting = 42
+   end
+ end
+```</p>
+
+<h6 id="keep-funny">7 - keep funny</h6>
+
+<p>作者给出了个介绍 ruby 以及一些相关 blog的网站 <a href="http://www.rubydramas.com">rubydramas</a>，搞笑的是这个网站右上角标明 </p>
+
+<p><code>
+Powered by PHP
+</code></p>
+
+<p>用 <a href="http://isitrails.com">isitrails.com</a> 检查了下，果然不是用 rails 做的，这个应该是作者分享 ppt 过程中的一个小插曲吧</p>
+
+<h6 id="section-1">8 -理解简写的迁移文件</h6>
+
+<p><code>
+rails g resources user name:string email:string token:string bio:text
+</code></p>
+
+<p>字段会被默认为 string 属性，查看了下 <a href="https://github.com/rails/rails/blob/master/railties/lib/rails/generators/generated_attribute.rb#LC55">源码</a>，果然有初始化定义</p>
+
+<p><code>
+rails g resources user name email token:string{6} bio:text
+</code></p>
+
+<p>会生成用样的 migration 文件</p>
+
+<p><code>
+class CreateUsers &lt; ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.string :name
+      t.string :email
+      t.string :token, :limit =&gt; 6
+      t.text :bio
+      t.timestamps
+    end
+  end
+end
+</code></p>
+
+<h6 id="migration-">9 - 给 migration 添加索引</h6>
+
+<p><code>
+rails g resource user name:index email:uniq token:string{6} bio:text
+</code></p>
+
+<p>会生成 name 和 email 的索引，同时限定 email 唯一</p>
+
+<p>```
+class CreateUsers &lt; ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.string :name
+      t.string :email
+      t.string :token, :limit =&gt; 6
+      t.text :bio
+      t.timestamps
+    end</p>
+
+<pre><code>add_index :users, :name
+add_index :users, :email, :unique =&gt; true   end end ```
+</code></pre>
+
+<h6 id="section-2">10 - 添加关联关系</h6>
+
+<p><code>
+rails g resource article user:references subject body:text
+</code></p>
+
+<p>会自动关联生成对应的 belongs_to 和 外键，并添加索引</p>
+
+<p><code>
+class CreateArticles &lt; ActiveRecord::Migration
+  def change
+    create_table :articles do |t|
+      t.references :user
+      t.string :subject
+      t.text :body
+      t.timestamps
+    end
+    add_index :articles, :user_id
+  end
+end
+</code></p>
+
+<p><code>
+class Article &lt; ActiveRecord::Base
+  belongs_to :user
+  attr_accessible :body, :subject
+end
+</code></p>
+
+<p>未完待续。。。太长了，还是分期吧</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rails view select 方法学习]]></title>
