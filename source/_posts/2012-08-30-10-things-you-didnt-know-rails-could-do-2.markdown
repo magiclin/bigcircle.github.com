@@ -14,7 +14,7 @@ description: 10 things you didn't know rails could do
 ```ruby
 rake db:migrate:status
 ```
-
+<!--more-->
 会输出 migration 的状态，这在解决迁移版本冲突的时候很有用
 
 ```
