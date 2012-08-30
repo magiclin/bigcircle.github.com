@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-31T00:10:16+08:00</updated>
+  <updated>2012-08-31T00:11:41+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -24,9 +24,9 @@
 
 <p><code>ruby
 rake db:migrate:status
-</code></p>
-
-<p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
+</code>
+<!--more-->
+会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
 
 <p>```
 database: db/development.sqlite3</p>
