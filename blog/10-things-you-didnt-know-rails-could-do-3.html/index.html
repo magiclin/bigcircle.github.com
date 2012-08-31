@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>你可能错过的 Rails 技巧(三) - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="10 things you didn't rails could do">
+  <meta name="keywords" content="rails, tricks">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">你可能错过的 Rails 技巧(三)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T09:55:00+08:00" pubdate data-updated="true">2012-08-31 09:55:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
+
+<!--more-->
+
+<h6 id="section">21 - 自动写文件</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="no">Q_DIR</span> <span class="o">=</span> <span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;comment_queue&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:mkpath</span><span class="p">)</span>
+</span><span class="line">  <span class="n">after_save</span> <span class="ss">:queue_comment</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">queue_comment</span>
+</span><span class="line">    <span class="no">File</span><span class="o">.</span><span class="n">atomic_write</span><span class="p">(</span><span class="no">Q_DIR</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Article: </span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;User:    </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="n">body</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>找了下 <a href="http://api.rubyonrails.org/">Api</a> 是 Rails 对 Ruby 基础类的扩展</p>
+
+<h6 id="hash">22 - 合并嵌套 Hash</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span><span class="o">.</span><span class="n">deep_merge</span><span class="p">(</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:one</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>主要是用到了 deep_merge 合并相同的 key</p>
+
+<h6 id="hash-except">23 - Hash except</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">controller</span><span class="p">:</span> <span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">from</span><span class="p">:</span> <span class="s2">&quot;Google&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:controller</span><span class="o">=&gt;</span><span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="ss">:action</span><span class="o">=&gt;</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="ss">:from</span><span class="o">=&gt;</span><span class="s2">&quot;Google&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">params</span><span class="o">.</span><span class="n">except</span><span class="p">(</span><span class="ss">:controller</span><span class="p">,</span> <span class="ss">:action</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:from</span><span class="o">=&gt;</span><span class="s2">&quot;Google&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个方法经常会用到，可能用的人也很多</p>
+
+<h6 id="add-defaultss-to-hash">24 - add defaultss to Hash</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">required</span><span class="p">:</span> <span class="kp">true</span><span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">optional</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:required</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">,</span> <span class="ss">:optional</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">required</span><span class="p">:</span> <span class="kp">true</span><span class="p">}</span><span class="o">.</span><span class="n">reverse_merge</span><span class="p">(</span><span class="n">optional</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:optional</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">,</span> <span class="ss">:required</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">required</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">optional</span><span class="p">:</span> <span class="kp">false</span><span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">optional</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:required</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">,</span> <span class="ss">:optional</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">required</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">optional</span><span class="p">:</span> <span class="kp">false</span><span class="p">}</span><span class="o">.</span><span class="n">reverse_merge</span><span class="p">(</span><span class="n">optional</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:optional</span><span class="o">=&gt;</span><span class="kp">false</span><span class="p">,</span> <span class="ss">:required</span><span class="o">=&gt;</span><span class="kp">true</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这几个都是对 Hash 类的增强，merge 会替换原有相同 key 的值，但 reverse_merge 不会</p>
+
+<p>从源码就可以看出，会事先 copy 一份 default hash</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">reverse_merge</span><span class="p">(</span><span class="n">other_hash</span><span class="p">)</span>
+</span><span class="line">  <span class="k">super</span>
+</span><span class="line">  <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">new_from_hash_copying_default</span><span class="p">(</span><span class="n">other_hash</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="stringvalue-">25 - String.value? 方法</h6>
+
+<p>看下面的几个例子</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;development&quot;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">env</span><span class="o">.</span><span class="n">development?</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">env</span><span class="o">.</span><span class="n">test?</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="s2">&quot;magic&quot;</span><span class="o">.</span><span class="n">inquiry</span><span class="o">.</span><span class="n">magic?</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">first</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;Article id: 1, ..., status: &quot;Draft&quot;&gt;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">draft?</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">published?</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>env, “magic” 可以直接使用 value? 的方法，这个扩展是 String#inquiry 方法</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">inquiry</span>
+</span><span class="line">  <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">StringInquirer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 用method_missing 实现</span>
+</span><span class="line"><span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">)</span>
+</span><span class="line">  <span class="k">if</span> <span class="n">method_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot;?&quot;</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">==</span> <span class="n">method_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">2</span><span class="o">]</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">    <span class="k">super</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>类型的一个例子，同样用到了 inquiry 方法</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="no">STATUSES</span> <span class="o">=</span> <span class="sx">%w[Draft Published]</span>
+</span><span class="line">  <span class="n">validates_inclusion_of</span> <span class="ss">:status</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="no">STATUSES</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class="line">    <span class="k">if</span> <span class="nb">method</span> <span class="o">=~</span> <span class="sr">/\A</span><span class="si">#{</span><span class="no">STATUSES</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:downcase</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span><span class="si">}</span><span class="sr">\?\z/</span>
+</span><span class="line">      <span class="n">status</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">inquiry</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">method</span><span class="p">)</span>
+</span><span class="line">    <span class="k">else</span>
+</span><span class="line">      <span class="k">super</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="section-1">26 - 让你成为杂志的封面 （暖场之用）</h6>
+
+<p>搞笑哥拿出了 DHH 当选 Linux journal 杂志封面的图片，会场也是哄堂大笑 ^.^</p>
+
+<p><img src="http://www.rubyinside.com/wp-content/uploads/2006/05/dhh.png" alt="" /></p>
+
+<h6 id="section-2">27 - 隐藏用户评论</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;!--</span> <span class="no">HTML</span> <span class="n">comments</span> <span class="n">stay</span> <span class="k">in</span> <span class="n">the</span> <span class="n">rendered</span> <span class="n">content</span> <span class="o">--&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sx">%# ERb comments do not %&gt;</span>
+</span><span class="line"><span class="sx">&lt;h1&gt;Home Page&lt;/h1&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="sx">#</span> <span class="err">生成的</span> <span class="n">html</span>
+</span><span class="line"><span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;!--</span> <span class="no">HTML</span> <span class="n">comments</span> <span class="n">stay</span> <span class="k">in</span> <span class="n">the</span> <span class="n">rendered</span> <span class="n">content</span> <span class="o">--&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Home</span> <span class="no">Page</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class="line"><span class="sr">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个一下没看懂。。试了下项目里面的代码，原来是隐藏的意思。。</p>
+
+<h6 id="erb-">28 - 理解更短的 erb 语法</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># ...</span>
+</span><span class="line"><span class="k">module</span> <span class="nn">Blog</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1"># Broken:  config.action_view.erb_trim_mode = &#39;%&#39;</span>
+</span><span class="line">    <span class="no">ActionView</span><span class="o">::</span><span class="no">Template</span><span class="o">::</span><span class="no">Handlers</span><span class="o">::</span><span class="no">ERB</span><span class="o">.</span><span class="n">erb_implementation</span> <span class="o">=</span>
+</span><span class="line">      <span class="no">Class</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ActionView</span><span class="o">::</span><span class="no">Template</span><span class="o">::</span><span class="no">Handlers</span><span class="o">::</span><span class="no">Erubis</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">        <span class="kp">include</span> <span class="o">::</span><span class="no">Erubis</span><span class="o">::</span><span class="no">PercentLineEnhancer</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="err">￼￼￼￼</span><span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>接着在 view 页面替换用 % 表示原来 &lt;% if %&gt; &lt;% end %&gt;，有点像 slim</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sx">% if </span><span class="n">current_user</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:admin?</span><span class="p">)</span>
+</span><span class="line">  <span class="o">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;edit_links&quot;</span> <span class="o">%&gt;</span>
+</span><span class="line"><span class="o">%</span> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="block-">29 - 用 block 避免视图层赋值</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="sx">% @cart.products.each </span><span class="k">do</span> <span class="o">|</span><span class="n">product</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class="line"><span class="sx">    &lt;tr&gt;</span>
+</span><span class="line">      <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="sx">%= product.name %&gt;&lt;/td&gt;</span>
+</span><span class="line"><span class="sx">      &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span> <span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="sx">%&gt;&lt;/td&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
+</span><span class="line"><span class="sr">  &lt;% end %&gt;</span>
+</span><span class="line"><span class="sr">  &lt;tr&gt;</span>
+</span><span class="line"><span class="sr">    &lt;td&gt;Subtotal&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="sx">%= number_to_currency @cart.total %&gt;&lt;/td&gt;</span>
+</span><span class="line"><span class="sx">  &lt;/tr&gt; </span>
+</span><span class="line"><span class="sx">  &lt;tr&gt;</span>
+</span><span class="line"><span class="sx">    &lt;td&gt;Tax&lt;/td&gt;</span>
+</span><span class="line"><span class="sx">    &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="n">tax</span> <span class="o">=</span> <span class="n">calculate_tax</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span><span class="p">))</span> <span class="sx">%&gt;&lt;/td&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
+</span><span class="line"><span class="sr">  &lt;tr&gt;</span>
+</span><span class="line"><span class="sr">    &lt;td&gt;Total&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span> <span class="o">+</span> <span class="n">tax</span><span class="p">)</span> <span class="sx">%&gt;&lt;/td&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
+</span><span class="line"><span class="sr">&lt;/</span><span class="n">table</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>tax = calculate_tax(@cart.total)</code> 会先被赋值再被下面引用</p>
+
+<p>用 block 重构下，把逻辑代码放到 helper 里面</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">module</span> <span class="nn">CartHelper</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">calculate_tax</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="n">current_user</span><span class="p">)</span>
+</span><span class="line">    <span class="n">tax</span> <span class="o">=</span> <span class="no">TaxTable</span><span class="o">.</span><span class="n">for</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</span><span class="line">    <span class="k">if</span> <span class="nb">block_given?</span>
+</span><span class="line">      <span class="k">yield</span> <span class="n">tax</span>
+</span><span class="line">    <span class="k">else</span>
+</span><span class="line">      <span class="n">tax</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="sx">% @cart.products.each </span><span class="k">do</span> <span class="o">|</span><span class="n">product</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class="line"><span class="sx">    &lt;tr&gt;</span>
+</span><span class="line">      <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="sx">%= product.name %&gt;&lt;/td&gt;</span>
+</span><span class="line"><span class="sx">      &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span> <span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="sx">%&gt;&lt;/td&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
+</span><span class="line"><span class="sr">  &lt;% end %&gt;</span>
+</span><span class="line"><span class="sr">  &lt;tr&gt;</span>
+</span><span class="line"><span class="sr">    &lt;td&gt;Subtotal&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="sx">%= number_to_currency @cart.total %&gt;&lt;/td&gt;</span>
+</span><span class="line"><span class="sx">  &lt;/tr&gt;</span>
+</span><span class="line"><span class="sx">  &lt;% calculate_tax @cart.total do |tax| %&gt;</span>
+</span><span class="line"><span class="sx">    &lt;tr&gt;</span>
+</span><span class="line"><span class="sx">      &lt;td&gt;Tax&lt;/td&gt;</span>
+</span><span class="line"><span class="sx">      &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span> <span class="n">tax</span> <span class="sx">%&gt;&lt;/td&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt; </span>
+</span><span class="line"><span class="sr">    &lt;tr&gt;</span>
+</span><span class="line"><span class="sr">      &lt;td&gt;Total&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+</span><span class="line">      <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span> <span class="o">+</span> <span class="n">tax</span><span class="p">)</span> <span class="sx">%&gt;&lt;/td&gt;</span>
+</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
+</span><span class="line"><span class="sr">  &lt;% end %&gt;</span>
+</span><span class="line"><span class="sr">&lt;/</span><span class="n">table</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="section-3">30 - 同时生成多个标签</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Articles</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class="line"><span class="sr">  &lt;% @articles.each do |article| %&gt;</span>
+</span><span class="line"><span class="sr">    &lt;%= content_tag_for(:div, article) do %&gt;</span>
+</span><span class="line"><span class="sr">    &lt;h2&gt;&lt;%= article.subject %&gt;&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class="line"><span class="sx">&lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="sx">%= content_tag_for(:div, @articles) do |article| %&gt;</span>
+</span><span class="line"><span class="sx">  &lt;h2&gt;&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">subject</span> <span class="sx">%&gt;&lt;/h2&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>content_tag_for 具体用法可以参考 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/RecordTagHelper.html#method-i-content_tag_for">Api</a>，意思比较明白</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T09:55:00+08:00" pubdate data-updated="true">2012-08-31 09:55:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/10-things-you-didnt-know-rails-could-do-2.html/" title="Previous Post: 你可能错过的 Rails 技巧(二)">&larr; 你可能错过的 Rails 技巧(二)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/octopress/'>Octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>Ruby (1)</a></li>
+<li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (4)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-seo-to-octopress.html/">Octopress Seo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/compile-textmate.html/">编译Textmate</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

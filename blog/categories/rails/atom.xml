@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-31T00:11:41+08:00</updated>
+  <updated>2012-08-31T14:43:49+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,276 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[你可能错过的 Rails 技巧(三)]]></title>
+    <link href="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/"/>
+    <updated>2012-08-31T09:55:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3</id>
+    <content type="html"><![CDATA[<p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
+
+<!--more-->
+
+<h6 id="section">21 - 自动写文件</h6>
+
+<p><code>ruby
+class Comment &lt; ActiveRecord::Base
+  # ...
+  Q_DIR = (Rails.root + "comment_queue").tap(&amp;:mkpath)
+  after_save :queue_comment
+  def queue_comment
+    File.atomic_write(Q_DIR + "#{id}.txt") do |f|
+      f.puts "Article: #{article.subject}"
+      f.puts "User:    #{user.name}"
+      f.puts body
+    end 
+  end
+end
+</code></p>
+
+<p>找了下 <a href="http://api.rubyonrails.org/">Api</a> 是 Rails 对 Ruby 基础类的扩展</p>
+
+<h6 id="hash">22 - 合并嵌套 Hash</h6>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; {nested: {one: 1}}.merge(nested: {two: 2})
+=&gt; {:nested=&gt;{:two=&gt;2}}
+&gt;&gt; {nested: {one: 1}}.deep_merge(nested: {two: 2})
+=&gt; {:nested=&gt;{:one=&gt;1, :two=&gt;2}}
+</code></p>
+
+<p>主要是用到了 deep_merge 合并相同的 key</p>
+
+<h6 id="hash-except">23 - Hash except</h6>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; params = {controller: "home", action: "index", from: "Google"}
+=&gt; {:controller=&gt;"home", :action=&gt;"index", :from=&gt;"Google"}
+&gt;&gt; params.except(:controller, :action)
+=&gt; {:from=&gt;"Google"}
+</code></p>
+
+<p>这个方法经常会用到，可能用的人也很多</p>
+
+<h6 id="add-defaultss-to-hash">24 - add defaultss to Hash</h6>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; {required: true}.merge(optional: true)
+=&gt; {:required=&gt;true, :optional=&gt;true}
+&gt;&gt; {required: true}.reverse_merge(optional: true)
+=&gt; {:optional=&gt;true, :required=&gt;true}
+&gt;&gt; {required: true, optional: false}.merge(optional: true)
+=&gt; {:required=&gt;true, :optional=&gt;true}
+&gt;&gt; {required: true, optional: false}.reverse_merge(optional: true)
+=&gt; {:optional=&gt;false, :required=&gt;true}
+</code></p>
+
+<p>这几个都是对 Hash 类的增强，merge 会替换原有相同 key 的值，但 reverse_merge 不会</p>
+
+<p>从源码就可以看出，会事先 copy 一份 default hash</p>
+
+<p><code>
+def reverse_merge(other_hash)
+  super 
+  self.class.new_from_hash_copying_default(other_hash)
+end
+</code></p>
+
+<h6 id="stringvalue-">25 - String.value? 方法</h6>
+
+<p>看下面的几个例子</p>
+
+<p><code>
+$ rails c
+Loading development environment (Rails 3.2.3)
+&gt;&gt; env = Rails.env
+=&gt; "development"
+&gt;&gt; env.development?
+=&gt; true
+&gt;&gt; env.test?
+=&gt; false
+&gt;&gt; "magic".inquiry.magic?
+=&gt; true
+&gt;&gt; article = Article.first
+=&gt; #&lt;Article id: 1, ..., status: "Draft"&gt;
+&gt;&gt; article.draft?
+=&gt; true
+&gt;&gt; article.published?
+=&gt; false
+</code></p>
+
+<p>env, “magic” 可以直接使用 value? 的方法，这个扩展是 String#inquiry 方法</p>
+
+<p>```
+def inquiry
+  ActiveSupport::StringInquirer.new(self)
+end</p>
+
+<h1 id="methodmissing-">用method_missing 实现</h1>
+<p>def method_missing(method_name, *arguments)
+  if method_name.to_s[-1,1] == “?”
+    self == method_name.to_s[0..-2]
+  else
+    super
+  end
+end
+```</p>
+
+<p>类型的一个例子，同样用到了 inquiry 方法</p>
+
+<p><code>
+class Article &lt; ActiveRecord::Base
+  # ...
+  STATUSES = %w[Draft Published]
+  validates_inclusion_of :status, in: STATUSES
+  def method_missing(method, *args, &amp;block)
+    if method =~ /\A#{STATUSES.map(&amp;:downcase).join("|")}\?\z/
+      status.downcase.inquiry.send(method)
+    else
+      super
+    end
+  end
+end
+</code></p>
+
+<h6 id="section-1">26 - 让你成为杂志的封面 （暖场之用）</h6>
+
+<p>搞笑哥拿出了 DHH 当选 Linux journal 杂志封面的图片，会场也是哄堂大笑 ^.^</p>
+
+<p><img src="http://www.rubyinside.com/wp-content/uploads/2006/05/dhh.png" alt="" /></p>
+
+<h6 id="section-2">27 - 隐藏用户评论</h6>
+
+<p>```
+<!-- HTML comments stay in the rendered content -->
+&lt;%# ERb comments do not %&gt;</p>
+<h1>Home Page</h1>
+
+<h1 id="html">生成的 html</h1>
+<body>
+<!-- HTML comments stay in the rendered content -->
+<h1>Home Page</h1>
+</body>
+<p>```</p>
+
+<p>这个一下没看懂。。试了下项目里面的代码，原来是隐藏的意思。。</p>
+
+<h6 id="erb-">28 - 理解更短的 erb 语法</h6>
+
+<p>```
+# …
+module Blog
+  class Application &lt; Rails::Application</p>
+
+<pre><code># Broken:  config.action_view.erb_trim_mode = '%'
+ActionView::Template::Handlers::ERB.erb_implementation =
+  Class.new(ActionView::Template::Handlers::Erubis) do
+    include ::Erubis::PercentLineEnhancer
+  end
+￼￼￼￼end   end end ```
+</code></pre>
+
+<p>接着在 view 页面替换用 % 表示原来 &lt;% if %&gt; &lt;% end %&gt;，有点像 slim</p>
+
+<p><code>
+% if current_user.try(:admin?)
+  &lt;%= render "edit_links" %&gt;
+% end
+</code></p>
+
+<h6 id="block-">29 - 用 block 避免视图层赋值</h6>
+
+<p>```</p>
+<table>
+  &lt;% @cart.products.each do |product| %&gt;
+    <tr>
+      <td>&lt;%= product.name %&gt;</td>
+      <td>&lt;%= number_to_currency product.price %&gt;</td>
+    </tr>
+  &lt;% end %&gt;
+  <tr>
+    <td>Subtotal</td>
+    <td>&lt;%= number_to_currency @cart.total %&gt;</td>
+  </tr> 
+  <tr>
+    <td>Tax</td>
+    <td>&lt;%= number_to_currency(tax = calculate_tax(@cart.total)) %&gt;</td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td>&lt;%= number_to_currency(@cart.total + tax) %&gt;</td>
+  </tr>
+</table>
+<p>```</p>
+
+<p><code>tax = calculate_tax(@cart.total)</code> 会先被赋值再被下面引用</p>
+
+<p>用 block 重构下，把逻辑代码放到 helper 里面</p>
+
+<p><code>
+module CartHelper
+  def calculate_tax(total, user = current_user)
+    tax = TaxTable.for(user).calculate(total)
+    if block_given?
+      yield tax
+    else
+      tax
+    end
+  end
+end
+</code></p>
+
+<p>```</p>
+<table>
+  &lt;% @cart.products.each do |product| %&gt;
+    <tr>
+      <td>&lt;%= product.name %&gt;</td>
+      <td>&lt;%= number_to_currency product.price %&gt;</td>
+    </tr>
+  &lt;% end %&gt;
+  <tr>
+    <td>Subtotal</td>
+    <td>&lt;%= number_to_currency @cart.total %&gt;</td>
+  </tr>
+  &lt;% calculate_tax @cart.total do |tax| %&gt;
+    <tr>
+      <td>Tax</td>
+      <td>&lt;%= number_to_currency tax %&gt;</td>
+    </tr> 
+    <tr>
+      <td>Total</td>
+      <td>&lt;%= number_to_currency(@cart.total + tax) %&gt;</td>
+    </tr>
+  &lt;% end %&gt;
+</table>
+<p>```</p>
+
+<h6 id="section-3">30 - 同时生成多个标签</h6>
+
+<p>```</p>
+<h1>Articles</h1>
+<p>&lt;% @articles.each do |article| %&gt;
+    &lt;%= content_tag_for(:div, article) do %&gt;
+    &lt;h2&gt;&lt;%= article.subject %&gt;&lt;/h2&gt;
+  &lt;% end %&gt;
+&lt;% end %&gt;
+```</p>
+
+<p>```
+&lt;%= content_tag_for(:div, @articles) do |article| %&gt;</p>
+<h2>&lt;%= article.subject %&gt;</h2>
+<p>&lt;% end %&gt;
+```</p>
+
+<p>content_tag_for 具体用法可以参考 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/RecordTagHelper.html#method-i-content_tag_for">Api</a>，意思比较明白</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[你可能错过的 Rails 技巧(二)]]></title>

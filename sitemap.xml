@@ -59,15 +59,21 @@
         <lastmod>2012-08-31T00:11:34+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3.html/
+        </loc>
+        <lastmod>2012-08-31T14:42:21+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://Bigcircle.github.com/about/</loc>
         <lastmod>2012-08-27T23:05:38+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/archives/</loc>
-        <lastmod>2012-08-31T00:11:34+08:00</lastmod>
+        <lastmod>2012-08-31T14:42:21+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/</loc>
-        <lastmod>2012-08-31T00:11:34+08:00</lastmod>
+        <lastmod>2012-08-31T14:42:21+08:00</lastmod>
     </url>
 </urlset>
