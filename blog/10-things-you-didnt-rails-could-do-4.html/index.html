@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>你可能错过的 Rails 技巧(四) - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="这个系列完结篇，貌似内容挺多，但是实用的没几个 从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过 怎么感觉太长的系列写起来也让我失去忍耐力呢。。。 这篇 blog 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧 31 - &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">你可能错过的 Rails 技巧(四)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T14:47:00+08:00" pubdate data-updated="true">2012-08-31 14:47:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
+
+<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过 <br />
+怎么感觉太长的系列写起来也让我失去忍耐力呢。。。
+<!--more-->
+这篇 <a href="http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/">blog</a> 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧</p>
+
+<h6 id="render-any-object">31 - Render Any Object</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Event</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">to_partial_path</span>
+</span><span class="line">    <span class="s2">&quot;events/</span><span class="si">#{</span><span class="n">trigger</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># events/edit or events/view</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="vi">@events</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:event</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="http://edgeapi.rubyonrails.org/classes/ActiveModel/Conversion.html#method-i-to_partial_path">to_partial_path</a> 是 ActiveModel 內建的实例方法，返回一个和可识别关联对象路径的字符串，原文是这么说的，目前还没看明白这么用的目的在哪</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Returns</span> <span class="n">a</span> <span class="n">string</span> <span class="n">identifying</span> <span class="n">the</span> <span class="n">path</span> <span class="n">associated</span> <span class="n">with</span> <span class="n">the</span> <span class="n">object</span><span class="o">.</span>
+</span><span class="line"><span class="no">ActionPack</span> <span class="n">uses</span> <span class="n">this</span> <span class="n">to</span> <span class="n">find</span> <span class="n">a</span> <span class="n">suitable</span> <span class="n">partial</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">the</span> <span class="n">object</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="group-option">32 - 生成 group option</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="sx">%= select_tag( :grouped_menu, grouped_options_for_select(</span>
+</span><span class="line"><span class="sx">  &quot;Group A&quot; =</span><span class="o">&gt;</span> <span class="sx">%w[One Two Three]</span><span class="p">,</span>
+</span><span class="line">  <span class="s2">&quot;Group B&quot;</span> <span class="o">=&gt;</span> <span class="sx">%w[One Two Three]</span>
+</span><span class="line"><span class="p">)</span> <span class="p">)</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个其实就是用到了 grouped_options_for_select ，我在前面的 <a href="http://dayuan.im/blog/explain-select-on-rails-hepler.html/">博文</a> 提到过这几个 select 的用法</p>
+
+<h6 id="form-">33 -定制你自己喜欢的 form 表单</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">LabeledFieldsWithErrors</span> <span class="o">&lt;</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">Helpers</span><span class="o">::</span><span class="no">FormBuilder</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">errors_for</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">errors</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="n">attribute</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">any?</span>
+</span><span class="line">      <span class="vi">@template</span><span class="o">.</span><span class="n">content_tag</span><span class="p">(</span><span class="ss">:span</span><span class="p">,</span> <span class="n">errors</span><span class="o">.</span><span class="n">to_sentence</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class="line">    <span class="k">if</span> <span class="sr">%r{ \A (?&lt;labeled&gt;labeled_)?</span>
+</span><span class="line"><span class="sr">              (?&lt;wrapped&gt;\w+?)</span>
+</span><span class="line"><span class="sr">              (?&lt;with_errors&gt;_with_errors)? \z }x</span> <span class="o">=~</span> <span class="nb">method</span> <span class="ow">and</span>
+</span><span class="line">       <span class="nb">respond_to?</span><span class="p">(</span><span class="n">wrapped</span><span class="p">)</span> <span class="ow">and</span> <span class="o">[</span><span class="n">labeled</span><span class="p">,</span> <span class="n">with_errors</span><span class="o">].</span><span class="n">any?</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:present?</span><span class="p">)</span>
+</span><span class="line">      <span class="n">attribute</span><span class="p">,</span> <span class="n">tags</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="o">[</span> <span class="o">]</span>
+</span><span class="line">      <span class="n">tags</span>           <span class="o">&lt;&lt;</span> <span class="n">label</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span> <span class="k">if</span> <span class="n">labeled</span><span class="o">.</span><span class="n">present?</span>
+</span><span class="line">      <span class="n">tags</span>           <span class="o">&lt;&lt;</span> <span class="nb">send</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class="line">      <span class="n">tags</span>           <span class="o">&lt;&lt;</span> <span class="n">errors_for</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span> <span class="k">if</span> <span class="n">with_errors</span><span class="o">.</span><span class="n">present?</span>
+</span><span class="line">      <span class="n">tags</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">html_safe</span>
+</span><span class="line">    <span class="k">else</span>
+</span><span class="line">      <span class="k">super</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>定义了几个不想去看懂的 method_missing 方法。。
+修改 application.rb，添加配置</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="nb">require</span> <span class="s2">&quot;labeled_fields_with_errors&quot;</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">default_form_builder</span> <span class="o">=</span> <span class="no">LabeledFieldsWithErrors</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">field_error_proc</span>     <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="p">{</span> <span class="n">field</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建 form 表单可以这样书写</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="sx">%= form_for @article do |f| %&gt;</span>
+</span><span class="line"><span class="sx">  &lt;p&gt;&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;</span><span class="sx">%= f.labeled_text_field</span>
+</span><span class="line"><span class="sx">  &lt;p&gt;&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field_with_errors</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;</span><span class="sx">%= f.labeled_text_field_with_errors :subject %&gt;&lt;/p&gt;</span>
+</span><span class="line"><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="sx">%&gt;</span>
+</span><span class="line"><span class="sx">&lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>生成如下的 html 页面</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;</span><span class="n">input</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;article_subject&quot;</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;article[subject]&quot;</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;30&quot;</span> <span class="n">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="sr">/&gt;&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;article_subject&quot;</span><span class="o">&gt;</span><span class="no">Subject</span><span class="o">&lt;</span><span class="sr">/label&gt;</span>
+</span><span class="line"><span class="sr">   &lt;input id=&quot;article_subject&quot; name=&quot;article[subject]&quot; size=&quot;30&quot; type=&quot;text&quot; value=&quot;&quot; /</span><span class="o">&gt;&lt;</span><span class="sr">/p&gt;</span>
+</span><span class="line"><span class="sr">&lt;p&gt;&lt;input id=&quot;article_subject&quot; name=&quot;article[subject]&quot; size=&quot;30&quot; type=&quot;text&quot; value=&quot;&quot; /</span><span class="o">&gt;</span>
+</span><span class="line">   <span class="o">&lt;</span><span class="n">span</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="o">&gt;</span><span class="n">can</span><span class="s1">&#39;t be blank&lt;/span&gt;&lt;/p&gt;</span>
+</span><span class="line"><span class="s1">&lt;p&gt;&lt;label for=&quot;article_subject&quot;&gt;Subject&lt;/label&gt;</span>
+</span><span class="line"><span class="s1">   &lt;input id=&quot;article_subject&quot; name=&quot;article[subject]&quot; size=&quot;30&quot; type=&quot;text&quot; value=&quot;&quot; /&gt;</span>
+</span><span class="line"><span class="s1">   &lt;span class=&quot;error&quot;&gt;can&#39;</span><span class="n">t</span> <span class="n">be</span> <span class="n">blank</span><span class="o">&lt;</span><span class="sr">/span&gt;&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;!--</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="o">--&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>不是很喜欢这种方式，反而把简单的html搞复杂了，让后来维护的人增加额外的学习成本</p>
+
+<h6 id="inspire-theme-songs-about-your-work-">34 - Inspire theme songs about your work (再次暖场时刻)</h6>
+
+<p>2011年 Farmhouse Conf 上主持人 Ron Evans 专门用口琴演奏了为大神 Tenderlove 写的歌 - <a href="http://www.confreaks.com/videos/529-farmhouseconf-ruby-hero-tenderlove">Ruby Hero Tenderlove! </a>，听了半天不知道唱的啥。。</p>
+
+<p>想找下有没有美女 Rubist, 看了下貌似没有，都是大妈，这位 <a href="http://www.confreaks.com/videos/534-farmhouseconf-meghann-millard">Meghann Millard</a> 尚可远观，大姐装束妖娆，手握纸条，蚊蝇环绕，不时微笑，长的真有点像 gossip girl 里面的 Jenny Humphrey</p>
+
+<h6 id="section">35 - 灵活的异常操作</h6>
+
+<p>修改 application.rb 定义</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class="line"><span class="c1"># ...</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">exceptions_app</span> <span class="o">=</span> <span class="n">routes</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>每次有异常时路由都会被调用，你可以用下面的方法简单 render 404 页面</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">match</span> <span class="s2">&quot;/404&quot;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;errors#not_found&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个例子也在开头提到的那篇博文里面，感兴趣可以去自己研究下</p>
+
+<h6 id="sinatra-">36 - 给 Sinatra 添加路由</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">-</span> <span class="no">Gemfile</span>
+</span><span class="line">
+</span><span class="line"><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class="line"><span class="c1"># ...</span>
+</span><span class="line"><span class="n">gem</span> <span class="s2">&quot;resque&quot;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s2">&quot;resque/server&quot;</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="k">module</span> <span class="nn">AdminValidator</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">matches?</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;rack.session&quot;</span><span class="o">][</span><span class="s2">&quot;user_id&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class="line">      <span class="n">current_user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class="line">      <span class="n">current_user</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:admin?</span><span class="p">)</span>
+</span><span class="line">    <span class="k">else</span>
+</span><span class="line">      <span class="kp">false</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>挂载 Resque::Server 至 /admin/resque</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Blog</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="nb">require</span> <span class="s2">&quot;admin_validator&quot;</span>
+</span><span class="line">  <span class="n">constraints</span> <span class="no">AdminValidator</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">mount</span> <span class="no">Resque</span><span class="o">::</span><span class="no">Server</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="s2">&quot;/admin/resque&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个也没有试验，不清楚具体用法，sinatra 平时也基本不用</p>
+
+<h6 id="csv">　37 - 导出CSV流</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">index</span>
+</span><span class="line">    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class="line">      <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="k">do</span>
+</span><span class="line">        <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">      <span class="nb">format</span><span class="o">.</span><span class="n">csv</span> <span class="k">do</span>
+</span><span class="line">        <span class="n">headers</span><span class="o">[</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="sx">%Q{attachment; filename=&quot;articles.csv&quot;}</span>
+</span><span class="line">        <span class="nb">self</span><span class="o">.</span><span class="n">response_body</span> <span class="o">=</span> <span class="no">Enumerator</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+</span><span class="line">          <span class="n">csv</span>  <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">row_sep</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="line">          <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="sx">%w[Subject Created Status]</span>
+</span><span class="line">          <span class="no">Article</span><span class="o">.</span><span class="n">find_each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
+</span><span class="line">            <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="o">[</span> <span class="n">article</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span>
+</span><span class="line">                     <span class="n">article</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="ss">:long</span><span class="p">),</span>
+</span><span class="line">                     <span class="n">article</span><span class="o">.</span><span class="n">status</span> <span class="o">]</span>
+</span><span class="line">        <span class="err">￼￼</span>	<span class="k">end</span>
+</span><span class="line">        <span class="k">end</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="c1"># ...</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>导出 csv 是很常用的功能，很多时候报表都需要，这个还是比较实用的</p>
+
+<h6 id="do-some-work-in-the-background">38 - do some work in the background</h6>
+
+<p>给 articles 添加文本类型 stats 字段</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rails</span> <span class="n">g</span> <span class="n">migration</span> <span class="n">add_stats_to_articles</span> <span class="n">stats</span><span class="ss">:text</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>添加一个计算 stats 方法 和 一个 after_create 方法，在创建一条记录后，会把 calculate_stats 添加到 Queue 队列，当队列中有任务时，后台创建一个线程执行该 job</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="n">serialize</span> <span class="ss">:stats</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">calculate_stats</span>
+</span><span class="line">    <span class="n">words</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="line">    <span class="n">body</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/\S+/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">words</span><span class="o">[</span><span class="n">word</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">10</span>  <span class="c1"># simulate a lot of work</span>
+</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="n">words</span><span class="p">:</span> <span class="n">words</span><span class="p">}</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="nb">require</span> <span class="s2">&quot;thread&quot;</span>
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">queue</span><span class="p">;</span> <span class="vi">@queue</span> <span class="o">||=</span> <span class="no">Queue</span><span class="o">.</span><span class="n">new</span> <span class="k">end</span>
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">thread</span>
+</span><span class="line">    <span class="vi">@thread</span> <span class="o">||=</span> <span class="no">Thread</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+</span><span class="line">      <span class="k">while</span> <span class="n">job</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">pop</span>
+</span><span class="line">        <span class="n">job</span><span class="o">.</span><span class="n">call</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">  <span class="n">thread</span>  <span class="c1"># start the Thread</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">after_create</span> <span class="ss">:add_stats</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">add_stats</span>
+</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">queue</span> <span class="o">&lt;&lt;</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">calculate_stats</span><span class="p">;</span> <span class="n">save</span> <span class="p">}</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>添加一条记录，10秒后会自动给该记录 stats 字段添加 words Hash</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="no">Article</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">subject</span><span class="p">:</span> <span class="s2">&quot;Stats&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Lorem ipsum...&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;15:24:10&quot;</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="o">[</span><span class="no">Article</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span><span class="o">]</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="p">,</span> <span class="s2">&quot;15:24:13&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="o">[</span><span class="no">Article</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span><span class="o">]</span>
+</span><span class="line"><span class="o">=&gt;[</span><span class="p">{</span><span class="ss">:words</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;Lorem&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;ipsum&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">},</span> <span class="s2">&quot;15:24:26&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="rails-">39 - 用 Rails 生成静态站点</h6>
+
+<p>修改 config/environment/development.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Static</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="c1"># Show full error reports and disable caching</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">consider_all_requests_local</span>       <span class="o">=</span> <span class="kp">true</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">perform_caching</span> <span class="o">=</span> <span class="o">!!</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;GENERATING_SITE&quot;</span><span class="o">]</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="c1"># Don&#39;t fallback to assets pipeline if a precompiled asset is missed</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">compile</span> <span class="o">=</span> <span class="o">!</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;GENERATING_SITE&quot;</span><span class="o">]</span>
+</span><span class="line">  <span class="c1"># Generate digests for assets URLs</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">digest</span> <span class="o">=</span> <span class="o">!!</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;GENERATING_SITE&quot;</span><span class="o">]</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="n">protect_from_forgery</span>
+</span><span class="line">  <span class="k">if</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;GENERATING_SITE&quot;</span><span class="o">]</span>
+</span><span class="line">    <span class="n">after_filter</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">      <span class="n">c</span><span class="o">.</span><span class="n">cache_page</span><span class="p">(</span><span class="kp">nil</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">BEST_COMPRESSION</span><span class="p">)</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>修改 rake static:generate 任务</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;open-uri&quot;</span>
+</span><span class="line"><span class="n">namespace</span> <span class="ss">:static</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">desc</span> <span class="s2">&quot;Generate a static copy of the site&quot;</span>
+</span><span class="line">  <span class="n">task</span> <span class="ss">:generate</span> <span class="o">=&gt;</span> <span class="sx">%w[environment assets:precompile]</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">site</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;RSYNC_SITE_TO&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="nb">fail</span> <span class="s2">&quot;Must set RSYNC_SITE_TO&quot;</span> <span class="p">}</span>
+</span><span class="line">    <span class="n">server</span> <span class="o">=</span> <span class="n">spawn</span><span class="p">(</span> <span class="p">{</span><span class="s2">&quot;GENERATING_SITE&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;true&quot;</span><span class="p">},</span>
+</span><span class="line">                    <span class="s2">&quot;bundle exec rails s thin -p 3001&quot;</span> <span class="p">)</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">10</span>  <span class="c1"># FIXME: start when the server is up</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1"># FIXME: improve the following super crude spider</span>
+</span><span class="line">    <span class="n">paths</span> <span class="o">=</span> <span class="sx">%w[/]</span>
+</span><span class="line">    <span class="n">files</span> <span class="o">=</span> <span class="o">[</span> <span class="o">]</span>
+</span><span class="line">    <span class="k">while</span> <span class="n">path</span> <span class="o">=</span> <span class="n">paths</span><span class="o">.</span><span class="n">shift</span>
+</span><span class="line">      <span class="n">files</span> <span class="o">&lt;&lt;</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;public&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sr">%r{/\z}</span><span class="p">,</span> <span class="s2">&quot;/index&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">)</span>
+</span><span class="line">      <span class="no">File</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">last</span><span class="p">)</span> <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span> <span class="n">files</span><span class="o">.</span><span class="n">last</span>
+</span><span class="line">      <span class="n">files</span> <span class="o">&lt;&lt;</span> <span class="n">files</span><span class="o">.</span><span class="n">last</span> <span class="o">+</span> <span class="s2">&quot;.gz&quot;</span>
+</span><span class="line">      <span class="no">File</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">last</span><span class="p">)</span> <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span> <span class="n">files</span><span class="o">.</span><span class="n">last</span>
+</span><span class="line">      <span class="n">page</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;http://localhost:3001</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span> <span class="n">url</span><span class="o">.</span><span class="n">read</span> <span class="p">}</span>
+</span><span class="line">      <span class="n">page</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/&lt;a[^&gt;]+href=&quot;([^&quot;]+)&quot;/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">link</span><span class="o">|</span>
+</span><span class="line">        <span class="n">paths</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="o">.</span><span class="n">first</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;rsync -a public </span><span class="si">#{</span><span class="n">site</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="s2">&quot;INT&quot;</span><span class="p">,</span> <span class="n">server</span><span class="p">)</span>
+</span><span class="line">    <span class="no">Process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
+</span><span class="line">    <span class="nb">system</span><span class="p">(</span><span class="s2">&quot;bundle exec rake assets:clean&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="n">files</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class="line">      <span class="no">File</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>生成到某个地方，去查看吧</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rake</span> <span class="n">static</span><span class="ss">:generate</span> <span class="no">RSYNC_SITE_TO</span><span class="o">=</span><span class="sr">/Users/</span><span class="n">james</span><span class="o">/</span><span class="no">Desktop</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>后面几个都不感兴趣，没有测试，说好的42个，瞎扯了3个pass掉了，实在是吐血了</p>
+
+<p>Over.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T14:47:00+08:00" pubdate data-updated="true">2012-08-31 14:47:00</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/10-things-you-didnt-know-rails-could-do-3.html/" title="Previous Post: 你可能错过的 Rails 技巧(三)">&larr; 你可能错过的 Rails 技巧(三)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/octopress/'>Octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>Ruby (1)</a></li>
+<li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (4)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-seo-to-octopress.html/">Octopress Seo</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
