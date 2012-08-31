@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-08-31T18:44:22+08:00</updated>
+  <updated>2012-08-31T19:06:44+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[你可能错过的 Rails 技巧(四)]]></title>
-    <link href="http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4.html/"/>
+    <link href="http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-4.html/"/>
     <updated>2012-08-31T14:47:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/10-things-you-didnt-rails-could-do-4</id>
+    <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-4</id>
     <content type="html"><![CDATA[<p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
 
 <p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过 <br />
