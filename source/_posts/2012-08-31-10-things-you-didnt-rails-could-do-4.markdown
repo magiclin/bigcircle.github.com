@@ -3,9 +3,9 @@ layout: post
 title: "你可能错过的 Rails 技巧(四)"
 date: 2012-08-31 14:47
 comments: true
-categories: 
-keywords: 
-description: 
+categories: [rails]
+keywords: rails tricks
+description: 10 things you didn't rails could do
 ---
 这个系列完结篇，貌似内容挺多，但是实用的没几个
 
