@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>编译Textmate - Hi, I’m dayuan</title>
+  <title>Sublime Text 2 使用 RVM  - Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="前段时间 Textmate 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。 Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 &hellip;">
-  
+  <meta name="description" content="use rvm ruby in sublime text 2">
+  <meta name="keywords" content="mac, sublime text 2, ruby">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/blog/compile-textmate.html/">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">编译Textmate</h1>
+      <h1 class="entry-title">Sublime Text 2 使用 RVM</h1>
     
     
       <p class="meta">
@@ -93,7 +93,7 @@
   
 
 
-<time datetime="2012-08-28T23:43:00+08:00" pubdate data-updated="true">2012-08-28 23:43:00</time>
+<time datetime="2012-09-01T13:43:00+08:00" pubdate data-updated="true">2012-09-01 13:43:00</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -102,85 +102,69 @@
   </header>
 
 
-<div class="entry-content"><p>前段时间 <a href="http://macromates.com/">Textmate</a> 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。   </p>
-
-<p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
-
+<div class="entry-content"><p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
 <!--more-->
-
-<p>我从做开发伊始就一直用的 Sublime Text 2，也是一个大量借鉴 Textmate 理念和功能的产品，易用性相当不错，也有很多现成的包可以用，跨平台，不爽的是快捷键不能跨，windows下快捷键得另改，好在现在已经不需要切到 windows 了，也就少了这个烦恼。上次在 v2ex 看到有人发编译后的app，感觉编译应该不是很难。以前一直想试用下，但是version 1下的汉字显示实在是不行，现在升级到版本2了貌似解决了这个问题，就尝试着编译个尝尝鲜，看和 ST2 哪个更好用</p>
-
-<p>Github 上托管地址 <a href="https://github.com/textmate/textmate">Here</a></p>
-
-<h5 id="section">安装编译所需工具</h5>
+默认自带的 build 目录位于</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">ragel</span> <span class="n">boost</span> <span class="n">multimarkdown</span> <span class="n">hg</span> <span class="n">ninja</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span><span class="err">\</span> <span class="n">Support</span><span class="o">/</span><span class="n">Sublime</span><span class="err">\</span> <span class="n">Text</span><span class="err">\</span> <span class="mi">2</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">Ruby</span><span class="o">/</span><span class="n">Ruby</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">build</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢 <br />
-ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下</p>
-
-<h5 id="pgrep-pkill">查看是否有 pgrep pkill</h5>
+<p>默认的配置是这样的</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">which</span> <span class="n">pgrep</span> <span class="n">pkill</span>
-</span><span class="line"><span class="cp"># 如果没有的话需要安装 proctools</span>
-</span><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">proctools</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
+</span><span class="line"><span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.ruby&quot;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h5 id="clang-32--40-">需要clang 3.2 / 4.0 版本</h5>
+<p>切换到 rvm 只需要改 cmd - ruby 指向路径</p>
 
-<p>一般安装了 xcode 都已经安装好了 clang，直接查看版本</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/Users/yourname/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>你也可以自己改成 rvm 默认的 default ruby</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">clang</span> <span class="o">-</span><span class="n">v</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">which</span> <span class="n">ruby</span>
 </span><span class="line">
-</span><span class="line"><span class="n">Apple</span> <span class="n">clang</span> <span class="n">version</span> <span class="mf">4.0</span> <span class="p">(</span><span class="n">tags</span><span class="o">/</span><span class="n">Apple</span><span class="o">/</span><span class="n">clang</span><span class="o">-</span><span class="mf">421.0.60</span><span class="p">)</span> <span class="p">(</span><span class="n">based</span> <span class="n">on</span> <span class="n">LLVM</span> <span class="mf">3.1</span><span class="n">svn</span><span class="p">)</span>
-</span><span class="line"><span class="nl">Target:</span> <span class="n">x86_64</span><span class="o">-</span><span class="n">apple</span><span class="o">-</span><span class="n">darwin12</span><span class="mf">.1.0</span>
-</span><span class="line"><span class="n">Thread</span> <span class="n">model</span><span class="o">:</span> <span class="n">posix</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yourname</span><span class="o">/</span><span class="p">.</span><span class="n">rvm</span><span class="o">/</span><span class="n">rubies</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">1.9.3</span><span class="o">-</span><span class="n">p194</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">ruby</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>默认执行快捷键是 <code>⌘ + b</code> / <code>F7</code>，可以自己定义成喜欢的按键</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="p">{</span> <span class="s">&quot;keys&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;super+b&quot;</span><span class="p">],</span> <span class="s">&quot;command&quot;</span><span class="o">:</span> <span class="s">&quot;build&quot;</span> <span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如何构建不用语言的 build，参考 <a href="http://addyosmani.com/blog/custom-sublime-text-build-systems-for-popular-tools-and-languages/">这篇</a>，差不多列举全了，构造方式也很简单</p>
+
+<hr />
+
+<p>另外推荐个我比较最用的快捷键</p>
+
+<ul>
+  <li>在打开的几个标签之间前后切换。当打开很多标签时，又不喜欢用鼠标点来点去的可以试下这个</li>
+</ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="cp"># 没有的话安装 llvm 套件</span>
-</span><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="o">--</span><span class="n">HEAD</span> <span class="n">llvm</span> <span class="o">--</span><span class="n">with</span><span class="o">-</span><span class="n">clang</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="p">{</span> <span class="s">&quot;keys&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;super+1&quot;</span><span class="p">],</span> <span class="s">&quot;command&quot;</span><span class="o">:</span> <span class="s">&quot;prev_view&quot;</span> <span class="p">},</span>
+</span><span class="line"><span class="p">{</span> <span class="s">&quot;keys&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;super+2&quot;</span><span class="p">],</span> <span class="s">&quot;command&quot;</span><span class="o">:</span> <span class="s">&quot;next_view&quot;</span> <span class="p">},</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h5 id="start-compile">start compile</h5>
+<p>这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="o">:</span><span class="c1">//github.com/textmate/textmate.git</span>
-</span><span class="line"><span class="n">cd</span> <span class="n">textmate</span>
-</span><span class="line"><span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span> <span class="o">--</span><span class="n">init</span>
-</span><span class="line"><span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">&amp;&amp;</span> <span class="n">ninja</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><img src="http://m2.img.libdd.com/farm4/2012/0901/15/57756B60A70B4B4D6BEE07D177C25C55C856F5189977_500_448.jpg" alt="" /></p>
 
-<p>作者用 ninja 取代了 make 进行编译和安装</p>
+<p>其他我定义的快捷键都在 <a href="https://github.com/Bigcircle/config/blob/master/sublime/User/Default%20(OSX).sublime-keymap">这</a>，有需要的可以去淘几个</p>
 
-<p>编译完了图标居然变成了菊花。。以前的图标差不多成为了一个标志，实在是理解不能。。</p>
-
-<p>生成的 app 文件位于</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="o">~/</span><span class="n">build</span><span class="o">/</span><span class="n">TextMate</span><span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">TextMate</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>图标就是那朵粉嫩的菊花。。难看死了</p>
-
-<p>最后贴上一张芙蓉照</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/2012/0829/00/00A980D9C6A159F9467E71EFCE4485420E266C05049E_1190_714.PNG" alt="" /></p>
-
+<p>工欲善其事，必先利其器，利用好工具可以给开发带来很大的便利，节省很多时间</p>
 </div>
 
 
@@ -203,12 +187,12 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
   
 
 
-<time datetime="2012-08-28T23:43:00+08:00" pubdate data-updated="true">2012-08-28 23:43:00</time>
+<time datetime="2012-09-01T13:43:00+08:00" pubdate data-updated="true">2012-09-01 13:43:00</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/mac/'>mac</a>
+    <a class='category' href='/blog/categories/mac/'>mac</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -217,7 +201,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/compile-textmate.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/compile-textmate.html/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/" >Tweet</a>
   
   
   
@@ -226,10 +210,8 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/explain-select-on-rails-hepler.html/" title="Previous Post: rails view select 方法学习">&larr; rails view select 方法学习</a>
+        <a class="basic-alignment left" href="/blog/10-things-you-didnt-know-rails-could-do-4.html/" title="Previous Post: 你可能错过的 Rails 技巧(四)">&larr; 你可能错过的 Rails 技巧(四)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/add-seo-to-octopress.html/" title="Next Post: Octopress Seo">Octopress Seo &rarr;</a>
       
     </p>
   </footer>
@@ -305,8 +287,8 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://Bigcircle.github.com/blog/compile-textmate.html/';
-        var disqus_url = 'http://Bigcircle.github.com/blog/compile-textmate.html/';
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/';
         var disqus_script = 'embed.js';
       
     (function () {

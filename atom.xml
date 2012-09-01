@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-01T12:24:59+08:00</updated>
+  <updated>2012-09-01T15:42:17+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime Text 2 使用 RVM ]]></title>
+    <link href="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/"/>
+    <updated>2012-09-01T13:43:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2</id>
+    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
+<!--more-->
+默认自带的 build 目录位于</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span><span class="err">\</span> <span class="n">Support</span><span class="o">/</span><span class="n">Sublime</span><span class="err">\</span> <span class="n">Text</span><span class="err">\</span> <span class="mi">2</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">Ruby</span><span class="o">/</span><span class="n">Ruby</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">build</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>默认的配置是这样的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
+</span><span class="line"><span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.ruby&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>切换到 rvm 只需要改 cmd - ruby 指向路径</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/Users/yourname/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>你也可以自己改成 rvm 默认的 default ruby</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">which</span> <span class="n">ruby</span>
+</span><span class="line">
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yourname</span><span class="o">/</span><span class="p">.</span><span class="n">rvm</span><span class="o">/</span><span class="n">rubies</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">1.9.3</span><span class="o">-</span><span class="n">p194</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">ruby</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>默认执行快捷键是 <code>⌘ + b</code> / <code>F7</code>，可以自己定义成喜欢的按键</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="p">{</span> <span class="s">&quot;keys&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;super+b&quot;</span><span class="p">],</span> <span class="s">&quot;command&quot;</span><span class="o">:</span> <span class="s">&quot;build&quot;</span> <span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如何构建不用语言的 build，参考 <a href="http://addyosmani.com/blog/custom-sublime-text-build-systems-for-popular-tools-and-languages/">这篇</a>，差不多列举全了，构造方式也很简单</p>
+
+<hr />
+
+<p>另外推荐个我比较最用的快捷键</p>
+
+<ul>
+  <li>在打开的几个标签之间前后切换。当打开很多标签时，又不喜欢用鼠标点来点去的可以试下这个</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="p">{</span> <span class="s">&quot;keys&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;super+1&quot;</span><span class="p">],</span> <span class="s">&quot;command&quot;</span><span class="o">:</span> <span class="s">&quot;prev_view&quot;</span> <span class="p">},</span>
+</span><span class="line"><span class="p">{</span> <span class="s">&quot;keys&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;super+2&quot;</span><span class="p">],</span> <span class="s">&quot;command&quot;</span><span class="o">:</span> <span class="s">&quot;next_view&quot;</span> <span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app</p>
+
+<p><img src="http://m2.img.libdd.com/farm4/2012/0901/15/57756B60A70B4B4D6BEE07D177C25C55C856F5189977_500_448.jpg" alt="" /></p>
+
+<p>其他我定义的快捷键都在 <a href="https://github.com/Bigcircle/config/blob/master/sublime/User/Default%20(OSX).sublime-keymap">这</a>，有需要的可以去淘几个</p>
+
+<p>工欲善其事，必先利其器，利用好工具可以给开发带来很大的便利，节省很多时间</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[你可能错过的 Rails 技巧(四)]]></title>
