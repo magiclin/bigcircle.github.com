@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-01T15:42:17+08:00</updated>
+  <updated>2012-09-01T15:54:41+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -36,10 +36,10 @@
 </span><span class="line"><span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.ruby&quot;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>切换到 rvm 只需要改 cmd - ruby 指向路径</p>
+<p>切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/Users/yourname/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/Users/yourname/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;-KU&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>你也可以自己改成 rvm 默认的 default ruby</p>

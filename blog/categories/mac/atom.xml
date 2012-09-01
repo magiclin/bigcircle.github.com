@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-01T15:42:17+08:00</updated>
+  <updated>2012-09-01T15:54:41+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -34,10 +34,10 @@
 "selector": "source.ruby"
 </code></p>
 
-<p>切换到 rvm 只需要改 cmd - ruby 指向路径</p>
+<p>切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8</p>
 
 <p><code>
-"cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "$file"]
+"cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "-KU", "$file"]
 </code></p>
 
 <p>你也可以自己改成 rvm 默认的 default ruby</p>
