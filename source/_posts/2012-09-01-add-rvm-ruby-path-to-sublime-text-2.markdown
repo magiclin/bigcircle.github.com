@@ -47,7 +47,7 @@ which ruby
 
 ------
 
-另外推荐个我比较最用的快捷键
+另外推荐个我最常用的快捷键
 
 - 在打开的几个标签之间前后切换。当打开很多标签时，又不喜欢用鼠标点来点去的可以试下这个
 
@@ -56,7 +56,7 @@ which ruby
 { "keys": ["super+2"], "command": "next_view" },
 ```
 
-这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app
+这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app，设置方式如下
 
 ![](http://m2.img.libdd.com/farm4/2012/0901/15/57756B60A70B4B4D6BEE07D177C25C55C856F5189977_500_448.jpg)
 
