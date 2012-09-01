@@ -9,9 +9,9 @@ description: 10 things you didn't rails could do
 ---
 这个系列完结篇，貌似内容挺多，但是实用的没几个
 
-从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过   
-怎么感觉太长的系列写起来也让我失去忍耐力呢。。。
+从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇
 <!--more-->
+
 这篇 [blog](http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/) 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧
 
 ###### 31 - Render Any Object
