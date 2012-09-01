@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-01T15:54:41+08:00</updated>
+  <updated>2012-09-01T16:00:36+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -58,7 +58,7 @@ which ruby</p>
 
 <hr />
 
-<p>另外推荐个我比较最用的快捷键</p>
+<p>另外推荐个我最常用的快捷键</p>
 
 <ul>
   <li>在打开的几个标签之间前后切换。当打开很多标签时，又不喜欢用鼠标点来点去的可以试下这个</li>
@@ -69,7 +69,7 @@ which ruby</p>
 { "keys": ["super+2"], "command": "next_view" },
 </code></p>
 
-<p>这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app</p>
+<p>这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app，设置方式如下</p>
 
 <p><img src="http://m2.img.libdd.com/farm4/2012/0901/15/57756B60A70B4B4D6BEE07D177C25C55C856F5189977_500_448.jpg" alt="" /></p>
 
