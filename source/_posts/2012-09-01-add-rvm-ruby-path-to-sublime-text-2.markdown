@@ -23,10 +23,10 @@ description: use rvm ruby in sublime text 2
 "selector": "source.ruby"
 ```
 
-切换到 rvm 只需要改 cmd - ruby 指向路径
+切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8
 
 ```
-"cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "$file"]
+"cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "-KU", "$file"]
 ```
 
 你也可以自己改成 rvm 默认的 default ruby
