@@ -5,19 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hi, I’m dayuan</title>
+  <title>Rails 技巧之 tap & try - Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥 从 tap 的 Api 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self. 1
-2
-3
-4
-5
-6
-7
-1.9. &hellip;">
-  
+  <meta name="description" content="rails tricks about tap try">
+  <meta name="keywords" content="rails trick tap try">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -25,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/index.html">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,15 +72,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 Tap & Try</a></h1>
+      <h1 class="entry-title">Rails 技巧之 Tap & Try</h1>
     
     
       <p class="meta">
@@ -105,14 +95,14 @@
 
 <time datetime="2012-09-03T14:38:00+08:00" pubdate data-updated="true">2012-09-03 14:38:00</time>
         
-         | <a href="/blog/rails-tricks-about-tap-and-try.html/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
+<div class="entry-content"><p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
 
 <p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
 
@@ -217,64 +207,16 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 <p>通过源码可以看出 tap 和 try 两个小工具意思都非常明白，用起来也很简单方便，实乃居家简化好帮手</p>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
 
-<time datetime="2012-09-01T13:43:00+08:00" pubdate data-updated="true">2012-09-01 13:43:00</time>
-        
-         | <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -286,220 +228,44 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
   
 
 
-<time datetime="2012-08-31T14:47:00+08:00" pubdate data-updated="true">2012-08-31 14:47:00</time>
-        
-         | <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
-
-<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2012-09-03T14:38:00+08:00" pubdate data-updated="true">2012-09-03 14:38:00</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/rails/'>rails</a>
+  
+</span>
 
 
-<time datetime="2012-08-31T09:55:00+08:00" pubdate data-updated="true">2012-08-31 09:55:00</time>
-        
-         | <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/#disqus_thread">Comments</a>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
-
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">Read more &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-30T21:39:00+08:00" pubdate data-updated="true">2012-08-30 21:39:00</time>
-        
-         | <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>接着上期说 <a href="http://dayuan.im/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a></p>
-
-<h6 id="section">11 - 显示数据迁移记录</h6>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate:status</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/" title="Previous Post: Sublime Text 2 使用 RVM ">&larr; Sublime Text 2 使用 RVM </a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-30T11:22:00+08:00" pubdate data-updated="true">2012-08-30 11:22:00</time>
-        
-         | <a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>记得前段时间 RailsConf2012 之后看过一个不错的pdf，<a href="https://speakerdeck.com/u/jeg2/p/10-things-you-didnt-know-rails-could-do">10 things you didn’t know rails could do</a></p>
-
-<p>说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下</p>
-
-<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-seo-to-octopress.html/">Octopress Seo</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-29T21:50:00+08:00" pubdate data-updated="true">2012-08-29 21:50:00</time>
-        
-         | <a href="/blog/add-seo-to-octopress.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
-
-<ul>
-  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a> </li>
-  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-seo-to-octopress.html/">Read more &rarr;</a>
-    </footer>
-  
+  </section>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -546,6 +312,7 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -560,7 +327,10 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
       var disqus_shortname = 'bigcircle';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

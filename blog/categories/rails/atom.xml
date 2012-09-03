@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-01T17:39:50+08:00</updated>
+  <updated>2012-09-04T00:42:55+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 技巧之 tap & try]]></title>
+    <link href="http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/"/>
+    <updated>2012-09-03T14:38:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try</id>
+    <content type="html"><![CDATA[<p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
+
+<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
+
+<p>```ruby
+1.9.3p194 :015 &gt; Object.instance_methods.grep /tap/
+ =&gt; [:tap]</p>
+
+<p>def tap		#tap 源码实现
+  yield self
+  self
+end
+```</p>
+
+<p><strong>用途一：调试</strong>。当你使用链式方法发生错误时，如果需要测试这个过程中哪出了问题，一般的做法是拆断这个方法，设置中间变量，接着测试中间变量是否正确，如果正确，则把变量换个地方继续测试，方法很长时就没法测了，当然 Ruby 为你想好了，有着优雅又简便的实现</p>
+
+<p>```
+%w(x y z).push(‘a’).shift.upcase.next # =&gt; “B”</p>
+
+<p>%w(x y z).push(‘a’).shift.tap {|x| p x }.upcase.next
+```</p>
+
+<p>输出每步的结果看看</p>
+
+<p><code>
+(1..10)                .tap {|x| puts "original: #{x.inspect}"}
+  .to_a                .tap {|x| puts "array: #{x.inspect}"}
+  .select {|x| x%2==0} .tap {|x| puts "evens: #{x.inspect}"}
+  .map { |x| x*x }     .tap {|x| puts "squares: #{x.inspect}"}
+</code></p>
+
+<p><strong>用途二：简化代码</strong>。我们构建一个方法想返回一个 String / Array / Hash 之类结果，一般的做法是先定义一个变量，结果把运算结果赋值给这个变量，接着返回变量，用 tap 一步搞定，其实就是源码意思的实现</p>
+
+<p><code>
+[].tap {|i| i &lt;&lt; "abc"}
+''.tap {|i| i &lt;&lt; do_some_thing }
+</code></p>
+
+<p>try 可以让你调用对象方法时不用担心对象是nil并抛出异常，依旧先看源码(rails 3.2.8)</p>
+
+<p>```
+def try(<em>a, &amp;b)
+  if a.empty? &amp;&amp; block_given?
+    yield self
+  else
+    public_send(</em>a, &amp;b) if respond_to?(a.first)
+  end
+end</p>
+
+<p>def try(*args)
+  nil
+end
+```</p>
+
+<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .  <br />
+try 如果只接受 block 则传递 self 给 block，返回 block 执行后的结果，否则就执行
+<a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-public_send">public_send</a>，public_send 与 send 的不同之处，public_send 只会 call public_method，看例子</p>
+
+<p><code>
+@person &amp;&amp; @persion.name
+@person ? @person.name : nil
+</code></p>
+
+<p>用 try 改写</p>
+
+<p><code>
+@person.try(:name)
+@person.try { |p| "#{p.first_name} #{p.last_name}" }
+</code></p>
+
+<p>try 同样能接受参数、block，</p>
+
+<p><code>
+Person.try(:find, 1)
+@people.try(:collect) {|p| p.name}
+</code></p>
+
+<p>通过源码可以看出 tap 和 try 两个小工具意思都非常明白，用起来也很简单方便，实乃居家简化好帮手</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[你可能错过的 Rails 技巧(四)]]></title>
@@ -1226,133 +1313,6 @@ end
 </code></p>
 
 <p>未完待续。。。太长了，还是分期吧</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[rails view select 方法学习]]></title>
-    <link href="http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/"/>
-    <updated>2012-08-28T10:52:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/explain-select-on-rails-hepler</id>
-    <content type="html"><![CDATA[<p>开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂</p>
-
-<p>rails的actionview提供了简单的select方法生产表单选择项，根据 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html">Api</a> 指示，用法如下：</p>
-
-<p><code>ruby
-select(object, method, choices, options = {}, html_options = {})
-</code>
-<!--more-->
-- object是指select选项所修饰的目标对象，通常是一个Model对象
-- method是目标对象的属性（方法）名
-- choices可以是任何可枚举的对象，数组，Hash或者是包含了选择框的数据库查询结果
-- options选项
-- html_options是html相关选项</p>
-
-<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One. <br />
-例如对于  @post.person_id =&gt; 2  </p>
-
-<p>```
-select(“post”, “person_id”, Person.all.collect {|p| [ p.name, p.id ] }, {:include_blank =&gt; ‘None’})</p>
-
-<p><select name="post[person_id]">
-  <option value="">None</option>
-  <option value="1">David</option>
-  <option value="2" selected="selected">Sam</option>
-  <option value="3">Tobias</option>
-</select>
-```</p>
-
-<p>index =&gt; nil 不显示空选项或提示项，直接显示第一个值</p>
-
-<p>```
-select(“album[]”, “genre”, %w[rap rock country], {}, { :index =&gt; nil })</p>
-
-<p><select name="album[][genre]" id="album__genre">
-  <option value="rap">rap</option>
-  <option value="rock">rock</option>
-  <option value="country">country</option>
-</select>
-```</p>
-
-<p>:disabled =&gt; value 设置一个单独的值或者Prco对象 html标签属性为disable</p>
-
-<p>```
-select(“post”, “category”, Post::CATEGORIES, {:disabled =&gt; ‘restricted’})</p>
-
-<p><select name="post[category]">
-  <option />
-  <option>joke</option>
-  <option>poem</option>
-  <option disabled="disabled">restricted</option>
-</select>
-```</p>
-
-<p>当用到collection_select时，可以鉴定一个Proc对象是否disable</p>
-
-<p>```
-collection_select(:post, :category_id, Category.all, :id, :name, {:disabled =&gt; lambda{|category| category.archived? }})</p>
-
-<p><select name="post[category_id]">
-  <option value="1" disabled="disabled">2008 stuff</option>
-  <option value="2" disabled="disabled">Christmas</option>
-  <option value="3">Jokes</option>
-  <option value="4">Poems</option>
-</select>
-```</p>
-
-<p>html_option 里面还可以写各种js事件，比如这样</p>
-
-<p><code>
-select(:person, :id, Persion.all, {:onchange =&gt; 'doSomething()'})
-</code></p>
-
-<h5 id="selecttaghttpapirubyonrailsorgclassesactionviewhelpersformtaghelperhtmlmethod-i-selecttag"><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-select_tag">select_tag</a></h5>
-
-<p><code>
-select_tag(name, option_tags = nil, options = {})
-</code></p>
-
-<p>option =&gt; {:multiple, :disable, :include_blank, :prompt} 
-后三个和select里面用法一样，mutiple 允许同时传递多个值，相当于一个多选框</p>
-
-<p>option_tags 可以自己手写几个option标签，或者用现成的方法，其实就是option标签的helper方法，Api 中的几个 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select">例子</a></p>
-
-<p>```
-options_for_select(container, selected = nil)</p>
-
-<p>options_from_collection_for_select(collection, value_method, text_method, selected = nil)
-```</p>
-
-<h5 id="collectionselecthttpapirubyonrailsorgclassesactionviewhelpersformoptionshelperhtmlmethod-i-collectionselect"><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-collection_select">collection_select</a></h5>
-
-<p><code>
-collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {})
-</code></p>
-
-<p>collect_select 比 select 多了2个选项，value_method 和 text_method 分别表示 collection 你想选择的对应字段，相当于 select + options_from_collection_for_select 的组合，大致功能其实和 select 差不多</p>
-
-<p>一篇老外5年前写的介绍这几个 select 的 <a href="http://shiningthrough.co.uk/Select-helper-methods-in-Ruby-on-Rails">文章</a>，rails 的中文文档还是太少了。</p>
-
-<p>剩下几个出场率太低的helper</p>
-
-<p>```
-grouped_collection_select(object, method, collection, group_method, group_label_method, option_key_method, option_value_method, options = {}, html_options = {})</p>
-
-<p>grouped_options_for_select(grouped_options, selected_key = nil, prompt = nil)</p>
-
-<p>option_groups_from_collection_for_select(collection, group_method, group_label_method, option_key_method, option_value_method, selected_key = nil)
-```</p>
-
-<ul>
-  <li>grouped_collection_select用法和 collection_select 差不多，只是会生成 optgroup 标签来标识二级选项</li>
-  <li>grouped_options_for_select 也是一样，比 options_for_select 多一层 optgroup 标签</li>
-  <li>option_groups_from_collection_for_select 同options_from_collection_for_select，都只是在原有基础上修改了下</li>
-</ul>
-
-<p>Rails 源码在此，有兴趣的可以拜读下 <a href="https://github.com/rails/rails/blob/27c8debdc6b242c845a279187205a2b057e18469/actionpack/lib/action_view/helpers/form_options_helper.rb#L156">Here</a></p>
-
-<p>用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询 <br />
-不过对于不熟悉语法的人可能读起来就不如直接 select &gt; option 直接明了，需要花时间去明白什么意思，各有利弊吧</p>
 ]]></content>
   </entry>
   

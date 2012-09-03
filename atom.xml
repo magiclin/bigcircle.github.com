@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-01T17:39:50+08:00</updated>
+  <updated>2012-09-04T00:42:55+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,118 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 技巧之 tap & try]]></title>
+    <link href="http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/"/>
+    <updated>2012-09-03T14:38:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try</id>
+    <content type="html"><![CDATA[<p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
+
+<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">015</span> <span class="o">&gt;</span> <span class="no">Object</span><span class="o">.</span><span class="n">instance_methods</span><span class="o">.</span><span class="n">grep</span> <span class="sr">/tap/</span>
+</span><span class="line"> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:tap</span><span class="o">]</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">tap</span>		<span class="c1">#tap 源码实现</span>
+</span><span class="line">  <span class="k">yield</span> <span class="nb">self</span>
+</span><span class="line">  <span class="nb">self</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>用途一：调试</strong>。当你使用链式方法发生错误时，如果需要测试这个过程中哪出了问题，一般的做法是拆断这个方法，设置中间变量，接着测试中间变量是否正确，如果正确，则把变量换个地方继续测试，方法很长时就没法测了，当然 Ruby 为你想好了，有着优雅又简便的实现</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sx">%w(x y z)</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">upcase</span><span class="o">.</span><span class="n">next</span> <span class="c1"># =&gt; &quot;B&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="sx">%w(x y z)</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">p</span> <span class="n">x</span> <span class="p">}</span><span class="o">.</span><span class="n">upcase</span><span class="o">.</span><span class="n">next</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>输出每步的结果看看</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>                <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;original: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class="line">  <span class="o">.</span><span class="n">to_a</span>                <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;array: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class="line">  <span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">}</span> <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;evens: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class="line">  <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="p">}</span>     <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;squares: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>用途二：简化代码</strong>。我们构建一个方法想返回一个 String / Array / Hash 之类结果，一般的做法是先定义一个变量，结果把运算结果赋值给这个变量，接着返回变量，用 tap 一步搞定，其实就是源码意思的实现</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">[].</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;abc&quot;</span><span class="p">}</span>
+</span><span class="line"><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">do_some_thing</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>try 可以让你调用对象方法时不用担心对象是nil并抛出异常，依旧先看源码(rails 3.2.8)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">try</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span>
+</span><span class="line">  <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">empty?</span> <span class="o">&amp;&amp;</span> <span class="nb">block_given?</span>
+</span><span class="line">    <span class="k">yield</span> <span class="nb">self</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">    <span class="n">public_send</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">try</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class="line">  <span class="kp">nil</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .  <br />
+try 如果只接受 block 则传递 self 给 block，返回 block 执行后的结果，否则就执行
+<a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-public_send">public_send</a>，public_send 与 send 的不同之处，public_send 只会 call public_method，看例子</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="vi">@person</span> <span class="o">&amp;&amp;</span> <span class="vi">@persion</span><span class="o">.</span><span class="n">name</span>
+</span><span class="line"><span class="vi">@person</span> <span class="p">?</span> <span class="vi">@person</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>用 try 改写</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="vi">@person</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+</span><span class="line"><span class="vi">@person</span><span class="o">.</span><span class="n">try</span> <span class="p">{</span> <span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">p</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="nb">p</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>try 同样能接受参数、block，</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Person</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:find</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class="line"><span class="vi">@people</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:collect</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="nb">p</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>通过源码可以看出 tap 和 try 两个小工具意思都非常明白，用起来也很简单方便，实乃居家简化好帮手</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sublime Text 2 使用 RVM ]]></title>
