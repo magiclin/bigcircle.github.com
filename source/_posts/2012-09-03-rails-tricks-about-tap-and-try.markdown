@@ -25,7 +25,7 @@ end
 **用途一：调试**。当你使用链式方法发生错误时，如果需要测试这个过程中哪出了问题，一般的做法是拆断这个方法，设置中间变量，接着测试中间变量是否正确，如果正确，则把变量换个地方继续测试，方法很长时就没法测了，当然 Ruby 为你想好了，有着优雅又简便的实现
 
 ```
-%w(x y z).push('a').shift.upcase.next # => "B"
+%w(x y z).push('a').shift.upcase.next # => "Y"
 
 %w(x y z).push('a').shift.tap {|x| p x }.upcase.next
 ```
