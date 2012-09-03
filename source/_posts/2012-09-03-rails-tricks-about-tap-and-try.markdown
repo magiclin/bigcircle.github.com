@@ -10,6 +10,7 @@ description: rails tricks about tap try
 tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥
 
 从 tap 的 [Api](http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap) 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.
+<!--more-->
 
 ```ruby
 1.9.3p194 :015 > Object.instance_methods.grep /tap/
