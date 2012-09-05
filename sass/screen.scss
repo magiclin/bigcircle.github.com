@@ -15,30 +15,49 @@ figure.code figcaption {
   border-top:1px solid #fff;
 }
 
-.highlight {
-  border:none !important;
+// .highlight {
+//   border:none !important;
+// }
+
+pre {
+  border-radius:0px;
 }
 
-pre {border-radius:0px;}
-
 // 去掉代码块背景色
-.highlight, .gist-highlight {background:none !important;}
+// .highlight, .gist-highlight {background:none !important;}
 // 设置代码块长度100% 和 去掉 .code 背景色
 .highlight {
+  background:none !important;
+  border:none !important;
   table {
     width:100%;
     // .gutter {display:none;}
   }
-  code {background:none !important;}
+  code {
+    background:none !important;
+    overflow-x:hidden !important;
+    padding-top:0px !important;
+    padding-bottom:0px !important;
+  }
   .line-numbers {
     background:none !important;
     box-shadow:none;
     width:19px;
     border-right:2px solid $toto_color !important;
+    padding-top:3px !important;
+    padding-bottom:3px !important;
     span {
       color:$toto_color !important;
       text-shadow:none;
     }
+  }
+}
+
+.gist-hightlight {
+  background:none !important;
+  pre .line-numbers {
+    padding-top:3px !important;
+    padding-bottom:3px !important;
   }
 }
 
@@ -51,7 +70,9 @@ html .gist .gist-file {
     a:first-child, a[href*="#file"] {display:none;};
 
   }
-  .gist-syntax {background-color:none !important;}
+  .gist-syntax {
+    background-color:none !important;
+  }
 }
 .highight, html .gist .gist-file .gist-syntax {
   // background-color:$toto_color !important;
