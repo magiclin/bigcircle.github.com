@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-04T01:16:58+08:00</updated>
+  <updated>2012-09-06T00:47:10+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,596 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一些 Ruby 性能技巧]]></title>
+    <link href="http://Bigcircle.github.com/blog/ruby-performance-tricks-you-should-know.html/"/>
+    <updated>2012-09-04T19:57:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/ruby-performance-tricks-you-should-know</id>
+    <content type="html"><![CDATA[<p>前两天看到这个 <a href="http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/">ruby performance tricks</a> 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下 <br />
+由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试
+<!--more--></p>
+
+<h6 id="rescue">不要在控制流中滥用rescue捕获异常</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">Obj</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">with_condition</span>
+</span><span class="line">    <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:mythical_method</span><span class="p">)</span> <span class="p">?</span> <span class="nb">self</span><span class="o">.</span><span class="n">mythical_method</span> <span class="p">:</span> <span class="kp">nil</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">with_rescue</span>
+</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">mythical_method</span>
+</span><span class="line">  <span class="k">rescue</span> <span class="no">NoMethodError</span>
+</span><span class="line">    <span class="kp">nil</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">obj</span> <span class="o">=</span> <span class="no">Obj</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line"><span class="n">N</span> <span class="o">=</span> <span class="mi">10_000_000</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">puts</span> <span class="no">RUBY_DESCRIPTION</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;rescue/condition&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">  <span class="n">rescue_report</span>     <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;rescue:&quot;</span><span class="p">)</span>    <span class="p">{</span> <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">obj</span><span class="o">.</span><span class="n">with_rescue</span>  <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">  <span class="n">condition_report</span>  <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;condition:&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">obj</span><span class="o">.</span><span class="n">with_if</span>      <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">  <span class="o">[</span><span class="n">rescue_report</span> <span class="o">/</span> <span class="n">condition_report</span><span class="o">]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>跑分数据可以看出使用了rescue，性能损失超过43倍</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">ruby</span> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">(</span><span class="mi">2012</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mi">20</span> <span class="n">revision</span> <span class="mi">35410</span><span class="p">)</span> <span class="o">[</span><span class="n">x86_64</span><span class="o">-</span><span class="n">linux</span><span class="o">]</span>
+</span><span class="line">                        <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="k">rescue</span><span class="p">:</span>           <span class="mi">111</span><span class="o">.</span><span class="mi">530000</span>   <span class="mi">2</span><span class="o">.</span><span class="mi">650000</span> <span class="mi">114</span><span class="o">.</span><span class="mi">180000</span> <span class="p">(</span><span class="mi">115</span><span class="o">.</span><span class="mi">837103</span><span class="p">)</span>
+</span><span class="line"><span class="n">condition</span><span class="p">:</span>          <span class="mi">2</span><span class="o">.</span><span class="mi">620000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span>   <span class="mi">2</span><span class="o">.</span><span class="mi">630000</span> <span class="p">(</span>  <span class="mi">2</span><span class="o">.</span><span class="mi">633154</span><span class="p">)</span>
+</span><span class="line"><span class="k">rescue</span><span class="o">/</span><span class="n">condition</span><span class="p">:</span>  <span class="mi">42</span><span class="o">.</span><span class="mi">568702</span> <span class="mi">265</span><span class="o">.</span><span class="mo">000000</span>        <span class="no">NaN</span> <span class="p">(</span> <span class="mi">43</span><span class="o">.</span><span class="mi">991767</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>google 了下发现不光 Ruby 会有这个问题，C，C++，Java 中也都会有很大的性能问题，原因大概是因为异常捕获这个操作本身就很慢，<a href="http://www.simonecarletti.com/blog/2010/01/how-slow-are-ruby-exceptions/">这</a> 有一份比较详细的测试，对比使用 exception 在速度上的劣势。当然该捕捉的时候还是要捕捉的，只是不要滥用</p>
+
+<h6 id="section">使用 « 拼接字符串</h6>
+
+<p>这个tip可能大家都听过，估计平时也都是这么用的，为什么用 « 不要用 += 呢，看这个测试</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">N</span> <span class="o">=</span> <span class="mi">1000</span>
+</span><span class="line"><span class="no">BASIC_LENGTH</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class="line">
+</span><span class="line"><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">factor</span><span class="o">|</span>
+</span><span class="line">  <span class="n">length</span> <span class="o">=</span> <span class="no">BASIC_LENGTH</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">factor</span><span class="p">)</span>
+</span><span class="line">  <span class="nb">puts</span> <span class="s2">&quot;_&quot;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">LENGTH: </span><span class="si">#{</span><span class="n">length</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">
+</span><span class="line">  <span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;+= VS &lt;&lt;&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">    <span class="n">concat_report</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;+=&quot;</span><span class="p">)</span>  <span class="k">do</span>
+</span><span class="line">      <span class="n">str1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class="line">      <span class="n">str2</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span> <span class="o">*</span> <span class="n">length</span>
+</span><span class="line">      <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">str1</span> <span class="o">+=</span> <span class="n">str2</span> <span class="p">}</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">modify_report</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;&lt;&lt;&quot;</span><span class="p">)</span>  <span class="k">do</span>
+</span><span class="line">      <span class="n">str1</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span>
+</span><span class="line">      <span class="n">str2</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span> <span class="o">*</span> <span class="n">length</span>
+</span><span class="line">      <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">str1</span> <span class="o">&lt;&lt;</span> <span class="n">str2</span> <span class="p">}</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="o">[</span><span class="n">concat_report</span> <span class="o">/</span> <span class="n">modify_report</span><span class="o">]</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>结果如下 </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">LENGTH</span><span class="p">:</span> <span class="mi">10</span>
+</span><span class="line">                 <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="o">+=</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">004671</span><span class="p">)</span>
+</span><span class="line"><span class="o">&lt;&lt;</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">000176</span><span class="p">)</span>
+</span><span class="line"><span class="o">+=</span> <span class="no">VS</span> <span class="o">&lt;&lt;</span>          <span class="no">NaN</span>        <span class="no">NaN</span>        <span class="no">NaN</span> <span class="p">(</span> <span class="mi">26</span><span class="o">.</span><span class="mi">508796</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">LENGTH</span><span class="p">:</span> <span class="mi">100</span>
+</span><span class="line">                 <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="o">+=</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">020000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">020000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">022</span><span class="mi">995</span><span class="p">)</span>
+</span><span class="line"><span class="o">&lt;&lt;</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">000226</span><span class="p">)</span>
+</span><span class="line"><span class="o">+=</span> <span class="no">VS</span> <span class="o">&lt;&lt;</span>          <span class="no">Inf</span>        <span class="no">NaN</span>        <span class="no">NaN</span> <span class="p">(</span><span class="mi">101</span><span class="o">.</span><span class="mi">845829</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">LENGTH</span><span class="p">:</span> <span class="mi">1000</span>
+</span><span class="line">                 <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="o">+=</span>           <span class="mi">0</span><span class="o">.</span><span class="mi">270000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">120000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">390000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">390888</span><span class="p">)</span>
+</span><span class="line"><span class="o">&lt;&lt;</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">001730</span><span class="p">)</span>
+</span><span class="line"><span class="o">+=</span> <span class="no">VS</span> <span class="o">&lt;&lt;</span>          <span class="no">Inf</span>        <span class="no">Inf</span>        <span class="no">NaN</span> <span class="p">(</span><span class="mi">225</span><span class="o">.</span><span class="mi">920077</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">LENGTH</span><span class="p">:</span> <span class="mi">10000</span>
+</span><span class="line">                 <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="o">+=</span>           <span class="mi">3</span><span class="o">.</span><span class="mi">660000</span>   <span class="mi">1</span><span class="o">.</span><span class="mi">570000</span>   <span class="mi">5</span><span class="o">.</span><span class="mi">230000</span> <span class="p">(</span>  <span class="mi">5</span><span class="o">.</span><span class="mi">233861</span><span class="p">)</span>
+</span><span class="line"><span class="o">&lt;&lt;</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">0150</span><span class="mi">99</span><span class="p">)</span>
+</span><span class="line"><span class="o">+=</span> <span class="no">VS</span> <span class="o">&lt;&lt;</span>          <span class="no">Inf</span> <span class="mi">157</span><span class="o">.</span><span class="mo">000000</span>        <span class="no">NaN</span> <span class="p">(</span><span class="mi">346</span><span class="o">.</span><span class="mi">629692</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">LENGTH</span><span class="p">:</span> <span class="mi">100000</span>
+</span><span class="line">                 <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="o">+=</span>          <span class="mi">31</span><span class="o">.</span><span class="mi">270000</span>  <span class="mi">16</span><span class="o">.</span><span class="mi">990000</span>  <span class="mi">48</span><span class="o">.</span><span class="mi">260000</span> <span class="p">(</span> <span class="mi">48</span><span class="o">.</span><span class="mi">328511</span><span class="p">)</span>
+</span><span class="line"><span class="o">&lt;&lt;</span>           <span class="mi">0</span><span class="o">.</span><span class="mo">050000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">050000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">100000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">105993</span><span class="p">)</span>
+</span><span class="line"><span class="o">+=</span> <span class="no">VS</span> <span class="o">&lt;&lt;</span>   <span class="mi">625</span><span class="o">.</span><span class="mi">400000</span> <span class="mi">339</span><span class="o">.</span><span class="mi">800000</span>        <span class="no">NaN</span> <span class="p">(</span><span class="mi">455</span><span class="o">.</span><span class="mi">961373</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>从结果可以看出，字符串比较短时就差25倍，随着字符串长度的增加，性能差距也越来越大 <br />
+为什么作用相同的操作性能方便差距这么大呢，看这个例子</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">str1</span> <span class="o">=</span> <span class="s2">&quot;first&quot;</span>
+</span><span class="line"><span class="n">str2</span> <span class="o">=</span> <span class="s2">&quot;second&quot;</span>
+</span><span class="line"><span class="n">str1</span><span class="o">.</span><span class="n">object_id</span>       <span class="c1"># =&gt; 16241320</span>
+</span><span class="line">
+</span><span class="line"><span class="n">str1</span> <span class="o">+=</span> <span class="n">str2</span>    <span class="c1"># str1 = str1 + str2</span>
+</span><span class="line"><span class="n">str1</span><span class="o">.</span><span class="n">object_id</span>  <span class="c1"># =&gt; 16241240, id is changed</span>
+</span><span class="line">
+</span><span class="line"><span class="n">str1</span> <span class="o">&lt;&lt;</span> <span class="n">str2</span>
+</span><span class="line"><span class="n">str1</span><span class="o">.</span><span class="n">object_id</span>  <span class="c1"># =&gt; 16241240, id is the same</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>当使用 += 时会在内存中多复制一份原始字符串，生成 str1 + str2 结果的临时object覆盖掉 str1,  因此操作完之后 str1 的 object_id 发生了变化，而 « 是直接在原 str1 上进行操作，操作完之后 object_id 没有发生变化</p>
+
+<p>+= 还会导致内存中存在大量多余的string object，GC 触发也会消耗掉许多时间</p>
+
+<h6 id="section-1">注意使用迭代</h6>
+
+<p>假设你需要写个函数把数组转换成一个 hash, 就像这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">func</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">)</span>  <span class="c1"># =&gt; {1 =&gt; 1, 2 =&gt; 2, 3 =&gt; 3}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>一个可以解决问题的做法</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class="line">  <span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个方法的时间复杂度是 O(n2)，当数组很大时速度会非常慢，稍作调整，时间复杂度 O(n)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class="line">  <span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">e</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span> <span class="n">h</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>看下测试时间</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">n_func</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class="line">  <span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="n">e</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span> <span class="n">h</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">n2_func</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class="line">  <span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="no">BASE_SIZE</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class="line">
+</span><span class="line"><span class="mi">4</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">factor</span><span class="o">|</span>
+</span><span class="line">  <span class="n">size</span>   <span class="o">=</span> <span class="no">BASE_SIZE</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">factor</span><span class="p">)</span>
+</span><span class="line">  <span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.size</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class="line">  <span class="nb">puts</span> <span class="s2">&quot;_&quot;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">SIZE: </span><span class="si">#{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">    <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;O(n)&quot;</span> <span class="p">)</span> <span class="p">{</span> <span class="n">n_func</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>  <span class="p">}</span>
+</span><span class="line">    <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;O(n2)&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">n2_func</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>从时间上看虽然都消耗不大，但是还是有明显性能差距的，记住不要用迭代做大规模计算</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">SIZE</span><span class="p">:</span> <span class="mi">10</span>
+</span><span class="line">                <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>        <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">000014</span><span class="p">)</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>       <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">000033</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">SIZE</span><span class="p">:</span> <span class="mi">100</span>
+</span><span class="line">                <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>        <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">000043</span><span class="p">)</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>       <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">001070</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">SIZE</span><span class="p">:</span> <span class="mi">1000</span>
+</span><span class="line">                <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>        <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">000347</span><span class="p">)</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>       <span class="mi">0</span><span class="o">.</span><span class="mi">130000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">130000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">127638</span><span class="p">)</span>
+</span><span class="line"><span class="n">____________________________________________________________</span>
+</span><span class="line"><span class="no">SIZE</span><span class="p">:</span> <span class="mi">10000</span>
+</span><span class="line">                <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>        <span class="mi">0</span><span class="o">.</span><span class="mo">020000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">020000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">01</span><span class="mi">9067</span><span class="p">)</span>
+</span><span class="line"><span class="n">O</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>      <span class="mi">17</span><span class="o">.</span><span class="mi">850000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">080000</span>  <span class="mi">17</span><span class="o">.</span><span class="mi">930000</span> <span class="p">(</span> <span class="mi">17</span><span class="o">.</span><span class="mi">983827</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="method">使用　method!</h6>
+
+<p>很多时候直接用 method 和 使用 method! 都在做同样的事，不同的是用 method! 不会重新复制一份副本，使用 method! 速度会快点</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">merge!</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class="line">  <span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class="line">  <span class="n">array</span><span class="o">.</span><span class="n">inject</span><span class="p">({})</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="o">|</span> <span class="n">h</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">e</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">N</span> <span class="o">=</span> <span class="mi">10_000</span>
+</span><span class="line"><span class="n">array</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.N</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;merge!&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">merge!</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;merge&quot;</span><span class="p">)</span>  <span class="p">{</span> <span class="n">merge</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>  <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个差距有点大</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">             <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="n">merge!</span>       <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mo">011370</span><span class="p">)</span>
+</span><span class="line"><span class="n">merge</span>       <span class="mi">17</span><span class="o">.</span><span class="mi">710000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>  <span class="mi">17</span><span class="o">.</span><span class="mi">710000</span> <span class="p">(</span> <span class="mi">17</span><span class="o">.</span><span class="mi">840856</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="section-2">使用实例变量</h6>
+
+<p>直接访问实例变量是通过 accessor 访问速度的2倍</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">Metric</span>
+</span><span class="line">  <span class="kp">attr_accessor</span> <span class="ss">:var</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class="line">    <span class="vi">@n</span>   <span class="o">=</span> <span class="n">n</span>
+</span><span class="line">    <span class="vi">@var</span> <span class="o">=</span> <span class="mi">22</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">run</span>
+</span><span class="line">    <span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;@var&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="vi">@n</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="vi">@var</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;var&quot;</span> <span class="p">)</span> <span class="p">{</span> <span class="vi">@n</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">var</span>  <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;@var =&quot;</span><span class="p">)</span>     <span class="p">{</span> <span class="vi">@n</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="vi">@var</span> <span class="o">=</span> <span class="n">i</span>     <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">      <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;self.var =&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="vi">@n</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">i</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">metric</span> <span class="o">=</span> <span class="no">Metric</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">100_000_000</span><span class="p">)</span>
+</span><span class="line"><span class="n">metric</span><span class="o">.</span><span class="n">run</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">             <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="vi">@var</span>         <span class="mi">6</span><span class="o">.</span><span class="mi">980000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span>   <span class="mi">6</span><span class="o">.</span><span class="mi">990000</span> <span class="p">(</span>  <span class="mi">7</span><span class="o">.</span><span class="mi">193725</span><span class="p">)</span>
+</span><span class="line"><span class="n">var</span>         <span class="mi">13</span><span class="o">.</span><span class="mo">040000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>  <span class="mi">13</span><span class="o">.</span><span class="mo">040000</span> <span class="p">(</span> <span class="mi">13</span><span class="o">.</span><span class="mi">131711</span><span class="p">)</span>
+</span><span class="line"><span class="vi">@var</span> <span class="o">=</span>       <span class="mi">7</span><span class="o">.</span><span class="mi">960000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">7</span><span class="o">.</span><span class="mi">960000</span> <span class="p">(</span>  <span class="mi">8</span><span class="o">.</span><span class="mi">242603</span><span class="p">)</span>
+</span><span class="line"><span class="nb">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span>  <span class="mi">14</span><span class="o">.</span><span class="mi">910000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">010000</span>  <span class="mi">14</span><span class="o">.</span><span class="mi">920000</span> <span class="p">(</span> <span class="mi">15</span><span class="o">.</span><span class="mi">960125</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="section-3">平行的任务速度比分开执行慢</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">N</span> <span class="o">=</span> <span class="mi">10_000_000</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s1">&#39;parallel&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class="line">      <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s1">&#39;consequentially&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">    <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class="line">      <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class="line">      <span class="n">b</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>速度差距1倍以上，我平时就喜欢为了少写几行平行赋值，看来这个习惯要改下啦</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">                  <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="n">parallel</span>          <span class="mi">1</span><span class="o">.</span><span class="mi">900000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">1</span><span class="o">.</span><span class="mi">900000</span> <span class="p">(</span>  <span class="mi">1</span><span class="o">.</span><span class="mi">928063</span><span class="p">)</span>
+</span><span class="line"><span class="n">consequentially</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">880000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">880000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">879675</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="definemethod--classeval">动态定义方法比较 define_method 和 class_eval</h6>
+
+<p>在动态定义方法时是用 class_eval string 快还是 defing_method 快呢</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">Metric</span>
+</span><span class="line">  <span class="n">N</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">class_eval_with_string</span>
+</span><span class="line">    <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class="line">      <span class="nb">class_eval</span><span class="p">(</span><span class="o">&lt;&lt;-</span><span class="no">eorb</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">,</span> <span class="bp">__LINE__</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class="line"><span class="sh">        def smeth_#{i}</span>
+</span><span class="line"><span class="sh">          #{i}</span>
+</span><span class="line"><span class="sh">        end</span>
+</span><span class="line"><span class="no">      eorb</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">with_define_method</span>
+</span><span class="line">    <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class="line">      <span class="n">define_method</span><span class="p">(</span><span class="s2">&quot;dmeth_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">        <span class="n">i</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;class_eval with string&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="no">Metric</span><span class="o">.</span><span class="n">class_eval_with_string</span> <span class="p">}</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;define_method&quot;</span><span class="p">)</span>          <span class="p">{</span> <span class="no">Metric</span><span class="o">.</span><span class="n">with_define_method</span>     <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">metric</span> <span class="o">=</span> <span class="no">Metric</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;string method&quot;</span><span class="p">)</span>  <span class="p">{</span> <span class="no">Metric</span><span class="o">::</span><span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">metric</span><span class="o">.</span><span class="n">smeth_1</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class="line">  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;dynamic method&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="no">Metric</span><span class="o">::</span><span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">metric</span><span class="o">.</span><span class="n">dmeth_1</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>结果显示 define_method 比 class_eval string 快3倍以上，class_eval 虽然在方法生成上慢却应该优先使用，因为它生成的方法执行起来更快</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">                         <span class="n">user</span>     <span class="nb">system</span>      <span class="n">total</span>        <span class="n">real</span>
+</span><span class="line"><span class="nb">class_eval</span> <span class="n">with</span> <span class="n">string</span> <span class="mi">219</span><span class="o">.</span><span class="mi">840000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">720000</span> <span class="mi">220</span><span class="o">.</span><span class="mi">560000</span> <span class="p">(</span><span class="mi">221</span><span class="o">.</span><span class="mi">933074</span><span class="p">)</span>
+</span><span class="line"><span class="n">define_method</span>           <span class="mi">61</span><span class="o">.</span><span class="mi">280000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">240000</span>  <span class="mi">61</span><span class="o">.</span><span class="mi">520000</span> <span class="p">(</span> <span class="mi">62</span><span class="o">.</span><span class="mo">070</span><span class="mi">911</span><span class="p">)</span>
+</span><span class="line"><span class="n">string</span> <span class="nb">method</span>            <span class="mi">0</span><span class="o">.</span><span class="mi">110000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">110000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">111433</span><span class="p">)</span>
+</span><span class="line"><span class="n">dynamic</span> <span class="nb">method</span>           <span class="mi">0</span><span class="o">.</span><span class="mi">150000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">150000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">156537</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>俗话说，不积跬步，无以至千里。虽然这些都是一些性能方面的小技巧，但累积多了也能对性能有很大的优化</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails 技巧之 tap & try]]></title>
@@ -2413,15 +3003,13 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <p>主要修改了以下几个方面：
 <!-- more --></p>
 
-<blockquote>
-  <ul>
-    <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
-    <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点 </li>
-    <li>所有背景统一为一个背景</li>
-    <li>去掉各种边边框框，让样式尽量简单一点</li>
-    <li>修改引用gist代码和普通代码的高亮和样式</li>
-  </ul>
-</blockquote>
+<ul>
+  <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
+  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点 </li>
+  <li>所有背景统一为一个背景</li>
+  <li>去掉各种边边框框，让样式尽量简单一点</li>
+  <li>修改引用gist代码和普通代码的高亮和样式</li>
+</ul>
 
 <p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾</p>
 
