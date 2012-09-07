@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-06T00:47:10+08:00</updated>
+  <updated>2012-09-08T01:43:06+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -18,7 +18,7 @@
     <link href="http://Bigcircle.github.com/blog/ruby-performance-tricks-you-should-know.html/"/>
     <updated>2012-09-04T19:57:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/ruby-performance-tricks-you-should-know</id>
-    <content type="html"><![CDATA[<p>前两天看到这个 <a href="http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/">ruby performance tricks</a> 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下 <br />
+    <content type="html"><![CDATA[<p>前两天看到这个 <a href="http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/">ruby performance tricks</a> 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下
 由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试
 <!--more--></p>
 
@@ -146,7 +146,7 @@
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>结果如下 </p>
+<p>结果如下</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -210,7 +210,7 @@
 </span><span class="line"><span class="o">+=</span> <span class="no">VS</span> <span class="o">&lt;&lt;</span>   <span class="mi">625</span><span class="o">.</span><span class="mi">400000</span> <span class="mi">339</span><span class="o">.</span><span class="mi">800000</span>        <span class="no">NaN</span> <span class="p">(</span><span class="mi">455</span><span class="o">.</span><span class="mi">961373</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>从结果可以看出，字符串比较短时就差25倍，随着字符串长度的增加，性能差距也越来越大 <br />
+<p>从结果可以看出，字符串比较短时就差25倍，随着字符串长度的增加，性能差距也越来越大
 为什么作用相同的操作性能方便差距这么大呢，看这个例子</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -233,9 +233,9 @@
 </span><span class="line"><span class="n">str1</span><span class="o">.</span><span class="n">object_id</span>  <span class="c1"># =&gt; 16241240, id is the same</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>当使用 += 时会在内存中多复制一份原始字符串，生成 str1 + str2 结果的临时object覆盖掉 str1,  因此操作完之后 str1 的 object_id 发生了变化，而 « 是直接在原 str1 上进行操作，操作完之后 object_id 没有发生变化</p>
+<p>当使用 += 时会在内存中多复制一份原始字符串，生成 str1 + str2 临时object覆盖掉 str1, 因此操作完之后 str1 的 object_id 发生了变化，而 « 是直接在原 str1 上进行操作，操作完之后 object_id 没有发生变化</p>
 
-<p>+= 还会导致内存中存在大量多余的string object，GC 触发也会消耗掉许多时间</p>
+<p>+= 还会导致内存中存在大量多余的string object，GC 触发垃圾回收也会消耗掉许多时间</p>
 
 <h6 id="section-1">注意使用迭代</h6>
 
@@ -599,7 +599,7 @@
 </span><span class="line"><span class="n">dynamic</span> <span class="nb">method</span>           <span class="mi">0</span><span class="o">.</span><span class="mi">150000</span>   <span class="mi">0</span><span class="o">.</span><span class="mo">000000</span>   <span class="mi">0</span><span class="o">.</span><span class="mi">150000</span> <span class="p">(</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">156537</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>俗话说，不积跬步，无以至千里。虽然这些都是一些性能方面的小技巧，但累积多了也能对性能有很大的优化</p>
+<p>不积跬步，无以至千里。虽然这些都是一些性能方面的小技巧，但累积多了也能对性能有很大的优化</p>
 ]]></content>
   </entry>
   
@@ -3083,7 +3083,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     <link href="http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac.html/"/>
     <updated>2012-08-25T12:19:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac</id>
-    <content type="html"><![CDATA[<p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了    <br />
+    <content type="html"><![CDATA[<p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
 搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
 
 <!--more-->
@@ -3093,7 +3093,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
   <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
 </ul>
 
-<p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂                                   <br />
+<p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂
 用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
 
 <p>如果你安装过mysql/mongo这类可以有开机启动项的软件，在安装完之后会有一大堆提示，比如这样</p>
@@ -3124,7 +3124,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 </span><span class="line"><span class="n">You</span> <span class="n">may</span> <span class="n">also</span> <span class="n">need</span> <span class="n">to</span> <span class="n">edit</span> <span class="n">the</span> <span class="n">plist</span> <span class="n">to</span> <span class="n">use</span> <span class="n">the</span> <span class="n">correct</span> <span class="s">&quot;UserName&quot;</span><span class="p">.</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>这个就是提示你怎么设置开机启动，brew已经预先把启动文件都写好了，你只需要copy过去，设置启动就Ok了。~/Library/LaunchAgents 下存放用户登陆之后的启动服务，具体补课可以参考 <a href="http://kenwublog.com/mac-os-launchd-tuning">这篇</a>  <br />
+<p>这个就是提示你怎么设置开机启动，brew已经预先把启动文件都写好了，你只需要copy过去，设置启动就Ok了。~/Library/LaunchAgents 下存放用户登陆之后的启动服务，具体补课可以参考 <a href="http://kenwublog.com/mac-os-launchd-tuning">这篇</a>
 有人做了个dmg包和goagent源码配合使用，把那个app设置为开机启动也很方便，位于 <code>系统偏好设置 &gt; 用户与群组 &gt; 登陆项</code> 参考 <a href="http://dharmasong.net/2011/11/449.html">这</a>，这个应该是不爱折腾的最简单的方法</p>
 
 <p>下面开始小折腾的方法，也很简单</p>
@@ -3168,7 +3168,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 </span><span class="line"><span class="n">launchctl</span> <span class="n">load</span> <span class="o">-</span><span class="n">w</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span><span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">goagent</span><span class="p">.</span><span class="n">plist</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>这样下次开机的时候goagent就已经自动启动了，总结起来就是三步: <br />
+<p>这样下次开机的时候goagent就已经自动启动了，总结起来就是三步:
 写一个启动文件 —— copy到对应目录 —— 设为启动</p>
 
 <p>默认开启8087端口</p>
@@ -3178,7 +3178,18 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 </pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">lsof</span> <span class="o">-</span><span class="n">i</span><span class="o">:</span><span class="mi">8087</span>
 </span><span class="line"><span class="n">Python</span> <span class="n">xxxxxx</span> <span class="n">TCP</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">8087</span> <span class="p">(</span><span class="n">LISTEN</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>用Chrome或者Firefox用proxy switch已经配置好的同学可以直接打开敏感词测试啦</p>
+<p>用Chrome或者Firefox用proxy switch已经配置好的同学可以直接打开敏感词测试了</p>
+
+<p>停止该服务的方式也很简单，把这个 plist 移除当前目录 或者</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="cp"># -w 参数是完全删除的意思，否则在下次登陆的时候依然会启动服务</span>
+</span><span class="line"><span class="n">launchctl</span> <span class="n">unload</span> <span class="o">-</span><span class="n">w</span> <span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchAgents</span><span class="o">/</span><span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">goagent</span><span class="p">.</span><span class="n">plist</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>执行这2个操作中的一个后服务将会立即停止，需要注意的是，不能通过 kill PID 的方式杀死该服务，kill -9 删除服务也会重启，只能通过这两种方式才能终止，如果想修改服务最好先 unload 服务，修改完之后再 load，直接修改可能会导致电脑重启</p>
+
 ]]></content>
   </entry>
   
