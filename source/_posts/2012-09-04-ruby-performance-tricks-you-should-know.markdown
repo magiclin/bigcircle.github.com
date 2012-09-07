@@ -7,7 +7,7 @@ categories: [ruby]
 keywords: ruby performance tricks
 description: ruby performance tricks you should know
 ---
-前两天看到这个 [ruby performance tricks](http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/) 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下   
+前两天看到这个 [ruby performance tricks](http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/) 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下
 由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试
 <!--more-->
 
@@ -84,7 +84,7 @@ BASIC_LENGTH = 10
 end
 ```
 
-结果如下 
+结果如下
 
 ```
 ____________________________________________________________
@@ -119,7 +119,7 @@ LENGTH: 100000
 += VS <<   625.400000 339.800000        NaN (455.961373)
 ```
 
-从结果可以看出，字符串比较短时就差25倍，随着字符串长度的增加，性能差距也越来越大   
+从结果可以看出，字符串比较短时就差25倍，随着字符串长度的增加，性能差距也越来越大
 为什么作用相同的操作性能方便差距这么大呢，看这个例子
 
 ```
@@ -134,9 +134,9 @@ str1 << str2
 str1.object_id  # => 16241240, id is the same
 ```
 
-当使用 += 时会在内存中多复制一份原始字符串，生成 str1 + str2 结果的临时object覆盖掉 str1,  因此操作完之后 str1 的 object_id 发生了变化，而 << 是直接在原 str1 上进行操作，操作完之后 object_id 没有发生变化
+当使用 += 时会在内存中多复制一份原始字符串，生成 str1 + str2 临时object覆盖掉 str1, 因此操作完之后 str1 的 object_id 发生了变化，而 << 是直接在原 str1 上进行操作，操作完之后 object_id 没有发生变化
 
-+= 还会导致内存中存在大量多余的string object，GC 触发也会消耗掉许多时间
++= 还会导致内存中存在大量多余的string object，GC 触发垃圾回收也会消耗掉许多时间
 
 ######注意使用迭代
 
@@ -361,4 +361,4 @@ string method            0.110000   0.000000   0.110000 (  0.111433)
 dynamic method           0.150000   0.000000   0.150000 (  0.156537)
 ```
 
-俗话说，不积跬步，无以至千里。虽然这些都是一些性能方面的小技巧，但累积多了也能对性能有很大的优化
+不积跬步，无以至千里。虽然这些都是一些性能方面的小技巧，但累积多了也能对性能有很大的优化
