@@ -10,6 +10,7 @@ description: iterm2 keymaps intro
 Mac 原来自带的终端工具 Terminal 不好用是出了名的，虽然最近几个版本苹果稍微做了些优化，功能上，可用性方面增强不少，无奈有个更好用的 Iterm2 摆在那，基本上也就没有多少出场机会了
 
 [Iterm2](http://www.iterm2.com/)，经常使用终端的同学肯定早就切换到这个东东上了，开源免费，和 zsh 搭配差不多已经取代 Terminal + bash 成了 Mac 上终端工具的标准配置。
+<!--more-->
 Iterm2 的优点：
 
 - 兼容性好，远程服务器 vi 什么的低版本能很好兼容，Terminal 则会出问题
