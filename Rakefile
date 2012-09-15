@@ -14,7 +14,6 @@ deploy_default = "push"
 deploy_branch  = "master"
 
 ## -- Misc Configs -- ##
-
 public_dir      = "public"    # compiled site directory
 source_dir      = "source"    # source file directory
 blog_index_dir  = 'source'    # directory for your blog's index page (if you put your index in source/blog/index.html, set this to 'source/blog')
@@ -103,6 +102,27 @@ task :new_post, :title do |t, args|
     abort("rake aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
   end
   puts "Creating new post: #{filename}"
+  open(filename, 'w') do |post|
+    post.puts "---"
+    post.puts "layout: post"
+    post.puts "title: \"#{title.gsub(/&/,'&amp;')}\""
+    post.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+    post.puts "comments: true"
+    post.puts "categories: "
+    post.puts "keywords: "
+    post.puts "description: "
+    post.puts "---"
+  end
+  if #{editor}
+    system "sleep 1; #{editor} #{filename}"
+  end
+end
+
+# store一些可能需要写一段时间的blog
+desc 'create new store'
+task :new_store, :title do |t, args|
+  title = args.title
+  filename = "store/#{Time.now.strftime("%Y-%m-%d")}-#{title.to_url}.#{new_post_ext}"
   open(filename, 'w') do |post|
     post.puts "---"
     post.puts "layout: post"
