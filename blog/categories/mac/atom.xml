@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-08T21:27:22+08:00</updated>
+  <updated>2012-09-15T17:14:52+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[新装备之 Flico & Trackpad]]></title>
+    <link href="http://Bigcircle.github.com/blog/intro-flico-and-touchpad.html/"/>
+    <updated>2012-09-15T16:16:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/intro-flico-and-touchpad</id>
+    <content type="html"><![CDATA[<p>前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如四瓣顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。其实之前就已经有目标了，所以购买过程非常快，也只是在买和不买之间犹豫了两天，对于目前很穷的我来说是笔大开销。。</p>
+
+<p>键盘肯定 HHKB 和 realforce 是当之无愧的王者，那个价钱也让看到的人望而却步；低端的国产键盘胜在便宜，性价比高，缺点是做工较差，手感比正规的 chery 和 flico 还是要差很多的，加上比较钟爱小巧型的键盘，右侧数字键对我来说基本上没有出场机会，所以最终决定买个折衷的 flico 圣手2代 87无冲茶轴。之所以不买青轴，大家也知道它是办公室杀手，会导致在同事那声望冷淡甚至仇恨，加上可能还有点游戏的需求，茶轴这种兼顾性的设计还是比较适合我的</p>
+
+<p>两件套购买过程没用到10分钟，淘宝上也就那么几家，选了家 tmall 信誉高点且最近成交量比较大的卖家无交流直接拍下，卖家也在拍下后不到一个小时就发货了，速度还是很迅速的。触控板看了下价格都差不多，于是直接去 apple 官网买了个了事。剩下的就是短暂的等待了，基本上第二天下午就都从上海发到了北京，顺风的速度一向令人满意</p>
+
+<p>从表面上它是无刻板</p>
+
+<p><img src="http://m1.img.libdd.com/farm5/2012/0915/16/56C4E8FC9F566DE1631ADCF2B50B8357999FCE663682_1280_960.jpg" alt="" /></p>
+
+<p>其实刻度在侧面，这样键帽正面就不用刻了，给你一个干净的键帽</p>
+
+<p><img src="http://m2.img.libdd.com/farm4/2012/0915/16/FAD97012362B8EA0B3014C03A0E9EBA2BC2BEE663682_1280_960.jpg" alt="" /></p>
+
+<p>很大的触控板，目测体积应该有自带触控板的两倍，手指可以很舒服的展开</p>
+
+<p><img src="http://m1.img.libdd.com/farm5/2012/0915/16/593AABC45A0F925D64363AD05924F475B89E17663682_1280_960.jpg" alt="" /></p>
+
+<p>一张大合影，键盘是放在电脑上的，桌子小没办法，舒展不开</p>
+
+<p><img src="http://m2.img.libdd.com/farm4/2012/0915/16/00C081036C3194F366C0B1CB0E6860DA1CA063663682_1280_960.jpg" alt="" /></p>
+
+<p>手感超垃圾的罗技无线，一分钱一分货啊</p>
+
+<p><img src="http://m3.img.libdd.com/farm4/2012/0915/16/878B9586D08317B84FF9825D7837AA78F8B20B663682_1280_960.jpg" alt="" /></p>
+
+<p>夜用朦胧版</p>
+
+<p><img src="http://m1.img.libdd.com/farm5/2012/0915/16/87406260537C70E3B3D74F3B2818E9674A2375663682_1280_960.jpg" alt="" /></p>
+
+<p>貌似这个分辨率看起来有点淡淡的模糊感，木办法，渣摄影技术，不及陈老师万分之一，有待提高</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iterm2 快捷键介绍]]></title>
@@ -326,80 +365,6 @@ launchctl unload -w ~/Library/LaunchAgents/com.google.goagent.plist
 
 <p>执行这2个操作中的一个后服务将会立即停止，需要注意的是，不能通过 kill PID 的方式杀死该服务，kill -9 删除服务也会重启，只能通过这两种方式才能终止，如果想修改服务最好先 unload 服务，修改完之后再 load，直接修改可能会导致电脑重启</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac升级内存手记，高清大图(12P)]]></title>
-    <link href="http://Bigcircle.github.com/blog/modify-mac-to-8g-memory.html/"/>
-    <updated>2012-08-21T20:58:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/modify-mac-to-8g-memory</id>
-    <content type="html"><![CDATA[<p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)<br />
-主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点
-<!--more--></p>
-
-<ul>
-  <li>系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选</li>
-  <li>外形拉轰，think different 理念，适合与众不同的人。。</li>
-  <li>操作快捷，内置各种快捷键，借助 Alfred / QuickSilver 可以做到全盘快捷键</li>
-  <li>装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品 </li>
-  <li>待机时间长，广告号称7小时，虽说目前Mountain Lion在待机方面可能比预期的短点，但4～5个小时还是没有问题的，相对于普通pc的2个小时强太多了，相信下个补丁应该能在待机时间方面优化优化</li>
-  <li>用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事</li>
-</ul>
-
-<p>当然缺点也是有的，特别是对于已经习惯windows的同学来说，这里就不罗列啦。。</p>
-
-<p>标配的内存才4G，根据一年开发经验来说肯定是不够用的，Chrome多开几个网页，终端运行几个差不多就满了，要是用Xcode这类巨占内存的东西那就什么都别开了，所以说升到8G刻不容缓。。当然16G必须是极好的，但是价格要贵很多，想想8G怎么也够了，还是一切从简吧。</p>
-
-<p>先来张全景图，刚开包</p>
-
-<p><img src="http://m3.img.libdd.com/farm5/90/8B1399A8265164466811344338418D5A_1280_960.jpg" alt="" /></p>
-
-<p>内存条 4G*2 ,三星金条，据说兼容性最好，双通道的优势比 8G＊1 要好，不过差距不大，各种电商均有售，我是在京东上买的，主要是可以送到家门口。。。懒。。</p>
-
-<p><img src="http://m2.img.libdd.com/farm5/173/50E3E8D65DCAAEB6D4B9FC5A2A6302AD_1280_960.jpg" alt="" /></p>
-
-<p>拆机工具，45＊1 , pro 的是ph000 ,剩下的可以拆拆 iphone 什么的。。淘宝有售</p>
-
-<p><img src="http://m3.img.libdd.com/farm4/193/4A44B3C6119B728FB8C0C0D36A1B5CC1_1280_960.jpg" alt="" /></p>
-
-<p>开拆。背面一大踹各种认证标明不是国行，买的港版，显示 Assembled in China, 比国行便宜2k+</p>
-
-<p><img src="http://m3.img.libdd.com/farm5/124/2FCF6C74233D9BBF6D7F5399A2CA587C_1280_960.jpg" alt="" /></p>
-
-<p>全景图 光驱，硬盘，电池，主板，风扇，散热设计主要在尾部和键盘(键盘表面也是散热之一，所以键盘感觉到热很正常)</p>
-
-<p><img src="http://m2.img.libdd.com/farm5/138/769D5738C7518F51008FF24EE6BD448A_1280_960.jpg" alt="" /></p>
-
-<p>主板来张特写，精密仪器啊，密密麻麻</p>
-
-<p><img src="http://m1.img.libdd.com/farm4/24/B1CA8203D0000DA2FEFF8F8BC7DB3B18_1280_960.jpg" alt="" /></p>
-
-<p>拆下来的原装内存 现代牌 2G*2</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/31/BC98EDCE869C1939C46F8718487CF01F_1280_960.jpg" alt="" /></p>
-
-<p>三星和原装对比，短了一截，当时有点吓着了，内存包装都拆了，退货都没得退。
-好在除了个头不一样，规格还算一样的，插还是可以插进去的，只是比大块头费点劲</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/216/BFC0726FC23BFCDCFFABFFEE891643D8_1280_960.jpg" alt="" /></p>
-
-<p>插完之后的特写，稍微短了一点，不过无伤大雅</p>
-
-<p><img src="http://m3.img.libdd.com/farm4/196/F4B2D58192AD8453E14C8D2DD8A13CC4_1280_960.jpg" alt="" /></p>
-
-<p>再次开机，显示为8G内存，证明兼容性尚可，没问题</p>
-
-<p><img src="http://m3.img.libdd.com/farm5/197/D96443C0F518BDF817B178BC4AB9F4C5_586_268.PNG" alt="" /></p>
-
-<p>最后来张 Logo和键盘照</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/215/31861739FCDD63D99B1DBCAC7EE8EBD7_1280_960.jpg" alt="" />
-<img src="http://m3.img.libdd.com/farm4/72/2F8D4889C36D8B995B93E10654F95D48_1280_960.jpg" alt="" /></p>
-
-<hr />
-
-<p>本来准备同时把光驱拆了装个128G SSD，但是又要1K大洋，暂时对速度上也没有多大追求，还是等有钱了再折腾吧，有在帝都的同学想借工具可以联系我，免费借用加拆机指导哦。</p>
 ]]></content>
   </entry>
   
