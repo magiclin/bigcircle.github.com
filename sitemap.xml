@@ -2,19 +2,19 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://Bigcircle.github.com/blog/chu-shi-octopress.html/</loc>
-        <lastmod>2012-08-28T00:20:08+08:00</lastmod>
+        <lastmod>2012-09-16T17:55:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/use-sudo-without-password.html/</loc>
-        <lastmod>2012-08-27T19:07:15+08:00</lastmod>
+        <lastmod>2012-09-16T17:59:19+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/bind-domain-with-github-page.html/</loc>
-        <lastmod>2012-08-27T19:07:15+08:00</lastmod>
+        <lastmod>2012-09-16T17:56:04+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/modify-mac-to-8g-memory.html/</loc>
-        <lastmod>2012-08-27T19:07:15+08:00</lastmod>
+        <lastmod>2012-09-16T17:59:11+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/</loc>
@@ -24,15 +24,15 @@
         <loc>
             http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac.html/
         </loc>
-        <lastmod>2012-09-08T01:42:35+08:00</lastmod>
+        <lastmod>2012-09-16T17:59:31+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/</loc>
-        <lastmod>2012-08-27T19:07:15+08:00</lastmod>
+        <lastmod>2012-09-16T17:58:44+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/modify-octopress-style-and-color.html/</loc>
-        <lastmod>2012-09-05T23:02:25+08:00</lastmod>
+        <lastmod>2012-09-16T17:59:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/explain-select-on-rails-hepler.html/</loc>
@@ -40,11 +40,11 @@
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/compile-textmate.html/</loc>
-        <lastmod>2012-08-29T00:45:35+08:00</lastmod>
+        <lastmod>2012-09-16T17:59:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/add-seo-to-octopress.html/</loc>
-        <lastmod>2012-08-29T23:48:40+08:00</lastmod>
+        <lastmod>2012-09-16T17:59:57+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -72,7 +72,7 @@
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/</loc>
-        <lastmod>2012-09-01T16:00:19+08:00</lastmod>
+        <lastmod>2012-09-16T17:58:02+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try.html/</loc>
@@ -84,22 +84,22 @@
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/iterm2-keymaps.html/</loc>
-        <lastmod>2012-09-08T18:17:05+08:00</lastmod>
+        <lastmod>2012-09-16T18:00:25+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/intro-flico-and-touchpad.html/</loc>
-        <lastmod>2012-09-15T17:21:57+08:00</lastmod>
+        <lastmod>2012-09-16T17:57:54+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/about/</loc>
-        <lastmod>2012-08-27T23:05:38+08:00</lastmod>
+        <lastmod>2012-09-16T17:52:47+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/blog/archives/</loc>
-        <lastmod>2012-09-15T17:21:57+08:00</lastmod>
+        <lastmod>2012-09-16T18:00:25+08:00</lastmod>
     </url>
     <url>
         <loc>http://Bigcircle.github.com/</loc>
-        <lastmod>2012-09-15T17:21:57+08:00</lastmod>
+        <lastmod>2012-09-16T18:00:25+08:00</lastmod>
     </url>
 </urlset>

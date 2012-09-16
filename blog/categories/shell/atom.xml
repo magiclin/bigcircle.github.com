@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: shell | Hi, I’m dayuan]]></title>
+  <link href="http://Bigcircle.github.com/blog/categories/shell/atom.xml" rel="self"/>
+  <link href="http://Bigcircle.github.com/"/>
+  <updated>2012-09-16T19:15:23+08:00</updated>
+  <id>http://Bigcircle.github.com/</id>
+  <author>
+    <name><![CDATA[bigcircle]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac设置goagent开机自启动]]></title>
+    <link href="http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac.html/"/>
+    <updated>2012-08-25T12:19:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/start-goagent-automatically-when-boot-in-mac</id>
+    <content type="html"><![CDATA[<p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
+搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
+
+<!--more-->
+
+<ul>
+  <li><a href="http://keating.iteye.com/blog/1463521">开机自动启动GoAgent</a></li>
+  <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
+</ul>
+
+<p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂
+用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
+
+<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，在安装完之后会有一大堆提示，比如这样</p>
+
+<p>```c
+To launch on startup:
+* if this is your first install:
+mkdir -p ~/Library/LaunchAgents
+cp /usr/local/Cellar/mysql/5.5.25a/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</p>
+
+<ul>
+  <li>if this is an upgrade and you already have the homebrew.mxcl.mysql.plist loaded:
+launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+cp /usr/local/Cellar/mysql/5.5.25a/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</li>
+</ul>
+
+<p>You may also need to edit the plist to use the correct “UserName”.
+```</p>
+
+<p>这个就是提示你怎么设置开机启动，brew已经预先把启动文件都写好了，你只需要copy过去，设置启动就Ok了。~/Library/LaunchAgents 下存放用户登陆之后的启动服务，具体补课可以参考 <a href="http://kenwublog.com/mac-os-launchd-tuning">这篇</a>
+有人做了个dmg包和goagent源码配合使用，把那个app设置为开机启动也很方便，位于 <code>系统偏好设置 &gt; 用户与群组 &gt; 登陆项</code> 参考 <a href="http://dharmasong.net/2011/11/449.html">这</a>，这个应该是不爱折腾的最简单的方法</p>
+
+<p>下面开始小折腾的方法，也很简单</p>
+
+<ul>
+  <li>新建一个plist文件，比如说叫 com.google.goagent.plist，输入以下内容</li>
+</ul>
+
+<p><div><script src='https://gist.github.com/3461688.js?file=com.google.goagent.plist'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+  &lt;key&gt;Label&lt;/key&gt;
+  &lt;string&gt;com.google.goagent&lt;/string&gt;
+  &lt;key&gt;ProgramArguments&lt;/key&gt;
+  &lt;array&gt;
+    &lt;string&gt;/usr/local/python&lt;/string&gt;
+    &lt;string&gt;/Users/yourname/goagent/local/proxy.py&lt;/string&gt;
+  &lt;/array&gt;
+  &lt;key&gt;RunAtLoad&lt;/key&gt;
+  &lt;true/&gt;
+  &lt;key&gt;KeepAlive&lt;/key&gt;
+  &lt;true/&gt;
+  &lt;UserName&gt;dayuan&lt;/UserName&gt;
+  &lt;key&gt;WorkingDirectory&lt;/key&gt;
+  &lt;string&gt;/Users/yourname/goagent/local&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></noscript></div>
+</p>
+
+<p>代码很简单，书写要规范。设置RunAtLoad和KeepAlive为true，试用了一天感觉良好</p>
+
+<ul>
+  <li>接下来敲几个字就over了</li>
+</ul>
+
+<p><code>c
+	cp com.google.goagent.plist ~/Library/LaunchAgents
+	launchctl load -w ~/Library/LaunchAgents/com.google.goagent.plist
+</code></p>
+
+<p>这样下次开机的时候goagent就已经自动启动了，总结起来就是三步:
+写一个启动文件 —— copy到对应目录 —— 设为启动</p>
+
+<p>默认开启8087端口</p>
+
+<p><code>c
+lsof -i:8087
+Python xxxxxx TCP localhost:8087 (LISTEN)
+</code>
+用Chrome或者Firefox用proxy switch已经配置好的同学可以直接打开敏感词测试了</p>
+
+<p>停止该服务的方式也很简单，把这个 plist 移除当前目录 或者</p>
+
+<p><code>
+# -w 参数是完全删除的意思，否则在下次登陆的时候依然会启动服务
+launchctl unload -w ~/Library/LaunchAgents/com.google.goagent.plist
+</code></p>
+
+<p>执行这2个操作中的一个后服务将会立即停止，需要注意的是，不能通过 kill PID 的方式杀死该服务，kill -9 删除服务也会重启，只能通过这两种方式才能终止，如果想修改服务最好先 unload 服务，修改完之后再 load，直接修改可能会导致电脑重启</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[免去sudo时输入密码]]></title>
+    <link href="http://Bigcircle.github.com/blog/use-sudo-without-password.html/"/>
+    <updated>2012-08-20T14:16:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/use-sudo-without-password</id>
+    <content type="html"><![CDATA[<p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
+
+<h3 id="section">为什么不想敲密码</h3>
+<!-- more -->
+<ul>
+  <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
+  <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
+  <li>能方便设置一些启动项，特别是一个项目启动项很多，为了懒就写一个启动脚本</li>
+  <li>自己的系统自己用，没必要像在服务器上对权限要求那么严格</li>
+  <li>当然也有忘记root密码的情况。。</li>
+</ul>
+
+<h3 id="section-1">怎么做</h3>
+<p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
+默认情况的权限是这样的</p>
+
+<p><code>bash
+root ALL=(ALL) ALL
+%admin ALL=(ALL) ALL
+</code></p>
+
+<p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
+修改如下：</p>
+
+<p><code>
+# 修改amdin组都不用输入密码
+%admin ALL=(ALL) NOPASSWD: NOPASSWD ALL
+# 只是想让 marine 用户输入sudo不需要密码
+marine ALL=(ALL) NOPASSWD: ALL
+</code></p>
+
+<p>当然可定制丰富的权限要求，不过那样还不如不设置，统一要求输入密码得了。</p>
+
+<h3 id="section-2">一个好用的小技巧</h3>
+<p>有时候当我们输入了一大串命令后敲下去发现需要写sudo，这个时候不得不找回上个命令，然后回到命令开头，然后加上sudo空格，稍微有点麻烦，可以用以下2个小方法</p>
+
+<p><code>
+# !! 表示上次执行的命令
+sudo !!
+</code></p>
+
+<p>或者用zsh的同学可以自定义个命令绑定快捷键，比如这样:</p>
+
+<p><code>
+sudo-command-line() {
+  [[ -z $BUFFER ]] &amp;&amp; zle up-history
+  [[ $BUFFER != sudo\ * ]] &amp;&amp; BUFFER="sudo $BUFFER"
+    zle end-of-line
+}
+zle -N sudo-command-line
+bindkey "\e\e" sudo-command-line
+</code></p>
+
+<p>定义快捷键: 连续按2个ESC自动在前面添加sudo，非常方便快捷</p>
+
+<p>前段时间看了个介绍 <a href="http://www.commandlinefu.com/commands/browse/sort-by-votes">linux命令的网站</a>，有很多实用方便的快捷键，大家有兴趣可以去淘几个</p>
+]]></content>
+  </entry>
+  
+</feed>

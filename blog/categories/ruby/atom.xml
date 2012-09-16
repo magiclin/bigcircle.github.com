@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-16T16:17:27+08:00</updated>
+  <updated>2012-09-16T19:15:23+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -375,68 +375,60 @@ dynamic method           0.150000   0.000000   0.150000 (  0.156537)
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Sublime Text 2 使用 RVM ]]></title>
-    <link href="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/"/>
-    <updated>2012-09-01T13:43:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2</id>
-    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
-<!--more-->
-默认自带的 build 目录位于</p>
+    <title type="html"><![CDATA[初识Octopress]]></title>
+    <link href="http://Bigcircle.github.com/blog/chu-shi-octopress.html/"/>
+    <updated>2012-08-16T00:37:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/chu-shi-octopress</id>
+    <content type="html"><![CDATA[<p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
+折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
 
-<p><code>c
-~/Library/Application\ Support/Sublime\ Text\ 2/Packages/Ruby/Ruby.sublime-build
+<h3 id="octopress">octopress</h3>
+<!-- more -->
+
+<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
+
+<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
+
+<p><code>bash
+    curl -L https://get.rvm.io | bash -s stable
+	# 我用的 zsh ,根据自身情况换成 .bash_profile
+    echo "
+    # RVM
+    [[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] &amp;&amp; source '/Users/`whoami`/.rvm/scripts/rvm'
+    [[ -s '$HOME/.rvm/scripts/rvm' ]] &amp;&amp; . '$HOME/.rvm/scripts/rvm" &gt;&gt; ~/.zshrc
+    source ~/.zshrc				# 使刚才配置生效
+    rvm install 1.9.3
+    rvm use 1.9.3 --default			# rvm安装1.9.3版本ruby，并默认使用该版本
 </code></p>
 
-<p>默认的配置是这样的</p>
+<h6 id="octopress-">复制 Octopress 到本地</h6>
 
 <p><code>
-"cmd": ["ruby", "$file"],
-"file_regex": "^(...*?):([0-9]*):?([0-9]*)",
-"selector": "source.ruby"
+    git clone git clone git://github.com/imathis/octopress.git myblog
+    cd myblog
+    bundle install				# 安装所需 gem
+    rake install				# 安装默认主题
+    rake preview				# 本地预览, http://localhost:4000
 </code></p>
 
-<p>切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8</p>
+<h6 id="github">部署到 github</h6>
 
-<p><code>
-"cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "-KU", "$file"]
-</code></p>
+<p>```
+    rake setup_github_pages
+	# 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支
+    git@github.com:your_username/your_username.github.com.git
+    rake generate				# 将所有内容生成静态文件
+    rake deploy 				# 部署到github上</p>
 
-<p>你也可以自己改成 rvm 默认的 default ruby</p>
+<pre><code># 创建 source 分支 用于保存作文和配置文件
+git add .
+git commit -m 'create source branch'
+git push origin source ```
+</code></pre>
 
-<p>```c
-which ruby</p>
+<p>OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
+不知不觉已经夜深人静了，明天把 Disqus 加上就可以留个小言啦。</p>
 
-<p>=&gt; /Users/yourname/.rvm/rubies/ruby-1.9.3-p194/bin/ruby
-```</p>
-
-<p>默认执行快捷键是 <code>⌘ + b</code> / <code>F7</code>，可以自己定义成喜欢的按键</p>
-
-<p><code>
-{ "keys": ["super+b"], "command": "build" },
-</code></p>
-
-<p>如何构建不用语言的 build，参考 <a href="http://addyosmani.com/blog/custom-sublime-text-build-systems-for-popular-tools-and-languages/">这篇</a>，差不多列举全了，构造方式也很简单</p>
-
-<hr />
-
-<p>另外推荐个我最常用的快捷键</p>
-
-<ul>
-  <li>在打开的几个标签之间前后切换。当打开很多标签时，又不喜欢用鼠标点来点去的可以试下这个</li>
-</ul>
-
-<p><code>
-{ "keys": ["super+1"], "command": "prev_view" },
-{ "keys": ["super+2"], "command": "next_view" },
-</code></p>
-
-<p>这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app，设置方式如下</p>
-
-<p><img src="http://m2.img.libdd.com/farm4/2012/0901/15/57756B60A70B4B4D6BEE07D177C25C55C856F5189977_500_448.jpg" alt="" /></p>
-
-<p>其他我定义的快捷键都在 <a href="https://github.com/Bigcircle/config/blob/master/sublime/User/Default%20(OSX).sublime-keymap">这</a>，有需要的可以去淘几个</p>
-
-<p>工欲善其事，必先利其器，利用好工具可以给开发带来很大的便利，节省很多时间</p>
 ]]></content>
   </entry>
   

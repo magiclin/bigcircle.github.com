@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-16T16:17:27+08:00</updated>
+  <updated>2012-09-16T19:15:23+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -82,13 +82,13 @@ Iterm2 的优点：</p>
   <li>ctrl + u 清空当前行，无论光标在什么位置</li>
   <li>输入开头命令后 按 ⌘ + ; 会自动列出输入过的命令</li>
   <li>⌘ + shift + h 会列出剪切板历史</li>
-  <li>可以在 <code>Preferences &gt; keys</code> 设置全局快捷键调出 iterm，这个也可以用过 Alfred 实现 </li>
+  <li>可以在 <code>Preferences &gt; keys</code> 设置全局快捷键调出 iterm，这个也可以用过 Alfred 实现</li>
 </ol>
 
 <p>我常用的一些快捷键</p>
 
 <ol>
-  <li>⌘ + 1 / 2 左右 tab 之间来回切换，这个在 <a href="http://dayuan.im/blog/add-rvm-ruby-path-to-sublime-text-2.html/">前面</a> 已经介绍过了 </li>
+  <li>⌘ + 1 / 2 左右 tab 之间来回切换，这个在 <a href="http://dayuan.im/blog/add-rvm-ruby-path-to-sublime-text-2.html/">前面</a> 已经介绍过了</li>
   <li>⌘← / ⌘→ 到一行命令最左边/最右边 ，这个功能同 C+a / C+e</li>
   <li>⌥← / ⌥→ 按单词前移/后移，相当与 C+f / C+b，其实这个功能在Iterm中已经预定义好了，⌥f / ⌥b，看个人习惯了</li>
   <li>好像就这几个。。囧</li>
@@ -2749,7 +2749,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
     <content type="html"><![CDATA[<p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
 
 <ul>
-  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a> </li>
+  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a></li>
   <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
 <!--more--></li>
   <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
@@ -2857,7 +2857,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
     <link href="http://Bigcircle.github.com/blog/compile-textmate.html/"/>
     <updated>2012-08-28T23:43:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/compile-textmate</id>
-    <content type="html"><![CDATA[<p>前段时间 <a href="http://macromates.com/">Textmate</a> 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。   </p>
+    <content type="html"><![CDATA[<p>前段时间 <a href="http://macromates.com/">Textmate</a> 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。</p>
 
 <p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
 
@@ -2873,7 +2873,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 </pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">ragel</span> <span class="n">boost</span> <span class="n">multimarkdown</span> <span class="n">hg</span> <span class="n">ninja</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢 <br />
+<p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢
 ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下</p>
 
 <h5 id="pgrep-pkill">查看是否有 pgrep pkill</h5>
@@ -3113,7 +3113,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 
 <ul>
   <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
-  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点 </li>
+  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点</li>
   <li>所有背景统一为一个背景</li>
   <li>去掉各种边边框框，让样式尽量简单一点</li>
   <li>修改引用gist代码和普通代码的高亮和样式</li>
@@ -3129,7 +3129,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     <link href="http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/"/>
     <updated>2012-08-27T11:24:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/add-category-list-for-octopress</id>
-    <content type="html"><![CDATA[<p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。 <br />
+    <content type="html"><![CDATA[<p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
 为了使界面简洁点，就只添加了一个分类列表
 <!-- more --></p>
 
@@ -3333,7 +3333,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     <link href="http://Bigcircle.github.com/blog/modify-mac-to-8g-memory.html/"/>
     <updated>2012-08-21T20:58:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/modify-mac-to-8g-memory</id>
-    <content type="html"><![CDATA[<p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)<br />
+    <content type="html"><![CDATA[<p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
 主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点
 <!--more--></p>
 
@@ -3341,7 +3341,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
   <li>系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选</li>
   <li>外形拉轰，think different 理念，适合与众不同的人。。</li>
   <li>操作快捷，内置各种快捷键，借助 Alfred / QuickSilver 可以做到全盘快捷键</li>
-  <li>装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品 </li>
+  <li>装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品</li>
   <li>待机时间长，广告号称7小时，虽说目前Mountain Lion在待机方面可能比预期的短点，但4～5个小时还是没有问题的，相对于普通pc的2个小时强太多了，相信下个补丁应该能在待机时间方面优化优化</li>
   <li>用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事</li>
 </ul>

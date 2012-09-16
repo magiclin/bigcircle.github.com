@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Octopress | Hi, I’m dayuan]]></title>
+  <title><![CDATA[Category: octopress | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-16T16:17:27+08:00</updated>
+  <updated>2012-09-16T19:15:23+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
 
 <ul>
-  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a> </li>
+  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a></li>
   <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
 <!--more--></li>
   <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
@@ -83,7 +83,7 @@ end
 <p><code>ruby
 &lt;meta name="author" content="bigcircle"&gt;
 
-&lt;meta name="description" content="Category: Octopress"&gt;
+&lt;meta name="description" content="Category: octopress"&gt;
 &lt;meta name="keywords" content="ruby, rails, web development, octopress, blog"&gt;
 </code></p>
 
@@ -116,7 +116,7 @@ keywords: ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping
 
 <ul>
   <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
-  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点 </li>
+  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点</li>
   <li>所有背景统一为一个背景</li>
   <li>去掉各种边边框框，让样式尽量简单一点</li>
   <li>修改引用gist代码和普通代码的高亮和样式</li>
@@ -132,7 +132,7 @@ keywords: ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping
     <link href="http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/"/>
     <updated>2012-08-27T11:24:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/add-category-list-for-octopress</id>
-    <content type="html"><![CDATA[<p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。 <br />
+    <content type="html"><![CDATA[<p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
 为了使界面简洁点，就只添加了一个分类列表
 <!-- more --></p>
 
@@ -144,13 +144,14 @@ keywords: ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping
 <section>
   <h1>Categories</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/octopress/'>Octopress (4)</a></li>
-<li class='category'><a href='/blog/categories/ruby/'>Ruby (1)</a></li>
-<li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+    <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (7)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
 <li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (5)</a></li>
 <li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
 
   </ul>
