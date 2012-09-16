@@ -3,7 +3,7 @@ layout: post
 title: "初识Octopress"
 date: 2012-08-16 00:37
 comments: true
-categories: [Octopress, Ruby]
+categories: [octopress, ruby]
 ---
 其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
 折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修

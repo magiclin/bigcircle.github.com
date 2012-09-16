@@ -3,7 +3,7 @@ layout: post
 title: "Sublime Text 2 使用 RVM "
 date: 2012-09-01 13:43
 comments: true
-categories: [mac, ruby]
+categories: [mac, tools]
 keywords: mac, sublime text 2, ruby
 description: use rvm ruby in sublime text 2
 ---

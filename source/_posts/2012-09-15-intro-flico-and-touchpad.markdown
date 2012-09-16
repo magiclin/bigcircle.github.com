@@ -3,7 +3,7 @@ layout: post
 title: "新装备之 Flico & Trackpad"
 date: 2012-09-15 16:16
 comments: true
-categories: mac
+categories: [mac, tools]
 keywords: flico magic trackpad
 description: intro flico and trackpad
 ---

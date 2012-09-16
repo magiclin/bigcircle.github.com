@@ -3,9 +3,9 @@ layout: post
 title: "编译Textmate"
 date: 2012-08-28 23:43
 comments: true
-categories: [mac]
+categories: [mac, tools]
 ---
-前段时间 [Textmate](http://macromates.com/) 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。   
+前段时间 [Textmate](http://macromates.com/) 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。
 
 Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了
 
@@ -21,7 +21,7 @@ Github 上托管地址 [Here](https://github.com/textmate/textmate)
 brew install ragel boost multimarkdown hg ninja
 ```
 
-boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢   
+boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢
 ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下
 
 #####查看是否有 pgrep pkill

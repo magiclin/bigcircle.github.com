@@ -3,9 +3,9 @@ layout: post
 title: "给Octopress添加分类列表"
 date: 2012-08-27 11:24
 comments: true
-categories: [Octopress]
+categories: [octopress]
 ---
-Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。   
+Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
 为了使界面简洁点，就只添加了一个分类列表
 <!-- more -->
 

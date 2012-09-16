@@ -3,16 +3,16 @@ layout: post
 title: "Mac升级内存手记，高清大图(12P)"
 date: 2012-08-21 20:58
 comments: true
-categories: [mac]
+categories: [mac, tools]
 ---
-月初新入手Mac 2012新款 [MD103](http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select) 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)  
+月初新入手Mac 2012新款 [MD103](http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select) 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
 主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点
 <!--more-->
 
 - 系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选
 - 外形拉轰，think different 理念，适合与众不同的人。。
 - 操作快捷，内置各种快捷键，借助 Alfred / QuickSilver 可以做到全盘快捷键
-- 装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品 
+- 装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品
 - 待机时间长，广告号称7小时，虽说目前Mountain Lion在待机方面可能比预期的短点，但4～5个小时还是没有问题的，相对于普通pc的2个小时强太多了，相信下个补丁应该能在待机时间方面优化优化
 - 用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事
 

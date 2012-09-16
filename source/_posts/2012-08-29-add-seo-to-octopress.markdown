@@ -3,13 +3,13 @@ layout: post
 title: "Octopress Seo"
 date: 2012-08-29 21:50
 comments: true
-categories: [Octopress]
+categories: [octopress]
 keywords: octopress, seo
 description: how to optimize octopress for seo
 ---
 用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：
 
-- [给octopress博客添加豆瓣侧边栏](http://tinyxd.me/blog/2012/07/09/add-douban-aside/) 
+- [给octopress博客添加豆瓣侧边栏](http://tinyxd.me/blog/2012/07/09/add-douban-aside/)
 - [添加新浪微博侧边栏](http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/)
 <!--more-->
 - [给octopress加上标签云](http://log4d.com/2012/05/tag-cloud/)

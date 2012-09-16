@@ -3,7 +3,7 @@ layout: post
 title: "Mac设置goagent开机自启动"
 date: 2012-08-25 12:19
 comments: true
-categories: [mac]
+categories: [mac, shell]
 ---
 每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
 搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的

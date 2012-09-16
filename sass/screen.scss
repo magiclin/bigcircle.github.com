@@ -111,6 +111,7 @@ article {
         color :$toto_color !important;
         font-size:24px;
       }
+      a:hover {color:black !important;};
     }
     p.meta {
       display:inline-block;
@@ -151,13 +152,19 @@ body > nav {
   padding-left:40px;
   border-bottom:2px solid $toto_color;
   a {color:#2697e3 !important; }
+  a:hover { color:black !important;}
 }
+
 body > footer {
   background:none !important;
   text-align:center;
   padding-top:2em;
   margin-bottom:1em;
-  p a {color:$toto_color !important;}
+  p {
+    color:lightblue;
+    a {color:$toto_color !important;}
+  }
+
 }
 
 .sidebar {
@@ -181,11 +188,16 @@ body #content > div > section {
   h1 {
     margin-left:50px !important;
     > a {color :$toto_color !important;}
-    a:hover {
-      color:black !important;
-    };
+    a:hover { color:black !important; };
   }
-  footer span {margin-left:50px !important;}
+  h2 {color:lightblue;}
+  a:hover {color:black !important;};
+  footer span {
+    margin-left:50px !important;
+    float:right;
+    margin-top:-40px;
+    color:lightblue;
+  }
 }
 
 #main {
@@ -194,6 +206,7 @@ body #content > div > section {
 
 #content {
   margin-right:250px;
+  article time {top:32px;color:lightblue;font-size:20px;}
 }
 
 .self {

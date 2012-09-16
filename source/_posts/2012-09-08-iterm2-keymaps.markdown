@@ -3,7 +3,7 @@ layout: post
 title: "iterm2 快捷键介绍"
 date: 2012-09-08 15:30
 comments: true
-categories: [mac]
+categories: [mac, tools]
 keywords: mac iterm2 keymaps
 description: iterm2 keymaps intro
 ---
@@ -28,11 +28,11 @@ Iterm2 的优点：
 6. ctrl + u 清空当前行，无论光标在什么位置
 7. 输入开头命令后 按 ⌘ + ; 会自动列出输入过的命令
 8. ⌘ + shift + h 会列出剪切板历史
-9. 可以在 `Preferences > keys` 设置全局快捷键调出 iterm，这个也可以用过 Alfred 实现 
+9. 可以在 `Preferences > keys` 设置全局快捷键调出 iterm，这个也可以用过 Alfred 实现
 
 我常用的一些快捷键
 
-1. ⌘ + 1 / 2 左右 tab 之间来回切换，这个在 [前面](http://dayuan.im/blog/add-rvm-ruby-path-to-sublime-text-2.html/) 已经介绍过了 
+1. ⌘ + 1 / 2 左右 tab 之间来回切换，这个在 [前面](http://dayuan.im/blog/add-rvm-ruby-path-to-sublime-text-2.html/) 已经介绍过了
 2. ⌘← / ⌘→ 到一行命令最左边/最右边 ，这个功能同 C+a / C+e
 3. ⌥← / ⌥→ 按单词前移/后移，相当与 C+f / C+b，其实这个功能在Iterm中已经预定义好了，⌥f / ⌥b，看个人习惯了
 4. 好像就这几个。。囧

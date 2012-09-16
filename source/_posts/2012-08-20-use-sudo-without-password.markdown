@@ -3,7 +3,7 @@ layout: post
 title: "免去sudo时输入密码"
 date: 2012-08-20 14:16
 comments: true
-categories: [mac]
+categories: [mac, shell]
 ---
 经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。
 

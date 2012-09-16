@@ -3,7 +3,7 @@ layout: post
 title: "修改Octopress主题样式"
 date: 2012-08-27 19:17
 comments: true
-categories: [Octopress]
+categories: [octopress]
 ---
 默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行
 
@@ -11,7 +11,7 @@ categories: [Octopress]
 <!-- more -->
 
 - 默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉
-- 整体颜色以 `#2697e3` 和 `lightblue` 为主，看着统一一点 
+- 整体颜色以 `#2697e3` 和 `lightblue` 为主，看着统一一点
 - 所有背景统一为一个背景
 - 去掉各种边边框框，让样式尽量简单一点
 - 修改引用gist代码和普通代码的高亮和样式
