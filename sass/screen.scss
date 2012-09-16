@@ -181,6 +181,9 @@ body #content > div > section {
   h1 {
     margin-left:50px !important;
     > a {color :$toto_color !important;}
+    a:hover {
+      color:black !important;
+    };
   }
   footer span {margin-left:50px !important;}
 }
