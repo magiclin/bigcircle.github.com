@@ -3,7 +3,7 @@ layout: post
 title: "增强触控板之 Jitouch"
 date: 2012-09-16 20:23
 comments: true
-categories: [mac tools]
+categories: [mac, tools]
 keywords: mac tools touchpad jitouch
 description: enhance your touchpad
 ---
