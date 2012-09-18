@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-17T00:02:06+08:00</updated>
+  <updated>2012-09-18T11:31:00+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -18,14 +18,17 @@
     <link href="http://Bigcircle.github.com/blog/enhance-your-touchpad.html/"/>
     <updated>2012-09-16T20:23:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/enhance-your-touchpad</id>
-    <content type="html"><![CDATA[<p>试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch  和 Better Touch Tool，以后看网页就可以单手操作了
-<!--more--></p>
+    <content type="html"><![CDATA[<p>试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch  和 Better Touch Tool，以后看网页就可以单手操作了</p>
 
 <h5 id="jitouch">Jitouch</h5>
 
 <p>Jitouch 可以用来增强 Magic Mouse 和 Trackpad 的手势，据说对 MM 的手势识别率相当高，不过暂时没有 MM，估计也不会买 MM 的我来说就无所谓了，能够支持触控板就 OK 了。</p>
 
 <p>默认已经设好了一些快捷手势，都挺不错的，功能如下：</p>
+
+<p><img src="/images/2012-09-16/1.png"></p>
+
+<!--more-->
 
 <ul>
   <li>一个手指固定，另一个手指点击，左边点击是前一个标签，右边点击是后一个标签</li>
@@ -37,13 +40,11 @@
   <li>四根手指向右划，关闭当前标签</li>
 </ul>
 
-<p><img src="/images/2012-09-16/1.png"></p>
-
 <p>还有很多可以定义的手势和操作，不过我还没怎么发掘出好用的</p>
 
 <p><img src="/images/2012-09-16/2.png"></p>
 
-<p>Jitouch 识别率还是挺高的，和触控板配合起来用起来还是很爽的，<a href="http://soft.macx.cn/3788.htm">破解</a> 一般人我不告诉他 <br />
+<p>Jitouch 识别率还是挺高的，和触控板配合起来用起来还是很爽的，<a href="http://soft.macx.cn/3788.htm">破解</a> 一般人我不告诉他
 Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不如 jitouch 方便，简单用了下就卸了，专一用好一个就足够了</p>
 ]]></content>
   </entry>
@@ -53,8 +54,7 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
     <link href="http://Bigcircle.github.com/blog/intro-flico-and-touchpad.html/"/>
     <updated>2012-09-15T16:16:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/intro-flico-and-touchpad</id>
-    <content type="html"><![CDATA[<p>前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如丝般顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。其实之前就已经有目标了，所以购买过程非常快，也只是在买和不买之间犹豫了两天，对于目前很穷的我来说是笔大开销。。
-<!-- more --></p>
+    <content type="html"><![CDATA[<p>前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如丝般顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。其实之前就已经有目标了，所以购买过程非常快，也只是在买和不买之间犹豫了两天，对于目前很穷的我来说是笔大开销。。</p>
 
 <p>键盘肯定 HHKB 和 realforce 是当之无愧的王者，那个价钱也让看到的人望而却步；低端的国产键盘胜在便宜，性价比高，缺点是做工较差，手感比正规的 chery 和 flico 还是要差很多的，加上比较钟爱小巧型的键盘，右侧数字键对我来说基本上没有出场机会，所以最终决定买个折衷的 flico 圣手2代 87无冲茶轴。之所以不买青轴，大家也知道它是办公室杀手，会导致在同事那声望冷淡甚至仇恨，加上可能还有点游戏的需求，茶轴这种兼顾性的设计还是比较适合我的</p>
 
@@ -63,6 +63,8 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
 <p>从表面上它是无刻板</p>
 
 <p><img src="http://m1.img.libdd.com/farm5/2012/0915/16/56C4E8FC9F566DE1631ADCF2B50B8357999FCE663682_1280_960.jpg" alt="" /></p>
+
+<!-- more -->
 
 <p>其实刻度在侧面，这样键帽正面就不用刻了，给你一个干净的键帽</p>
 
@@ -95,9 +97,9 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
     <id>http://Bigcircle.github.com/blog/iterm2-keymaps</id>
     <content type="html"><![CDATA[<p>Mac 原来自带的终端工具 Terminal 不好用是出了名的，虽然最近几个版本苹果稍微做了些优化，功能上，可用性方面增强不少，无奈有个更好用的 Iterm2 摆在那，基本上也就没有多少出场机会了</p>
 
-<p><a href="http://www.iterm2.com/">Iterm2</a>，经常使用终端的同学肯定早就切换到这个东东上了，开源免费，和 zsh 搭配差不多已经取代 Terminal + bash 成了 Mac 上终端工具的标准配置。
-<!--more-->
-Iterm2 的优点：</p>
+<p><a href="http://www.iterm2.com/">Iterm2</a>，经常使用终端的同学肯定早就切换到这个东东上了，开源免费，和 zsh 搭配差不多已经取代 Terminal + bash 成了 Mac 上终端工具的标准配置。</p>
+
+<p>Iterm2 的优点：</p>
 
 <ul>
   <li>兼容性好，远程服务器 vi 什么的低版本能很好兼容，Terminal 则会出问题</li>
@@ -107,6 +109,8 @@ Iterm2 的优点：</p>
 </ul>
 
 <p><a href="http://www.iterm2.com/#/section/documentation">官方文档</a> 有非常详细的介绍，先来看看自带有哪些很实用的功能/快捷键</p>
+
+<!--more-->
 
 <ol>
   <li>⌘ + 数字在各 tab 标签直接来回切换</li>
@@ -162,9 +166,9 @@ Iterm2 的优点：</p>
     <link href="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/"/>
     <updated>2012-09-01T13:43:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2</id>
-    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
-<!--more-->
-默认自带的 build 目录位于</p>
+    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby</p>
+
+<p>默认自带的 build 目录位于</p>
 
 <p><code>c
 ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/Ruby/Ruby.sublime-build
@@ -185,6 +189,8 @@ Iterm2 的优点：</p>
 </code></p>
 
 <p>你也可以自己改成 rvm 默认的 default ruby</p>
+
+<!--more-->
 
 <p>```c
 which ruby</p>
@@ -232,8 +238,6 @@ which ruby</p>
 
 <p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
 
-<!--more-->
-
 <p>我从做开发伊始就一直用的 Sublime Text 2，也是一个大量借鉴 Textmate 理念和功能的产品，易用性相当不错，也有很多现成的包可以用，跨平台，不爽的是快捷键不能跨，windows下快捷键得另改，好在现在已经不需要切到 windows 了，也就少了这个烦恼。上次在 v2ex 看到有人发编译后的app，感觉编译应该不是很难。以前一直想试用下，但是version 1下的汉字显示实在是不行，现在升级到版本2了貌似解决了这个问题，就尝试着编译个尝尝鲜，看和 ST2 哪个更好用</p>
 
 <p>Github 上托管地址 <a href="https://github.com/textmate/textmate">Here</a></p>
@@ -246,6 +250,8 @@ brew install ragel boost multimarkdown hg ninja
 
 <p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢
 ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下</p>
+
+<!--more-->
 
 <h5 id="pgrep-pkill">查看是否有 pgrep pkill</h5>
 

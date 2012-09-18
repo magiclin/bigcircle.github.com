@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 这篇 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听 ">
+  <meta name="description" content="用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby 默认自带的 build &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +80,162 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-01T13:43:00+08:00" pubdate data-updated="true">2012-09-01 13:43:00</time>
+        
+         | <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby</p>
+
+<p>默认自带的 build 目录位于</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span><span class="err">\</span> <span class="n">Support</span><span class="o">/</span><span class="n">Sublime</span><span class="err">\</span> <span class="n">Text</span><span class="err">\</span> <span class="mi">2</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">Ruby</span><span class="o">/</span><span class="n">Ruby</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">build</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>默认的配置是这样的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
+</span><span class="line"><span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
+</span><span class="line"><span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.ruby&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/Users/yourname/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;-KU&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>你也可以自己改成 rvm 默认的 default ruby</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T14:47:00+08:00" pubdate data-updated="true">2012-08-31 14:47:00</time>
+        
+         | <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
+
+<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇</p>
+
+<p>这篇 <a href="http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/">blog</a> 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧</p>
+
+<h6 id="render-any-object">31 - Render Any Object</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Event</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">to_partial_path</span>
+</span><span class="line">    <span class="s2">&quot;events/</span><span class="si">#{</span><span class="n">trigger</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># events/edit or events/view</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="vi">@events</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:event</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="http://edgeapi.rubyonrails.org/classes/ActiveModel/Conversion.html#method-i-to_partial_path">to_partial_path</a> 是 ActiveModel 內建的实例方法，返回一个和可识别关联对象路径的字符串，原文是这么说的，目前还没看明白这么用的目的在哪</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Returns</span> <span class="n">a</span> <span class="n">string</span> <span class="n">identifying</span> <span class="n">the</span> <span class="n">path</span> <span class="n">associated</span> <span class="n">with</span> <span class="n">the</span> <span class="n">object</span><span class="o">.</span>
+</span><span class="line"><span class="no">ActionPack</span> <span class="n">uses</span> <span class="n">this</span> <span class="n">to</span> <span class="n">find</span> <span class="n">a</span> <span class="n">suitable</span> <span class="n">partial</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">the</span> <span class="n">object</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="group-option">32 - 生成 group option</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="sx">%= select_tag( :grouped_menu, grouped_options_for_select(</span>
+</span><span class="line"><span class="sx">  &quot;Group A&quot; =</span><span class="o">&gt;</span> <span class="sx">%w[One Two Three]</span><span class="p">,</span>
+</span><span class="line">  <span class="s2">&quot;Group B&quot;</span> <span class="o">=&gt;</span> <span class="sx">%w[One Two Three]</span>
+</span><span class="line"><span class="p">)</span> <span class="p">)</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个其实就是用到了 grouped_options_for_select ，我在前面的 <a href="http://dayuan.im/blog/explain-select-on-rails-hepler.html/">博文</a> 提到过这几个 select 的用法</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a></h1>
     
     
@@ -107,6 +263,53 @@
 
   <div class="entry-content"><p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
 
+<h6 id="section">21 - 自动写文件</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="no">Q_DIR</span> <span class="o">=</span> <span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;comment_queue&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:mkpath</span><span class="p">)</span>
+</span><span class="line">  <span class="n">after_save</span> <span class="ss">:queue_comment</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">queue_comment</span>
+</span><span class="line">    <span class="no">File</span><span class="o">.</span><span class="n">atomic_write</span><span class="p">(</span><span class="no">Q_DIR</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Article: </span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;User:    </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="n">body</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>找了下 <a href="http://api.rubyonrails.org/">Api</a> 是 Rails 对 Ruby 基础类的扩展</p>
+
+<h6 id="hash">22 - 合并嵌套 Hash</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span><span class="o">.</span><span class="n">deep_merge</span><span class="p">(</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:one</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>主要是用到了 deep_merge 合并相同的 key
 </div>
   
   
@@ -155,6 +358,41 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate:status</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">database</span><span class="p">:</span> <span class="n">db</span><span class="o">/</span><span class="n">development</span><span class="o">.</span><span class="n">sqlite3</span>
+</span><span class="line">
+</span><span class="line"> <span class="n">status</span>   <span class="no">Migration</span> <span class="no">ID</span>    <span class="no">Migration</span> <span class="no">Name</span>
+</span><span class="line"> <span class="o">---------------------------------------</span>
+</span><span class="line">   <span class="n">up</span>     <span class="mi">20120414155612</span>  <span class="no">Create</span> <span class="n">users</span>
+</span><span class="line">   <span class="n">up</span>     <span class="mi">20120414160528</span>  <span class="no">Create</span> <span class="n">articles</span>
+</span><span class="line">  <span class="n">down</span>    <span class="mi">20120414161355</span>  <span class="no">Create</span> <span class="n">comments</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="csv-">12 - 导入 csv 文件</h6>
+
+<p>csv 文件内容如下</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Name</span><span class="p">,</span><span class="no">Email</span>
+</span><span class="line"><span class="no">James</span><span class="p">,</span><span class="n">james</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span><span class="line"><span class="no">Dana</span><span class="p">,</span><span class="n">dana</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span><span class="line"><span class="no">Summer</span><span class="p">,</span><span class="n">summer</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>创建 rake 任务导入 users 表</p>
+
 </div>
   
   
@@ -200,195 +438,76 @@
 
 <p>说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下</p>
 
-<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天
+<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天</p>
+
+<h6 id="rails-app">1 - 最小的rails app</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sx">%w(action_controller/railtie coderay markaby)</span><span class="o">.</span><span class="n">map</span> <span class="o">&amp;</span><span class="nb">method</span><span class="p">(</span><span class="ss">:require</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">run</span> <span class="no">TheSmallestRailsApp</span> <span class="o">||=</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Rails</span><span class="o">::</span><span class="no">Application</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">secret_token</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">append</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">root</span> <span class="n">to</span><span class="p">:</span> <span class="nb">proc</span> <span class="p">{</span>
+</span><span class="line">      <span class="o">[</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;text/html&quot;</span><span class="p">},</span> <span class="o">[</span><span class="no">Markaby</span><span class="o">::</span><span class="no">Builder</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span>
+</span><span class="line">        <span class="n">title</span> <span class="vi">@title</span> <span class="o">=</span> <span class="s2">&quot;The Smallest Rails App&quot;</span>
+</span><span class="line">        <span class="n">h3</span> <span class="s2">&quot;I am </span><span class="si">#@title</span><span class="s2">!&quot;</span>
+</span><span class="line">        <span class="nb">p</span> <span class="s2">&quot;Here is my source code:&quot;</span>
+</span><span class="line">        <span class="n">div</span> <span class="p">{</span> <span class="no">CodeRay</span><span class="o">.</span><span class="n">scan_file</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">line_numbers</span><span class="p">:</span> <span class="ss">:table</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line">        <span class="nb">p</span> <span class="p">{</span> <span class="n">a</span> <span class="s2">&quot;Make me smaller&quot;</span><span class="p">,</span> <span class="n">href</span><span class="p">:</span> <span class="s2">&quot;//goo.gl/YdRpy&quot;</span> <span class="p">}</span>
+</span><span class="line">      <span class="p">}</span><span class="o">]]</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">  <span class="p">}</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class="line">  <span class="kp">initialize</span><span class="o">!</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="todo">2 - 提醒功能 TODO</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class="line">  <span class="c1"># TODO:  Make it possible to create new users.</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># FIXME: Should token really  be accessible?</span>
+</span><span class="line">  <span class="n">attr_accessible</span> <span class="ss">:bil</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:token</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;%</span><span class="c1"># OPTIMIZE: Paginate this listing. %&gt;</span>
+</span><span class="line"><span class="o">&lt;%=</span> <span class="n">render</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>执行 <code>rake notes</code>
 </div>
   
   
     <footer>
       <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-seo-to-octopress.html/">Octopress Seo</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-29T21:50:00+08:00" pubdate data-updated="true">2012-08-29 21:50:00</time>
-        
-         | <a href="/blog/add-seo-to-octopress.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
-
-<ul>
-  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a></li>
-  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-seo-to-octopress.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/compile-textmate.html/">编译Textmate</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-28T23:43:00+08:00" pubdate data-updated="true">2012-08-28 23:43:00</time>
-        
-         | <a href="/blog/compile-textmate.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前段时间 <a href="http://macromates.com/">Textmate</a> 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。</p>
-
-<p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/compile-textmate.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/explain-select-on-rails-hepler.html/">Rails View Select 方法学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-28T10:52:00+08:00" pubdate data-updated="true">2012-08-28 10:52:00</time>
-        
-         | <a href="/blog/explain-select-on-rails-hepler.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂</p>
-
-<p>rails的actionview提供了简单的select方法生产表单选择项，根据 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html">Api</a> 指示，用法如下：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/explain-select-on-rails-hepler.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/modify-octopress-style-and-color.html/">修改Octopress主题样式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-27T19:17:00+08:00" pubdate data-updated="true">2012-08-27 19:17:00</time>
-        
-         | <a href="/blog/modify-octopress-style-and-color.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行</p>
-
-<p>主要修改了以下几个方面：
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/modify-octopress-style-and-color.html/">Read more &rarr;</a>
     </footer>
   
 

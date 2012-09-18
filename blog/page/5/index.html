@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>集中注意力 - Hi, I’m dayuan</title>
+  <title>Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢， &hellip;">
+  <meta name="description" content="其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
+折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修 octopress 基于 Jekyll 和 github-page 的一套静态 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/page/5/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -72,12 +73,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">集中注意力</h1>
+      <h1 class="entry-title"><a href="/blog/chu-shi-octopress.html/">初识Octopress</a></h1>
     
     
       <p class="meta">
@@ -93,94 +97,65 @@
   
 
 
-<time datetime="2012-08-23T10:20:00+08:00" pubdate data-updated="true">2012-08-23 10:20:00</time>
+<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
         
-         | <a href="#disqus_thread">Comments</a>
+         | <a href="/blog/chu-shi-octopress.html/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢，我想这可能跟大学几年养成的不好的习惯有关，很少有激情去做一件事，也很少集中注意力在一件事情上(除了WoW)，这也就造成了目前这种不好的局面</p>
+  <div class="entry-content"><p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
+折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
 
-<p>于是打开万能的Google大婶，搜索敏感词，找到一大堆相应答案，针对自己的情况，相应总结下，也作为以后工作的准则，让每天时间花的稍微充实先，自勉！！</p>
+<h3 id="octopress">octopress</h3>
 
-<p><strong>排除干扰：</strong> 很多时候都会被各种提醒打断，看到新奇的Blog也会不自觉的多看一会，以后工作时间除了休闲一律关掉QQ(有单独的信息手机会提示)，这样以前用的很多调出信息这个动作就几乎退出快捷键了。看网页即看即关，尽量少出现以前同时开30+网页的情况，迅速回到工作状态
-<!--more-->
-<strong>明确目标：</strong> 很多时候做着做着就不知道该做什么了，不自觉就切到Chrome上了，以后开始时都预先在笔记本上确定今天任务是什么，包括工作完成后应该加的学习任务，趁现在学习热情高昂多学点</p>
+<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
 
-<p><strong>规划时间：</strong> 确定完任务目标之后评估下大概完成时间，一个存在于意识中的时限能忘记琐碎的小事从而提升工作速度，同时也可避免拖延和耽搁，也有利于合理规划工作安排</p>
+<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
 
-<p><strong>多看窗外：</strong> 这一年最大的问题就是视力下降严重，虽然还是不需要戴眼镜，但是感觉到眼睛比以前特别容易疲劳，眼中的小黑点也不时转悠。刚好公司又是很大的落地窗，可以很方便地眺望近处和远方的高楼大厦。。(被包围，没办法)，让眼睛可以从液晶屏的围剿中舒缓一会</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">curl -L https://get.rvm.io | bash -s stable
+</span><span class="line"><span class="c"># 我用的 zsh ,根据自身情况换成 .bash_profile</span>
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;</span>
+</span><span class="line"><span class="s2"># RVM</span>
+</span><span class="line"><span class="s2">[[ -s &#39;/Users/`whoami`/.rvm/scripts/rvm&#39; ]] &amp;&amp; source &#39;/Users/`whoami`/.rvm/scripts/rvm&#39;</span>
+</span><span class="line"><span class="s2">[[ -s &#39;$HOME/.rvm/scripts/rvm&#39; ]] &amp;&amp; . &#39;$HOME/.rvm/scripts/rvm&quot;</span> &gt;&gt; ~/.zshrc
+</span><span class="line"><span class="nb">source</span> ~/.zshrc				<span class="c"># 使刚才配置生效</span>
+</span><span class="line">rvm install 1.9.3
+</span><span class="line">rvm use 1.9.3 --default			<span class="c"># rvm安装1.9.3版本ruby，并默认使用该版本</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p><strong>多运动：</strong> 上大学后就很少运动了，估计目前身体已经连亚健康都不如了，饱满的精神需要充沛的体能，健康的身体做支撑，以前在这方面做的太少了，虽然时常也经常想多运动运动，但是一到行动就懒得不行，现在床上还依然摆着一堆N长时间没洗的衣服。。懒是个大问题</p>
+<h6 id="octopress-">复制 Octopress 到本地</h6>
 
-<p>其实就是一个习惯的培养过程，好的习惯对于生活和工作都是很有好处</p>
-
-<p>培养习惯，从今天开始，从现在开始。</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
-
-      
-
-
-
-
-
-
-
-
+  
+    <footer>
+      <a rel="full-article" href="/blog/chu-shi-octopress.html/">Read more &rarr;</a>
+    </footer>
   
 
 
-<time datetime="2012-08-23T10:20:00+08:00" pubdate data-updated="true">2012-08-23 10:20:00</time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/work/'>work</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/modify-mac-to-8g-memory.html/" title="Previous Post: Mac升级内存手记，高清大图(12P)">&larr; Mac升级内存手记，高清大图(12P)</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/start-goagent-automatically-when-boot-in-mac.html/" title="Next Post: Mac设置goagent开机自启动">Mac设置goagent开机自启动 &rarr;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/blog/page/4/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -248,7 +223,6 @@
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -264,10 +238,7 @@
       var disqus_shortname = 'bigcircle';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/';
-        var disqus_url = 'http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

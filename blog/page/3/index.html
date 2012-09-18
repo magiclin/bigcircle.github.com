@@ -9,9 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表
-">
+  <meta name="description" content="用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个： 给octopress博客添加豆瓣侧边栏 添加新浪微博侧边栏 给octopress加上标签云 添加about，友情链接 不如我一向遵循 less is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +80,253 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/add-seo-to-octopress.html/">Octopress Seo</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-29T21:50:00+08:00" pubdate data-updated="true">2012-08-29 21:50:00</time>
+        
+         | <a href="/blog/add-seo-to-octopress.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个：</p>
+
+<ul>
+  <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a></li>
+  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a></li>
+  <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
+  <li><a href="http://shanewfx.github.com/blog/2012/08/13/improve-blog-theme/">添加about，友情链接</a></li>
+</ul>
+
+<p>不如我一向遵循 <code>less is more, more is less</code> 的原则，不想把 blog 弄的太臃肿，而且这些功能对我也基本用处不大，没有微博上碎嘴的习惯，豆瓣上也只去电影区看影评，tag云感觉和category重复，友链暂时也没有，等等。先存个链接，说不定什么时候就想加上。。</p>
+
+<p>目前先保持简洁的风格，稍微做下 seo 优化，过程参考 <a href="http://www.yatishmehta.in/seo-for-octopress">这篇</a></p>
+
+<h5 id="meta-data-description">添加 meta data description</h5>
+
+<p>文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 ‘keywords’, ‘description’，会在 generate 文章的时候自动生成相应的 meta 标签
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-seo-to-octopress.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/compile-textmate.html/">编译Textmate</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T23:43:00+08:00" pubdate data-updated="true">2012-08-28 23:43:00</time>
+        
+         | <a href="/blog/compile-textmate.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前段时间 <a href="http://macromates.com/">Textmate</a> 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。</p>
+
+<p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
+
+<p>我从做开发伊始就一直用的 Sublime Text 2，也是一个大量借鉴 Textmate 理念和功能的产品，易用性相当不错，也有很多现成的包可以用，跨平台，不爽的是快捷键不能跨，windows下快捷键得另改，好在现在已经不需要切到 windows 了，也就少了这个烦恼。上次在 v2ex 看到有人发编译后的app，感觉编译应该不是很难。以前一直想试用下，但是version 1下的汉字显示实在是不行，现在升级到版本2了貌似解决了这个问题，就尝试着编译个尝尝鲜，看和 ST2 哪个更好用</p>
+
+<p>Github 上托管地址 <a href="https://github.com/textmate/textmate">Here</a></p>
+
+<h5 id="section">安装编译所需工具</h5>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">ragel</span> <span class="n">boost</span> <span class="n">multimarkdown</span> <span class="n">hg</span> <span class="n">ninja</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢
+ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/compile-textmate.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/explain-select-on-rails-hepler.html/">Rails View Select 方法学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T10:52:00+08:00" pubdate data-updated="true">2012-08-28 10:52:00</time>
+        
+         | <a href="/blog/explain-select-on-rails-hepler.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂</p>
+
+<p>rails的actionview提供了简单的select方法生产表单选择项，根据 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html">Api</a> 指示，用法如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>object是指select选项所修饰的目标对象，通常是一个Model对象</li>
+  <li>method是目标对象的属性（方法）名</li>
+  <li>choices可以是任何可枚举的对象，数组，Hash或者是包含了选择框的数据库查询结果</li>
+  <li>options选项</li>
+  <li>html_options是html相关选项</li>
+</ul>
+
+<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.
+例如对于  @post.person_id =&gt; 2</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="s2">&quot;person_id&quot;</span><span class="p">,</span> <span class="no">Person</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">p</span><span class="o">.</span><span class="n">id</span> <span class="o">]</span> <span class="p">},</span> <span class="p">{</span><span class="ss">:include_blank</span> <span class="o">=&gt;</span> <span class="s1">&#39;None&#39;</span><span class="p">})</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;post[person_id]&quot;</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="no">None</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;1&quot;&gt;David&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;2&quot;</span> <span class="n">selected</span><span class="o">=</span><span class="s2">&quot;selected&quot;</span><span class="o">&gt;</span><span class="no">Sam</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;3&quot;&gt;Tobias&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/explain-select-on-rails-hepler.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/modify-octopress-style-and-color.html/">修改Octopress主题样式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T19:17:00+08:00" pubdate data-updated="true">2012-08-27 19:17:00</time>
+        
+         | <a href="/blog/modify-octopress-style-and-color.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行</p>
+
+<p>主要修改了以下几个方面：</p>
+
+<ul>
+  <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
+  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点</li>
+  <li>所有背景统一为一个背景</li>
+  <li>去掉各种边边框框，让样式尽量简单一点</li>
+  <li>修改引用gist代码和普通代码的高亮和样式</li>
+</ul>
+
+<p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/modify-octopress-style-and-color.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/add-category-list-for-octopress.html/">给Octopress添加分类列表</a></h1>
     
     
@@ -108,7 +353,30 @@
 
 
   <div class="entry-content"><p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表
+为了使界面简洁点，就只添加了一个分类列表</p>
+
+<ul>
+  <li>新建分类列表 source/_inclide/custom/asides/category_list.html</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="o">&lt;</span><span class="nx">section</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Categories</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;categories&quot;</span><span class="o">&gt;</span>
+</span><span class="line">    <span class="p">{</span><span class="o">%</span> <span class="nx">category_list</span> <span class="o">%</span><span class="p">}</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="err">/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>新建插件： plugins/category_list_tag.rb</li>
+</ul>
+
 </div>
   
   
@@ -120,270 +388,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Mac设置goagent开机自启动</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-25T12:19:00+08:00" pubdate data-updated="true">2012-08-25 12:19:00</time>
-        
-         | <a href="/blog/start-goagent-automatically-when-boot-in-mac.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
-搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/how-to-focus-your-attention.html/">集中注意力</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-23T10:20:00+08:00" pubdate data-updated="true">2012-08-23 10:20:00</time>
-        
-         | <a href="/blog/how-to-focus-your-attention.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢，我想这可能跟大学几年养成的不好的习惯有关，很少有激情去做一件事，也很少集中注意力在一件事情上(除了WoW)，这也就造成了目前这种不好的局面
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/how-to-focus-your-attention.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/modify-mac-to-8g-memory.html/">Mac升级内存手记，高清大图(12P)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-21T20:58:00+08:00" pubdate data-updated="true">2012-08-21 20:58:00</time>
-        
-         | <a href="/blog/modify-mac-to-8g-memory.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
-主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/modify-mac-to-8g-memory.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/bind-domain-with-github-page.html/">给github Page绑定域名</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-20T16:26:00+08:00" pubdate data-updated="true">2012-08-20 16:26:00</time>
-        
-         | <a href="/blog/bind-domain-with-github-page.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
-域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
-
-<h5 id="section">大概流程如下：</h5>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/bind-domain-with-github-page.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/use-sudo-without-password.html/">免去sudo时输入密码</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-20T14:16:00+08:00" pubdate data-updated="true">2012-08-20 14:16:00</time>
-        
-         | <a href="/blog/use-sudo-without-password.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
-
-<h3 id="section">为什么不想敲密码</h3>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/use-sudo-without-password.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/chu-shi-octopress.html/">初识Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
-        
-         | <a href="/blog/chu-shi-octopress.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
-折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
-
-<h3 id="octopress">octopress</h3>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/chu-shi-octopress.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     

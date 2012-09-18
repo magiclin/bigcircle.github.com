@@ -104,8 +104,6 @@
 
 <div class="entry-content"><p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
 
-<!--more-->
-
 <h6 id="section">21 - 自动写文件</h6>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -152,7 +150,8 @@
 </span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:one</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>主要是用到了 deep_merge 合并相同的 key</p>
+<p>主要是用到了 deep_merge 合并相同的 key
+<!--more--></p>
 
 <h6 id="hash-except">23 - Hash except</h6>
 
@@ -320,11 +319,9 @@
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
-<span class="line-number">9</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;!--</span> <span class="no">HTML</span> <span class="n">comments</span> <span class="n">stay</span> <span class="k">in</span> <span class="n">the</span> <span class="n">rendered</span> <span class="n">content</span> <span class="o">--&gt;</span>
 </span><span class="line"><span class="o">&lt;</span><span class="sx">%# ERb comments do not %&gt;</span>
 </span><span class="line"><span class="sx">&lt;h1&gt;Home Page&lt;/h1&gt;</span>
-</span><span class="line">
 </span><span class="line"><span class="sx">#</span> <span class="err">生成的</span> <span class="n">html</span>
 </span><span class="line"><span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
 </span><span class="line"><span class="o">&lt;!--</span> <span class="no">HTML</span> <span class="n">comments</span> <span class="n">stay</span> <span class="k">in</span> <span class="n">the</span> <span class="n">rendered</span> <span class="n">content</span> <span class="o">--&gt;</span>
@@ -404,7 +401,7 @@
 </span><span class="line"><span class="sr">  &lt;tr&gt;</span>
 </span><span class="line"><span class="sr">    &lt;td&gt;Subtotal&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
 </span><span class="line">    <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="sx">%= number_to_currency @cart.total %&gt;&lt;/td&gt;</span>
-</span><span class="line"><span class="sx">  &lt;/tr&gt; </span>
+</span><span class="line"><span class="sx">  &lt;/tr&gt;</span>
 </span><span class="line"><span class="sx">  &lt;tr&gt;</span>
 </span><span class="line"><span class="sx">    &lt;td&gt;Tax&lt;/td&gt;</span>
 </span><span class="line"><span class="sx">    &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="n">tax</span> <span class="o">=</span> <span class="n">calculate_tax</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span><span class="p">))</span> <span class="sx">%&gt;&lt;/td&gt;</span>
@@ -479,7 +476,7 @@
 </span><span class="line"><span class="sx">    &lt;tr&gt;</span>
 </span><span class="line"><span class="sx">      &lt;td&gt;Tax&lt;/td&gt;</span>
 </span><span class="line"><span class="sx">      &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span> <span class="n">tax</span> <span class="sx">%&gt;&lt;/td&gt;</span>
-</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt; </span>
+</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
 </span><span class="line"><span class="sr">    &lt;tr&gt;</span>
 </span><span class="line"><span class="sr">      &lt;td&gt;Total&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
 </span><span class="line">      <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span> <span class="o">+</span> <span class="n">tax</span><span class="p">)</span> <span class="sx">%&gt;&lt;/td&gt;</span>

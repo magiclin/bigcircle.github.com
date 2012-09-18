@@ -109,7 +109,7 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate:status</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<!--more-->
+
 <p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -143,6 +143,8 @@
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>创建 rake 任务导入 users 表</p>
+
+<!--more-->
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -258,7 +260,7 @@
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rails</span> <span class="n">g</span> <span class="n">resource</span> <span class="n">event</span> <span class="n">article</span><span class="ss">:belongs_to</span> <span class="n">triggle</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录， <br />
+<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录，
 group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 count(:group =&gt; :trigger)</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>

@@ -104,8 +104,7 @@
 
 <div class="entry-content"><p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
 
-<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.
-<!--more--></p>
+<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -144,6 +143,7 @@
 </span><span class="line">  <span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">}</span> <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;evens: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 </span><span class="line">  <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="p">}</span>     <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;squares: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
 
 <p><strong>用途二：简化代码</strong>。我们构建一个方法想返回一个 String / Array / Hash 之类结果，一般的做法是先定义一个变量，结果把运算结果赋值给这个变量，接着返回变量，用 tap 一步搞定，其实就是源码意思的实现</p>
 
@@ -179,7 +179,7 @@
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .  <br />
+<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .
 try 如果只接受 block 则传递 self 给 block，返回 block 执行后的结果，否则就执行
 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-public_send">public_send</a>，public_send 与 send 的不同之处，public_send 只会 call public_method，看例子</p>
 

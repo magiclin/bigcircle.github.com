@@ -4,7 +4,7 @@
   <title><![CDATA[Category: domain | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/domain/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-17T00:02:06+08:00</updated>
+  <updated>2012-09-18T11:31:00+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -22,7 +22,7 @@
 域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
 
 <h5 id="section">大概流程如下：</h5>
-<!-- more -->
+
 <ul>
   <li>注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码</li>
   <li>挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算</li>
@@ -31,7 +31,8 @@
   <li>确认完了就会自动扣款，马上手机短信就来了，扣钱很是快捷，这样你想要的域名就到手了。</li>
 </ul>
 
-<p>接下来就是解析DNS到自己的github page上</p>
+<p>接下来就是解析DNS到自己的github page上
+<!-- more --></p>
 
 <ul>
   <li>进入 Name 账户 « account « your domain « DNS Record Management . 账户设置里面右边有一大堆选择框，选择这个进入就会看到一个添加 Record Type的下拉框，默认就是A，继续把 github page ip写到 Record Answer 里面，Add Record，其他都不用填，这部分OK啦</li>

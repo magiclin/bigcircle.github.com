@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
+搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的 开机自动启动GoAgent &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/page/4/index.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feed.feedsky.com/imdayuan" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Mac设置goagent开机自启动</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-25T12:19:00+08:00" pubdate data-updated="true">2012-08-25 12:19:00</time>
+        
+         | <a href="/blog/start-goagent-automatically-when-boot-in-mac.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
+搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
+
+<ul>
+  <li><a href="http://keating.iteye.com/blog/1463521">开机自动启动GoAgent</a></li>
+  <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
+</ul>
+
+<p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂
+用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
+
+<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，安装之后会有一大堆提示，比如这样</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/how-to-focus-your-attention.html/">集中注意力</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-23T10:20:00+08:00" pubdate data-updated="true">2012-08-23 10:20:00</time>
+        
+         | <a href="/blog/how-to-focus-your-attention.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢，我想这可能跟大学几年养成的不好的习惯有关，很少有激情去做一件事，也很少集中注意力在一件事情上(除了WoW)，这也就造成了目前这种不好的局面</p>
+
+<p>于是打开万能的Google大婶，搜索敏感词，找到一大堆相应答案，针对自己的情况，相应总结下，也作为以后工作的准则，让每天时间花的稍微充实先，自勉！！</p>
+
+<p><strong>排除干扰：</strong> 很多时候都会被各种提醒打断，看到新奇的Blog也会不自觉的多看一会，以后工作时间除了休闲一律关掉QQ(有单独的信息手机会提示)，这样以前用的很多调出信息这个动作就几乎退出快捷键了。看网页即看即关，尽量少出现以前同时开30+网页的情况，迅速回到工作状态
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/how-to-focus-your-attention.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/modify-mac-to-8g-memory.html/">Mac升级内存手记，高清大图(12P)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-21T20:58:00+08:00" pubdate data-updated="true">2012-08-21 20:58:00</time>
+        
+         | <a href="/blog/modify-mac-to-8g-memory.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
+主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点</p>
+
+<ul>
+  <li>系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选</li>
+  <li>外形拉轰，think different 理念，适合与众不同的人。。</li>
+  <li>操作快捷，内置各种快捷键，借助 Alfred / QuickSilver 可以做到全盘快捷键</li>
+  <li>装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品</li>
+  <li>待机时间长，广告号称7小时，虽说目前Mountain Lion在待机方面可能比预期的短点，但4～5个小时还是没有问题的，相对于普通pc的2个小时强太多了，相信下个补丁应该能在待机时间方面优化优化</li>
+  <li>用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事</li>
+</ul>
+
+<p>当然缺点也是有的，特别是对于已经习惯windows的同学来说，这里就不罗列啦。。
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/modify-mac-to-8g-memory.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/bind-domain-with-github-page.html/">给github Page绑定域名</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-20T16:26:00+08:00" pubdate data-updated="true">2012-08-20 16:26:00</time>
+        
+         | <a href="/blog/bind-domain-with-github-page.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
+域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
+
+<h5 id="section">大概流程如下：</h5>
+
+<ul>
+  <li>注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码</li>
+  <li>挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算</li>
+  <li>可以用paypal或者直接用支持visa/mastercard的双币信用卡支付。我是现申请的paypal账号，绑定自己的招行信用卡。(招行信用卡各种好用，强烈推荐去办张2W额度的!!当然我的额度只有5k,不过支付十几美金还是可以的)，没有申请的同学网上申请的例子一大把，不要怕弄错了，其实过程很简单</li>
+  <li>申请好paypal，绑定完信用卡之后回到刚才的checkout页面，如果没有手抖多点了几个域名就可以支付了，选择paypal选项，要求输入基本信息，输入之，会跳转到paypal页面，又是验证信息，正确输入。(注意:扣钱是不需要你输入信用卡密码的，所以在支付之前一定要确认好)</li>
+  <li>确认完了就会自动扣款，马上手机短信就来了，扣钱很是快捷，这样你想要的域名就到手了。</li>
+</ul>
+
+<p>接下来就是解析DNS到自己的github page上
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/bind-domain-with-github-page.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/use-sudo-without-password.html/">免去sudo时输入密码</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-20T14:16:00+08:00" pubdate data-updated="true">2012-08-20 14:16:00</time>
+        
+         | <a href="/blog/use-sudo-without-password.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
+
+<h3 id="section">为什么不想敲密码</h3>
+
+<ul>
+  <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
+  <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
+  <li>能方便设置一些启动项，特别是一个项目启动项很多，为了懒就写一个启动脚本</li>
+  <li>自己的系统自己用，没必要像在服务器上对权限要求那么严格</li>
+  <li>当然也有忘记root密码的情况。。</li>
+</ul>
+
+<h3 id="section-1">怎么做</h3>
+<p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
+默认情况的权限是这样的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">root <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
+</span><span class="line">%admin <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/use-sudo-without-password.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (8)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class='platform'>Made on </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

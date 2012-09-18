@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-17T00:02:06+08:00</updated>
+  <updated>2012-09-18T11:31:00+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -18,14 +18,17 @@
     <link href="http://Bigcircle.github.com/blog/enhance-your-touchpad.html/"/>
     <updated>2012-09-16T20:23:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/enhance-your-touchpad</id>
-    <content type="html"><![CDATA[<p>试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch  和 Better Touch Tool，以后看网页就可以单手操作了
-<!--more--></p>
+    <content type="html"><![CDATA[<p>试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch  和 Better Touch Tool，以后看网页就可以单手操作了</p>
 
 <h5 id="jitouch">Jitouch</h5>
 
 <p>Jitouch 可以用来增强 Magic Mouse 和 Trackpad 的手势，据说对 MM 的手势识别率相当高，不过暂时没有 MM，估计也不会买 MM 的我来说就无所谓了，能够支持触控板就 OK 了。</p>
 
 <p>默认已经设好了一些快捷手势，都挺不错的，功能如下：</p>
+
+<p><img src="http://Bigcircle.github.com/images/2012-09-16/1.png" /></p>
+
+<!--more-->
 
 <ul>
   <li>一个手指固定，另一个手指点击，左边点击是前一个标签，右边点击是后一个标签</li>
@@ -37,13 +40,11 @@
   <li>四根手指向右划，关闭当前标签</li>
 </ul>
 
-<p><img src="http://Bigcircle.github.com/images/2012-09-16/1.png" /></p>
-
 <p>还有很多可以定义的手势和操作，不过我还没怎么发掘出好用的</p>
 
 <p><img src="http://Bigcircle.github.com/images/2012-09-16/2.png" /></p>
 
-<p>Jitouch 识别率还是挺高的，和触控板配合起来用起来还是很爽的，<a href="http://soft.macx.cn/3788.htm">破解</a> 一般人我不告诉他 <br />
+<p>Jitouch 识别率还是挺高的，和触控板配合起来用起来还是很爽的，<a href="http://soft.macx.cn/3788.htm">破解</a> 一般人我不告诉他
 Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不如 jitouch 方便，简单用了下就卸了，专一用好一个就足够了</p>
 ]]></content>
   </entry>
@@ -53,8 +54,7 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
     <link href="http://Bigcircle.github.com/blog/intro-flico-and-touchpad.html/"/>
     <updated>2012-09-15T16:16:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/intro-flico-and-touchpad</id>
-    <content type="html"><![CDATA[<p>前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如丝般顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。其实之前就已经有目标了，所以购买过程非常快，也只是在买和不买之间犹豫了两天，对于目前很穷的我来说是笔大开销。。
-<!-- more --></p>
+    <content type="html"><![CDATA[<p>前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如丝般顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。其实之前就已经有目标了，所以购买过程非常快，也只是在买和不买之间犹豫了两天，对于目前很穷的我来说是笔大开销。。</p>
 
 <p>键盘肯定 HHKB 和 realforce 是当之无愧的王者，那个价钱也让看到的人望而却步；低端的国产键盘胜在便宜，性价比高，缺点是做工较差，手感比正规的 chery 和 flico 还是要差很多的，加上比较钟爱小巧型的键盘，右侧数字键对我来说基本上没有出场机会，所以最终决定买个折衷的 flico 圣手2代 87无冲茶轴。之所以不买青轴，大家也知道它是办公室杀手，会导致在同事那声望冷淡甚至仇恨，加上可能还有点游戏的需求，茶轴这种兼顾性的设计还是比较适合我的</p>
 
@@ -63,6 +63,8 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
 <p>从表面上它是无刻板</p>
 
 <p><img src="http://m1.img.libdd.com/farm5/2012/0915/16/56C4E8FC9F566DE1631ADCF2B50B8357999FCE663682_1280_960.jpg" alt="" /></p>
+
+<!-- more -->
 
 <p>其实刻度在侧面，这样键帽正面就不用刻了，给你一个干净的键帽</p>
 
@@ -95,9 +97,9 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
     <id>http://Bigcircle.github.com/blog/iterm2-keymaps</id>
     <content type="html"><![CDATA[<p>Mac 原来自带的终端工具 Terminal 不好用是出了名的，虽然最近几个版本苹果稍微做了些优化，功能上，可用性方面增强不少，无奈有个更好用的 Iterm2 摆在那，基本上也就没有多少出场机会了</p>
 
-<p><a href="http://www.iterm2.com/">Iterm2</a>，经常使用终端的同学肯定早就切换到这个东东上了，开源免费，和 zsh 搭配差不多已经取代 Terminal + bash 成了 Mac 上终端工具的标准配置。
-<!--more-->
-Iterm2 的优点：</p>
+<p><a href="http://www.iterm2.com/">Iterm2</a>，经常使用终端的同学肯定早就切换到这个东东上了，开源免费，和 zsh 搭配差不多已经取代 Terminal + bash 成了 Mac 上终端工具的标准配置。</p>
+
+<p>Iterm2 的优点：</p>
 
 <ul>
   <li>兼容性好，远程服务器 vi 什么的低版本能很好兼容，Terminal 则会出问题</li>
@@ -107,6 +109,8 @@ Iterm2 的优点：</p>
 </ul>
 
 <p><a href="http://www.iterm2.com/#/section/documentation">官方文档</a> 有非常详细的介绍，先来看看自带有哪些很实用的功能/快捷键</p>
+
+<!--more-->
 
 <ol>
   <li>⌘ + 数字在各 tab 标签直接来回切换</li>
@@ -162,8 +166,7 @@ Iterm2 的优点：</p>
     <updated>2012-09-04T19:57:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/ruby-performance-tricks-you-should-know</id>
     <content type="html"><![CDATA[<p>前两天看到这个 <a href="http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/">ruby performance tricks</a> 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下
-由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试
-<!--more--></p>
+由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试</p>
 
 <h6 id="rescue">不要在控制流中滥用rescue捕获异常</h6>
 
@@ -218,6 +221,8 @@ Iterm2 的优点：</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>跑分数据可以看出使用了rescue，性能损失超过43倍</p>
+
+<!--more-->
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -753,8 +758,7 @@ Iterm2 的优点：</p>
     <id>http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try</id>
     <content type="html"><![CDATA[<p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
 
-<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.
-<!--more--></p>
+<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -793,6 +797,7 @@ Iterm2 的优点：</p>
 </span><span class="line">  <span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">}</span> <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;evens: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 </span><span class="line">  <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="p">}</span>     <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;squares: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
 
 <p><strong>用途二：简化代码</strong>。我们构建一个方法想返回一个 String / Array / Hash 之类结果，一般的做法是先定义一个变量，结果把运算结果赋值给这个变量，接着返回变量，用 tap 一步搞定，其实就是源码意思的实现</p>
 
@@ -828,7 +833,7 @@ Iterm2 的优点：</p>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .  <br />
+<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .
 try 如果只接受 block 则传递 self 给 block，返回 block 执行后的结果，否则就执行
 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-public_send">public_send</a>，public_send 与 send 的不同之处，public_send 只会 call public_method，看例子</p>
 
@@ -864,9 +869,9 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
     <link href="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/"/>
     <updated>2012-09-01T13:43:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2</id>
-    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
-<!--more-->
-默认自带的 build 目录位于</p>
+    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby</p>
+
+<p>默认自带的 build 目录位于</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="c"><span class="line"><span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span><span class="err">\</span> <span class="n">Support</span><span class="o">/</span><span class="n">Sublime</span><span class="err">\</span> <span class="n">Text</span><span class="err">\</span> <span class="mi">2</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">Ruby</span><span class="o">/</span><span class="n">Ruby</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">build</span>
@@ -889,6 +894,8 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>你也可以自己改成 rvm 默认的 default ruby</p>
+
+<!--more-->
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -937,8 +944,7 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
     <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-4</id>
     <content type="html"><![CDATA[<p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
 
-<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇
-<!--more--></p>
+<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇</p>
 
 <p>这篇 <a href="http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/">blog</a> 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧</p>
 
@@ -983,6 +989,8 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>这个其实就是用到了 grouped_options_for_select ，我在前面的 <a href="http://dayuan.im/blog/explain-select-on-rails-hepler.html/">博文</a> 提到过这几个 select 的用法</p>
+
+<!--more-->
 
 <h6 id="form-">33 -定制你自己喜欢的 form 表单</h6>
 
@@ -1453,8 +1461,6 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
     <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3</id>
     <content type="html"><![CDATA[<p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
 
-<!--more-->
-
 <h6 id="section">21 - 自动写文件</h6>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -1501,7 +1507,8 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:one</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>主要是用到了 deep_merge 合并相同的 key</p>
+<p>主要是用到了 deep_merge 合并相同的 key
+<!--more--></p>
 
 <h6 id="hash-except">23 - Hash except</h6>
 
@@ -1669,11 +1676,9 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
-<span class="line-number">9</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;!--</span> <span class="no">HTML</span> <span class="n">comments</span> <span class="n">stay</span> <span class="k">in</span> <span class="n">the</span> <span class="n">rendered</span> <span class="n">content</span> <span class="o">--&gt;</span>
 </span><span class="line"><span class="o">&lt;</span><span class="sx">%# ERb comments do not %&gt;</span>
 </span><span class="line"><span class="sx">&lt;h1&gt;Home Page&lt;/h1&gt;</span>
-</span><span class="line">
 </span><span class="line"><span class="sx">#</span> <span class="err">生成的</span> <span class="n">html</span>
 </span><span class="line"><span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
 </span><span class="line"><span class="o">&lt;!--</span> <span class="no">HTML</span> <span class="n">comments</span> <span class="n">stay</span> <span class="k">in</span> <span class="n">the</span> <span class="n">rendered</span> <span class="n">content</span> <span class="o">--&gt;</span>
@@ -1753,7 +1758,7 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </span><span class="line"><span class="sr">  &lt;tr&gt;</span>
 </span><span class="line"><span class="sr">    &lt;td&gt;Subtotal&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
 </span><span class="line">    <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="sx">%= number_to_currency @cart.total %&gt;&lt;/td&gt;</span>
-</span><span class="line"><span class="sx">  &lt;/tr&gt; </span>
+</span><span class="line"><span class="sx">  &lt;/tr&gt;</span>
 </span><span class="line"><span class="sx">  &lt;tr&gt;</span>
 </span><span class="line"><span class="sx">    &lt;td&gt;Tax&lt;/td&gt;</span>
 </span><span class="line"><span class="sx">    &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="n">tax</span> <span class="o">=</span> <span class="n">calculate_tax</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span><span class="p">))</span> <span class="sx">%&gt;&lt;/td&gt;</span>
@@ -1828,7 +1833,7 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </span><span class="line"><span class="sx">    &lt;tr&gt;</span>
 </span><span class="line"><span class="sx">      &lt;td&gt;Tax&lt;/td&gt;</span>
 </span><span class="line"><span class="sx">      &lt;td&gt;&lt;%=</span> <span class="n">number_to_currency</span> <span class="n">tax</span> <span class="sx">%&gt;&lt;/td&gt;</span>
-</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt; </span>
+</span><span class="line">    <span class="o">&lt;</span><span class="sr">/tr&gt;</span>
 </span><span class="line"><span class="sr">    &lt;tr&gt;</span>
 </span><span class="line"><span class="sr">      &lt;td&gt;Total&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
 </span><span class="line">      <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;&lt;%=</span> <span class="n">number_to_currency</span><span class="p">(</span><span class="vi">@cart</span><span class="o">.</span><span class="n">total</span> <span class="o">+</span> <span class="n">tax</span><span class="p">)</span> <span class="sx">%&gt;&lt;/td&gt;</span>
@@ -1877,7 +1882,7 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate:status</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<!--more-->
+
 <p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -1911,6 +1916,8 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>创建 rake 任务导入 users 表</p>
+
+<!--more-->
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -2026,7 +2033,7 @@ try 如果只接受 block 则传递 self 给 block，返回 block 执行后的�
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rails</span> <span class="n">g</span> <span class="n">resource</span> <span class="n">event</span> <span class="n">article</span><span class="ss">:belongs_to</span> <span class="n">triggle</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录， <br />
+<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录，
 group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 count(:group =&gt; :trigger)</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -2444,8 +2451,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 
 <p>说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下</p>
 
-<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天
-<!--more--></p>
+<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天</p>
 
 <h6 id="rails-app">1 - 最小的rails app</h6>
 
@@ -2509,7 +2515,8 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 </span><span class="line"><span class="o">&lt;%=</span> <span class="n">render</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>执行 <code>rake notes</code></p>
+<p>执行 <code>rake notes</code>
+<!--more--></p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -2529,7 +2536,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 </span><span class="line">  <span class="o">*</span> <span class="o">[</span> <span class="mi">1</span><span class="o">]</span> <span class="o">[</span><span class="no">OPTIMIZE</span><span class="o">]</span> <span class="no">Paginate</span> <span class="n">this</span> <span class="n">listing</span><span class="o">.</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>查看单独的 TODO / FIXME / OPTIMIZE </p>
+<p>查看单独的 TODO / FIXME / OPTIMIZE</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -2646,7 +2653,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 
 <h6 id="keep-funny">7 - keep funny</h6>
 
-<p>作者给出了个介绍 ruby 以及一些相关 blog的网站 <a href="http://www.rubydramas.com">rubydramas</a>，搞笑的是这个网站右上角标明 </p>
+<p>作者给出了个介绍 ruby 以及一些相关 blog的网站 <a href="http://www.rubydramas.com">rubydramas</a>，搞笑的是这个网站右上角标明</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Powered</span> <span class="n">by</span> <span class="no">PHP</span>
@@ -2785,8 +2792,7 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 
 <ul>
   <li><a href="http://tinyxd.me/blog/2012/07/09/add-douban-aside/">给octopress博客添加豆瓣侧边栏</a></li>
-  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a>
-<!--more--></li>
+  <li><a href="http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/">添加新浪微博侧边栏</a></li>
   <li><a href="http://log4d.com/2012/05/tag-cloud/">给octopress加上标签云</a></li>
   <li><a href="http://shanewfx.github.com/blog/2012/08/13/improve-blog-theme/">添加about，友情链接</a></li>
 </ul>
@@ -2797,7 +2803,8 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 
 <h5 id="meta-data-description">添加 meta data description</h5>
 
-<p>文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 ‘keywords’, ‘description’，会在 generate 文章的时候自动生成相应的 meta 标签</p>
+<p>文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 ‘keywords’, ‘description’，会在 generate 文章的时候自动生成相应的 meta 标签
+<!--more--></p>
 
 <p>如果文章 header 写成这样</p>
 
@@ -2896,8 +2903,6 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 
 <p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
 
-<!--more-->
-
 <p>我从做开发伊始就一直用的 Sublime Text 2，也是一个大量借鉴 Textmate 理念和功能的产品，易用性相当不错，也有很多现成的包可以用，跨平台，不爽的是快捷键不能跨，windows下快捷键得另改，好在现在已经不需要切到 windows 了，也就少了这个烦恼。上次在 v2ex 看到有人发编译后的app，感觉编译应该不是很难。以前一直想试用下，但是version 1下的汉字显示实在是不行，现在升级到版本2了貌似解决了这个问题，就尝试着编译个尝尝鲜，看和 ST2 哪个更好用</p>
 
 <p>Github 上托管地址 <a href="https://github.com/textmate/textmate">Here</a></p>
@@ -2910,6 +2915,8 @@ group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 
 
 <p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢
 ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下</p>
+
+<!--more-->
 
 <h5 id="pgrep-pkill">查看是否有 pgrep pkill</h5>
 
@@ -2986,7 +2993,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<!--more-->
+
 <ul>
   <li>object是指select选项所修饰的目标对象，通常是一个Model对象</li>
   <li>method是目标对象的属性（方法）名</li>
@@ -2995,8 +3002,8 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
   <li>html_options是html相关选项</li>
 </ul>
 
-<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One. <br />
-例如对于  @post.person_id =&gt; 2  </p>
+<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.
+例如对于  @post.person_id =&gt; 2</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -3015,6 +3022,8 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 </span><span class="line"><span class="sr">  &lt;option value=&quot;3&quot;&gt;Tobias&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
 </span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<!--more-->
 
 <p>index =&gt; nil 不显示空选项或提示项，直接显示第一个值</p>
 
@@ -3086,7 +3095,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">select_tag</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">option_tags</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>option =&gt; {:multiple, :disable, :include_blank, :prompt} 
+<p>option =&gt; {:multiple, :disable, :include_blank, :prompt}
 后三个和select里面用法一样，mutiple 允许同时传递多个值，相当于一个多选框</p>
 
 <p>option_tags 可以自己手写几个option标签，或者用现成的方法，其实就是option标签的helper方法，Api 中的几个 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select">例子</a></p>
@@ -3131,7 +3140,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 
 <p>Rails 源码在此，有兴趣的可以拜读下 <a href="https://github.com/rails/rails/blob/27c8debdc6b242c845a279187205a2b057e18469/actionpack/lib/action_view/helpers/form_options_helper.rb#L156">Here</a></p>
 
-<p>用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询 <br />
+<p>用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询
 不过对于不熟悉语法的人可能读起来就不如直接 select &gt; option 直接明了，需要花时间去明白什么意思，各有利弊吧</p>
 ]]></content>
   </entry>
@@ -3143,8 +3152,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     <id>http://Bigcircle.github.com/blog/modify-octopress-style-and-color</id>
     <content type="html"><![CDATA[<p>默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行</p>
 
-<p>主要修改了以下几个方面：
-<!-- more --></p>
+<p>主要修改了以下几个方面：</p>
 
 <ul>
   <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
@@ -3154,8 +3162,8 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
   <li>修改引用gist代码和普通代码的高亮和样式</li>
 </ul>
 
-<p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾</p>
-
+<p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾
+<!-- more --></p>
 ]]></content>
   </entry>
   
@@ -3165,8 +3173,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     <updated>2012-08-27T11:24:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/add-category-list-for-octopress</id>
     <content type="html"><![CDATA[<p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表
-<!-- more --></p>
+为了使界面简洁点，就只添加了一个分类列表</p>
 
 <ul>
   <li>新建分类列表 source/_inclide/custom/asides/category_list.html</li>
@@ -3189,6 +3196,8 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <ul>
   <li>新建插件： plugins/category_list_tag.rb</li>
 </ul>
+
+<!-- more -->
 
 <div><script src="https://gist.github.com/3485442.js?file=category_list_tag.rb"></script>
 <noscript><pre><code>module Jekyll
@@ -3229,8 +3238,6 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     <content type="html"><![CDATA[<p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
 搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
 
-<!--more-->
-
 <ul>
   <li><a href="http://keating.iteye.com/blog/1463521">开机自动启动GoAgent</a></li>
   <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
@@ -3239,7 +3246,9 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 <p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂
 用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
 
-<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，在安装完之后会有一大堆提示，比如这样</p>
+<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，安装之后会有一大堆提示，比如这样</p>
+
+<!--more-->
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -3341,14 +3350,13 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     <link href="http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/"/>
     <updated>2012-08-23T10:20:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/how-to-focus-your-attention</id>
-    <content type="html"><![CDATA[<p>今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢，我想这可能跟大学几年养成的不好的习惯有关，很少有激情去做一件事，也很少集中注意力在一件事情上(除了WoW)，这也就造成了目前这种不好的局面
-<!--more--></p>
+    <content type="html"><![CDATA[<p>今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢，我想这可能跟大学几年养成的不好的习惯有关，很少有激情去做一件事，也很少集中注意力在一件事情上(除了WoW)，这也就造成了目前这种不好的局面</p>
 
 <p>于是打开万能的Google大婶，搜索敏感词，找到一大堆相应答案，针对自己的情况，相应总结下，也作为以后工作的准则，让每天时间花的稍微充实先，自勉！！</p>
 
-<p><strong>排除干扰：</strong> 很多时候都会被各种提醒打断，看到新奇的Blog也会不自觉的多看一会，以后工作时间除了休闲一律关掉QQ(有单独的信息手机会提示)，这样以前用的很多调出信息这个动作就几乎退出快捷键了。看网页即看即关，尽量少出现以前同时开30+网页的情况，迅速回到工作状态</p>
-
-<p><strong>明确目标：</strong> 很多时候做着做着就不知道该做什么了，不自觉就切到Chrome上了，以后开始时都预先在笔记本上确定今天任务是什么，包括工作完成后应该加的学习任务，趁现在学习热情高昂多学点</p>
+<p><strong>排除干扰：</strong> 很多时候都会被各种提醒打断，看到新奇的Blog也会不自觉的多看一会，以后工作时间除了休闲一律关掉QQ(有单独的信息手机会提示)，这样以前用的很多调出信息这个动作就几乎退出快捷键了。看网页即看即关，尽量少出现以前同时开30+网页的情况，迅速回到工作状态
+<!--more-->
+<strong>明确目标：</strong> 很多时候做着做着就不知道该做什么了，不自觉就切到Chrome上了，以后开始时都预先在笔记本上确定今天任务是什么，包括工作完成后应该加的学习任务，趁现在学习热情高昂多学点</p>
 
 <p><strong>规划时间：</strong> 确定完任务目标之后评估下大概完成时间，一个存在于意识中的时限能忘记琐碎的小事从而提升工作速度，同时也可避免拖延和耽搁，也有利于合理规划工作安排</p>
 
@@ -3359,7 +3367,6 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 <p>其实就是一个习惯的培养过程，好的习惯对于生活和工作都是很有好处</p>
 
 <p>培养习惯，从今天开始，从现在开始。</p>
-
 ]]></content>
   </entry>
   
@@ -3369,8 +3376,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     <updated>2012-08-21T20:58:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/modify-mac-to-8g-memory</id>
     <content type="html"><![CDATA[<p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
-主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点
-<!--more--></p>
+主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点</p>
 
 <ul>
   <li>系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选</li>
@@ -3381,7 +3387,8 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
   <li>用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事</li>
 </ul>
 
-<p>当然缺点也是有的，特别是对于已经习惯windows的同学来说，这里就不罗列啦。。</p>
+<p>当然缺点也是有的，特别是对于已经习惯windows的同学来说，这里就不罗列啦。。
+<!--more--></p>
 
 <p>标配的内存才4G，根据一年开发经验来说肯定是不够用的，Chrome多开几个网页，终端运行几个差不多就满了，要是用Xcode这类巨占内存的东西那就什么都别开了，所以说升到8G刻不容缓。。当然16G必须是极好的，但是价格要贵很多，想想8G怎么也够了，还是一切从简吧。</p>
 
@@ -3446,7 +3453,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
 
 <h5 id="section">大概流程如下：</h5>
-<!-- more -->
+
 <ul>
   <li>注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码</li>
   <li>挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算</li>
@@ -3455,7 +3462,8 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
   <li>确认完了就会自动扣款，马上手机短信就来了，扣钱很是快捷，这样你想要的域名就到手了。</li>
 </ul>
 
-<p>接下来就是解析DNS到自己的github page上</p>
+<p>接下来就是解析DNS到自己的github page上
+<!-- more --></p>
 
 <ul>
   <li>进入 Name 账户 « account « your domain « DNS Record Management . 账户设置里面右边有一大堆选择框，选择这个进入就会看到一个添加 Record Type的下拉框，默认就是A，继续把 github page ip写到 Record Answer 里面，Add Record，其他都不用填，这部分OK啦</li>
@@ -3474,7 +3482,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     <content type="html"><![CDATA[<p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
 
 <h3 id="section">为什么不想敲密码</h3>
-<!-- more -->
+
 <ul>
   <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
   <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
@@ -3492,6 +3500,8 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 </pre></td><td class="code"><pre><code class="bash"><span class="line">root <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
 </span><span class="line">%admin <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<!-- more -->
 
 <p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
 修改如下：</p>

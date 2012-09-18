@@ -110,7 +110,7 @@ select(object, method, choices, options &hellip;">
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<!--more-->
+
 <ul>
   <li>object是指select选项所修饰的目标对象，通常是一个Model对象</li>
   <li>method是目标对象的属性（方法）名</li>
@@ -119,8 +119,8 @@ select(object, method, choices, options &hellip;">
   <li>html_options是html相关选项</li>
 </ul>
 
-<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One. <br />
-例如对于  @post.person_id =&gt; 2  </p>
+<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.
+例如对于  @post.person_id =&gt; 2</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -139,6 +139,8 @@ select(object, method, choices, options &hellip;">
 </span><span class="line"><span class="sr">  &lt;option value=&quot;3&quot;&gt;Tobias&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
 </span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<!--more-->
 
 <p>index =&gt; nil 不显示空选项或提示项，直接显示第一个值</p>
 
@@ -210,7 +212,7 @@ select(object, method, choices, options &hellip;">
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">select_tag</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">option_tags</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>option =&gt; {:multiple, :disable, :include_blank, :prompt} 
+<p>option =&gt; {:multiple, :disable, :include_blank, :prompt}
 后三个和select里面用法一样，mutiple 允许同时传递多个值，相当于一个多选框</p>
 
 <p>option_tags 可以自己手写几个option标签，或者用现成的方法，其实就是option标签的helper方法，Api 中的几个 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select">例子</a></p>
@@ -255,7 +257,7 @@ select(object, method, choices, options &hellip;">
 
 <p>Rails 源码在此，有兴趣的可以拜读下 <a href="https://github.com/rails/rails/blob/27c8debdc6b242c845a279187205a2b057e18469/actionpack/lib/action_view/helpers/form_options_helper.rb#L156">Here</a></p>
 
-<p>用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询 <br />
+<p>用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询
 不过对于不熟悉语法的人可能读起来就不如直接 select &gt; option 直接明了，需要花时间去明白什么意思，各有利弊吧</p>
 </div>
 

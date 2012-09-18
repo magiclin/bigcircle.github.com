@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-17T00:02:06+08:00</updated>
+  <updated>2012-09-18T11:31:00+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -20,8 +20,7 @@
     <id>http://Bigcircle.github.com/blog/rails-tricks-about-tap-and-try</id>
     <content type="html"><![CDATA[<p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
 
-<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.
-<!--more--></p>
+<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
 
 <p>```ruby
 1.9.3p194 :015 &gt; Object.instance_methods.grep /tap/
@@ -48,7 +47,8 @@ end
   .to_a                .tap {|x| puts "array: #{x.inspect}"}
   .select {|x| x%2==0} .tap {|x| puts "evens: #{x.inspect}"}
   .map { |x| x*x }     .tap {|x| puts "squares: #{x.inspect}"}
-</code></p>
+</code>
+<!--more--></p>
 
 <p><strong>用途二：简化代码</strong>。我们构建一个方法想返回一个 String / Array / Hash 之类结果，一般的做法是先定义一个变量，结果把运算结果赋值给这个变量，接着返回变量，用 tap 一步搞定，其实就是源码意思的实现</p>
 
@@ -73,7 +73,7 @@ end</p>
 end
 ```</p>
 
-<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .  <br />
+<p>上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb">源码</a> .
 try 如果只接受 block 则传递 self 给 block，返回 block 执行后的结果，否则就执行
 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-public_send">public_send</a>，public_send 与 send 的不同之处，public_send 只会 call public_method，看例子</p>
 
@@ -108,8 +108,7 @@ Person.try(:find, 1)
     <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-4</id>
     <content type="html"><![CDATA[<p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
 
-<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇
-<!--more--></p>
+<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇</p>
 
 <p>这篇 <a href="http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/">blog</a> 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧</p>
 
@@ -129,7 +128,7 @@ end</p>
 <p><a href="http://edgeapi.rubyonrails.org/classes/ActiveModel/Conversion.html#method-i-to_partial_path">to_partial_path</a> 是 ActiveModel 內建的实例方法，返回一个和可识别关联对象路径的字符串，原文是这么说的，目前还没看明白这么用的目的在哪</p>
 
 <p><code>
-Returns a string identifying the path associated with the object.    
+Returns a string identifying the path associated with the object.
 ActionPack uses this to find a suitable partial to represent the object.
 </code></p>
 
@@ -144,6 +143,8 @@ ActionPack uses this to find a suitable partial to represent the object.
 
 <p>这个其实就是用到了 grouped_options_for_select ，我在前面的 <a href="http://dayuan.im/blog/explain-select-on-rails-hepler.html/">博文</a> 提到过这几个 select 的用法</p>
 
+<!--more-->
+
 <h6 id="form-">33 -定制你自己喜欢的 form 表单</h6>
 
 <p><code>
@@ -151,7 +152,7 @@ class LabeledFieldsWithErrors &lt; ActionView::Helpers::FormBuilder
   def errors_for(attribute)
     if (errors = object.errors[attribute]).any?
       @template.content_tag(:span, errors.to_sentence, class: "error")
-    end 
+    end
   end
   def method_missing(method, *args, &amp;block)
     if %r{ \A (?&lt;labeled&gt;labeled_)?
@@ -163,9 +164,9 @@ class LabeledFieldsWithErrors &lt; ActionView::Helpers::FormBuilder
       tags           &lt;&lt; send(wrapped, *args, &amp;block)
       tags           &lt;&lt; errors_for(attribute) if with_errors.present?
       tags.join(" ").html_safe
-    else 
+    else
       super
-    end 
+    end
   end
 end
 </code></p>
@@ -246,14 +247,14 @@ gem "resque", require: "resque/server"
 
 
 module AdminValidator
-  
+
   def matches?(request)
     if (id = request.env["rack.session"]["user_id"])
       current_user = User.find_by_id(id)
       current_user.try(:admin?)
     else
       false
-    end 
+    end
   end
 end
 ```
@@ -320,19 +321,19 @@ class Article &lt; ActiveRecord::Base
     body.to_s.scan(/\S+/) { |word| words[word] += 1 }
     sleep 10  # simulate a lot of work
     self.stats = {words: words}
-  end 
-  
+  end
+
   require "thread"
   def self.queue; @queue ||= Queue.new end
   def self.thread
     @thread ||= Thread.new do
       while job = queue.pop
         job.call
-      end 
+      end
     end
   end
   thread  # start the Thread
-  
+
   after_create :add_stats
   def add_stats
     self.class.queue &lt;&lt; -&gt; { calculate_stats; save }
@@ -379,7 +380,7 @@ class ApplicationController &lt; ActionController::Base
     after_filter do |c|
       c.cache_page(nil, nil, Zlib::BEST_COMPRESSION)
     end
-  end 
+  end
 end
 ```
 
@@ -441,8 +442,6 @@ Over.
     <id>http://Bigcircle.github.com/blog/10-things-you-didnt-know-rails-could-do-3</id>
     <content type="html"><![CDATA[<p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
 
-<!--more-->
-
 <h6 id="section">21 - 自动写文件</h6>
 
 <p><code>ruby
@@ -455,7 +454,7 @@ class Comment &lt; ActiveRecord::Base
       f.puts "Article: #{article.subject}"
       f.puts "User:    #{user.name}"
       f.puts body
-    end 
+    end
   end
 end
 </code></p>
@@ -473,7 +472,8 @@ Loading development environment (Rails 3.2.3)
 =&gt; {:nested=&gt;{:one=&gt;1, :two=&gt;2}}
 </code></p>
 
-<p>主要是用到了 deep_merge 合并相同的 key</p>
+<p>主要是用到了 deep_merge 合并相同的 key
+<!--more--></p>
 
 <h6 id="hash-except">23 - Hash except</h6>
 
@@ -509,7 +509,7 @@ Loading development environment (Rails 3.2.3)
 
 <p><code>
 def reverse_merge(other_hash)
-  super 
+  super
   self.class.new_from_hash_copying_default(other_hash)
 end
 </code></p>
@@ -583,8 +583,7 @@ end
 <!-- HTML comments stay in the rendered content -->
 &lt;%# ERb comments do not %&gt;</p>
 <h1>Home Page</h1>
-
-<h1 id="html">生成的 html</h1>
+<p># 生成的 html</p>
 <body>
 <!-- HTML comments stay in the rendered content -->
 <h1>Home Page</h1>
@@ -629,7 +628,7 @@ ActionView::Template::Handlers::ERB.erb_implementation =
   <tr>
     <td>Subtotal</td>
     <td>&lt;%= number_to_currency @cart.total %&gt;</td>
-  </tr> 
+  </tr>
   <tr>
     <td>Tax</td>
     <td>&lt;%= number_to_currency(tax = calculate_tax(@cart.total)) %&gt;</td>
@@ -674,7 +673,7 @@ end
     <tr>
       <td>Tax</td>
       <td>&lt;%= number_to_currency tax %&gt;</td>
-    </tr> 
+    </tr>
     <tr>
       <td>Total</td>
       <td>&lt;%= number_to_currency(@cart.total + tax) %&gt;</td>
@@ -715,9 +714,9 @@ end
 
 <p><code>ruby
 rake db:migrate:status
-</code>
-<!--more-->
-会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
+</code></p>
+
+<p>会输出 migration 的状态，这在解决迁移版本冲突的时候很有用</p>
 
 <p>```
 database: db/development.sqlite3</p>
@@ -741,6 +740,8 @@ Summer,summer@example.com
 </code></p>
 
 <p>创建 rake 任务导入 users 表</p>
+
+<!--more-->
 
 <p><code>
 require 'csv'
@@ -822,7 +823,7 @@ end
 rails g resource event article:belongs_to triggle
 </code></p>
 
-<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录， <br />
+<p>创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录，
 group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 count(:group =&gt; :trigger)</p>
 
 <p>```
@@ -1017,9 +1018,9 @@ require “user_database”</p>
         ) do |migration|
           ENV[“SCOPE”].blank? || (ENV[“SCOPE”] == migration.scope)
         end
-      end 
+      end
     end
-  end 
+  end
 end
 ```</p>
 
@@ -1072,7 +1073,7 @@ class ApplicationController &lt; ActionController::Base
 private
   def connect_to_database
     connect_to_user_database(request.subdomains.first)
-  end 
+  end
 end
 </code></p>
 
@@ -1089,8 +1090,7 @@ end
 
 <p>说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下</p>
 
-<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天
-<!--more--></p>
+<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天</p>
 
 <h6 id="rails-app">1 - 最小的rails app</h6>
 
@@ -1129,7 +1129,8 @@ end</p>
 &lt;%= render Article.all %&gt;
 ```</p>
 
-<p>执行 <code>rake notes</code></p>
+<p>执行 <code>rake notes</code>
+<!--more--></p>
 
 <p>```
 app/controllers/users_controller.rb:
@@ -1142,7 +1143,7 @@ app/controllers/users_controller.rb:
   * [ 1] [OPTIMIZE] Paginate this listing.
 ```</p>
 
-<p>查看单独的 TODO / FIXME / OPTIMIZE </p>
+<p>查看单独的 TODO / FIXME / OPTIMIZE</p>
 
 <p>```
 rake notes:todo</p>
@@ -1225,7 +1226,7 @@ end</p>
 
 <h6 id="keep-funny">7 - keep funny</h6>
 
-<p>作者给出了个介绍 ruby 以及一些相关 blog的网站 <a href="http://www.rubydramas.com">rubydramas</a>，搞笑的是这个网站右上角标明 </p>
+<p>作者给出了个介绍 ruby 以及一些相关 blog的网站 <a href="http://www.rubydramas.com">rubydramas</a>，搞笑的是这个网站右上角标明</p>
 
 <p><code>
 Powered by PHP

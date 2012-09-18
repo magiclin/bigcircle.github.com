@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shell | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-17T00:02:06+08:00</updated>
+  <updated>2012-09-18T11:31:00+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -21,8 +21,6 @@
     <content type="html"><![CDATA[<p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
 搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
 
-<!--more-->
-
 <ul>
   <li><a href="http://keating.iteye.com/blog/1463521">开机自动启动GoAgent</a></li>
   <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
@@ -31,7 +29,9 @@
 <p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂
 用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
 
-<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，在安装完之后会有一大堆提示，比如这样</p>
+<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，安装之后会有一大堆提示，比如这样</p>
+
+<!--more-->
 
 <p>```c
 To launch on startup:
@@ -125,7 +125,7 @@ launchctl unload -w ~/Library/LaunchAgents/com.google.goagent.plist
     <content type="html"><![CDATA[<p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
 
 <h3 id="section">为什么不想敲密码</h3>
-<!-- more -->
+
 <ul>
   <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
   <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
@@ -142,6 +142,8 @@ launchctl unload -w ~/Library/LaunchAgents/com.google.goagent.plist
 root ALL=(ALL) ALL
 %admin ALL=(ALL) ALL
 </code></p>
+
+<!-- more -->
 
 <p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
 修改如下：</p>

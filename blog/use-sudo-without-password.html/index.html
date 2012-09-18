@@ -105,7 +105,7 @@
 <div class="entry-content"><p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
 
 <h3 id="section">为什么不想敲密码</h3>
-<!-- more -->
+
 <ul>
   <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
   <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
@@ -123,6 +123,8 @@
 </pre></td><td class="code"><pre><code class="bash"><span class="line">root <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
 </span><span class="line">%admin <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
 </span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<!-- more -->
 
 <p>意思是root用户和admin群组的用户都能执行所有命令，当然也是需要输入password的
 修改如下：</p>
