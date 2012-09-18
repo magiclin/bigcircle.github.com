@@ -9,8 +9,6 @@ description: 10 things you didn't rails could do
 ---
 中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 [这篇](http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do) 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听
 
-<!--more-->
-
 ###### 21 - 自动写文件
 
 ```ruby
@@ -23,7 +21,7 @@ class Comment < ActiveRecord::Base
       f.puts "Article: #{article.subject}"
       f.puts "User:    #{user.name}"
       f.puts body
-    end 
+    end
   end
 end
 ```
@@ -33,15 +31,26 @@ end
 ###### 22 - 合并嵌套 Hash
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> {nested: {one: 1}}.merge(nested: {two: 2})=> {:nested=>{:two=>2}}>> {nested: {one: 1}}.deep_merge(nested: {two: 2})=> {:nested=>{:one=>1, :two=>2}}
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> {nested: {one: 1}}.merge(nested: {two: 2})
+=> {:nested=>{:two=>2}}
+>> {nested: {one: 1}}.deep_merge(nested: {two: 2})
+=> {:nested=>{:one=>1, :two=>2}}
 ```
 
 主要是用到了 deep_merge 合并相同的 key
+<!--more-->
 
 ###### 23 - Hash except
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> params = {controller: "home", action: "index", from: "Google"}=> {:controller=>"home", :action=>"index", :from=>"Google"}>> params.except(:controller, :action)=> {:from=>"Google"}
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> params = {controller: "home", action: "index", from: "Google"}
+=> {:controller=>"home", :action=>"index", :from=>"Google"}
+>> params.except(:controller, :action)
+=> {:from=>"Google"}
 ```
 
 这个方法经常会用到，可能用的人也很多
@@ -49,7 +58,16 @@ $ rails cLoading development environment (Rails 3.2.3)>> params = {controller:
 ###### 24 - add defaultss to Hash
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> {required: true}.merge(optional: true)=> {:required=>true, :optional=>true}>> {required: true}.reverse_merge(optional: true)=> {:optional=>true, :required=>true}>> {required: true, optional: false}.merge(optional: true)=> {:required=>true, :optional=>true}>> {required: true, optional: false}.reverse_merge(optional: true)=> {:optional=>false, :required=>true}
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> {required: true}.merge(optional: true)
+=> {:required=>true, :optional=>true}
+>> {required: true}.reverse_merge(optional: true)
+=> {:optional=>true, :required=>true}
+>> {required: true, optional: false}.merge(optional: true)
+=> {:required=>true, :optional=>true}
+>> {required: true, optional: false}.reverse_merge(optional: true)
+=> {:optional=>false, :required=>true}
 ```
 
 这几个都是对 Hash 类的增强，merge 会替换原有相同 key 的值，但 reverse_merge 不会
@@ -58,7 +76,7 @@ $ rails cLoading development environment (Rails 3.2.3)>> {required: true}.merg
 
 ```
 def reverse_merge(other_hash)
-  super 
+  super
   self.class.new_from_hash_copying_default(other_hash)
 end
 ```
@@ -68,7 +86,22 @@ end
 看下面的几个例子
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> env = Rails.env=> "development">> env.development?=> true>> env.test?=> false>> "magic".inquiry.magic?=> true>> article = Article.first=> #<Article id: 1, ..., status: "Draft">>> article.draft?=> true>> article.published?=> false
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> env = Rails.env
+=> "development"
+>> env.development?
+=> true
+>> env.test?
+=> false
+>> "magic".inquiry.magic?
+=> true
+>> article = Article.first
+=> #<Article id: 1, ..., status: "Draft">
+>> article.draft?
+=> true
+>> article.published?
+=> false
 ```
 
 env, "magic" 可以直接使用 value? 的方法，这个扩展是 String#inquiry 方法
@@ -114,8 +147,14 @@ end
 ###### 27 - 隐藏用户评论
 
 ```
-<!-- HTML comments stay in the rendered content --><%# ERb comments do not %><h1>Home Page</h1>
-# 生成的 html<body><!-- HTML comments stay in the rendered content --><h1>Home Page</h1></body>
+<!-- HTML comments stay in the rendered content -->
+<%# ERb comments do not %>
+<h1>Home Page</h1>
+# 生成的 html
+<body>
+<!-- HTML comments stay in the rendered content -->
+<h1>Home Page</h1>
+</body>
 ```
 
 这个一下没看懂。。试了下项目里面的代码，原来是隐藏的意思。。
@@ -140,7 +179,9 @@ end
 接着在 view 页面替换用 % 表示原来 <% if %> <% end %>，有点像 slim
 
 ```
-% if current_user.try(:admin?)  <%= render "edit_links" %>% end
+% if current_user.try(:admin?)
+  <%= render "edit_links" %>
+% end
 ```
 
 ###### 29 - 用 block 避免视图层赋值
@@ -156,7 +197,7 @@ end
   <tr>
     <td>Subtotal</td>
     <td><%= number_to_currency @cart.total %></td>
-  </tr> 
+  </tr>
   <tr>
     <td>Tax</td>
     <td><%= number_to_currency(tax = calculate_tax(@cart.total)) %></td>
@@ -201,7 +242,7 @@ end
     <tr>
       <td>Tax</td>
       <td><%= number_to_currency tax %></td>
-    </tr> 
+    </tr>
     <tr>
       <td>Total</td>
       <td><%= number_to_currency(@cart.total + tax) %></td>
@@ -222,7 +263,9 @@ end
 ```
 
 ```
-<%= content_tag_for(:div, @articles) do |article| %>  <h2><%= article.subject %></h2><% end %>
+<%= content_tag_for(:div, @articles) do |article| %>
+  <h2><%= article.subject %></h2>
+<% end %>
 ```
 
 content_tag_for 具体用法可以参考 [Api](http://api.rubyonrails.org/classes/ActionView/Helpers/RecordTagHelper.html#method-i-content_tag_for)，意思比较明白

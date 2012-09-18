@@ -9,7 +9,6 @@ categories: [octopress, ruby]
 折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修
 
 ### octopress
-<!-- more -->
 
 基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。
 
@@ -28,6 +27,8 @@ categories: [octopress, ruby]
 ```
 
 ###### 复制 Octopress 到本地
+
+<!-- more -->
 
 ```
     git clone git clone git://github.com/imathis/octopress.git myblog

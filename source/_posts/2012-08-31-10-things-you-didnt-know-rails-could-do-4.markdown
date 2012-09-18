@@ -10,7 +10,6 @@ description: 10 things you didn't rails could do
 这个系列完结篇，貌似内容挺多，但是实用的没几个
 
 从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇
-<!--more-->
 
 这篇 [blog](http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/) 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧
 
@@ -30,17 +29,22 @@ end
 [to_partial_path](http://edgeapi.rubyonrails.org/classes/ActiveModel/Conversion.html#method-i-to_partial_path) 是 ActiveModel 內建的实例方法，返回一个和可识别关联对象路径的字符串，原文是这么说的，目前还没看明白这么用的目的在哪
 
 ```
-Returns a string identifying the path associated with the object.    
+Returns a string identifying the path associated with the object.
 ActionPack uses this to find a suitable partial to represent the object.
 ```
 
 ###### 32 - 生成 group option
 
 ```
-<%= select_tag( :grouped_menu, grouped_options_for_select(  "Group A" => %w[One Two Three],  "Group B" => %w[One Two Three]) ) %>
+<%= select_tag( :grouped_menu, grouped_options_for_select(
+  "Group A" => %w[One Two Three],
+  "Group B" => %w[One Two Three]
+) ) %>
 ```
 
 这个其实就是用到了 grouped_options_for_select ，我在前面的 [博文](http://dayuan.im/blog/explain-select-on-rails-hepler.html/) 提到过这几个 select 的用法
+
+<!--more-->
 
 ###### 33 -定制你自己喜欢的 form 表单
 
@@ -49,7 +53,7 @@ class LabeledFieldsWithErrors < ActionView::Helpers::FormBuilder
   def errors_for(attribute)
     if (errors = object.errors[attribute]).any?
       @template.content_tag(:span, errors.to_sentence, class: "error")
-    end 
+    end
   end
   def method_missing(method, *args, &block)
     if %r{ \A (?<labeled>labeled_)?
@@ -61,9 +65,9 @@ class LabeledFieldsWithErrors < ActionView::Helpers::FormBuilder
       tags           << send(wrapped, *args, &block)
       tags           << errors_for(attribute) if with_errors.present?
       tags.join(" ").html_safe
-    else 
+    else
       super
-    end 
+    end
   end
 end
 ```
@@ -72,13 +76,24 @@ end
 修改 application.rb，添加配置
 
 ```
-class Application < Rails::Application  # ...  require "labeled_fields_with_errors"  config.action_view.default_form_builder = LabeledFieldsWithErrors  config.action_view.field_error_proc     = ->(field, _) { field }end
+class Application < Rails::Application
+  # ...
+  require "labeled_fields_with_errors"
+  config.action_view.default_form_builder = LabeledFieldsWithErrors
+  config.action_view.field_error_proc     = ->(field, _) { field }
+end
 ```
 
 创建 form 表单可以这样书写
 
 ```
-<%= form_for @article do |f| %>  <p><%= f.text_field  <p><%= f.labeled_text_field  <p><%= f.text_field_with_errors  <p><%= f.labeled_text_field_with_errors :subject %></p>  <%= f.submit %><% end %>
+<%= form_for @article do |f| %>
+  <p><%= f.text_field
+  <p><%= f.labeled_text_field
+  <p><%= f.text_field_with_errors
+  <p><%= f.labeled_text_field_with_errors :subject %></p>
+  <%= f.submit %>
+<% end %>
 ```
 
 生成如下的 html 页面
@@ -108,7 +123,10 @@ class Application < Rails::Application  # ...  require "labeled_fields_with_er
 修改 application.rb 定义
 
 ```
-class Application < Rails::Application# ...  config.exceptions_app = routesend
+class Application < Rails::Application
+# ...
+  config.exceptions_app = routes
+end
 ```
 每次有异常时路由都会被调用，你可以用下面的方法简单 render 404 页面
 
@@ -123,19 +141,21 @@ match "/404", :to => "errors#not_found"
 ```
 - Gemfile
 
-source 'https://rubygems.org'# ...gem "resque", require: "resque/server"
+source 'https://rubygems.org'
+# ...
+gem "resque", require: "resque/server"
 
 
 
 module AdminValidator
-  
+
   def matches?(request)
     if (id = request.env["rack.session"]["user_id"])
       current_user = User.find_by_id(id)
       current_user.try(:admin?)
     else
       false
-    end 
+    end
   end
 end
 ```
@@ -202,27 +222,38 @@ class Article < ActiveRecord::Base
     body.to_s.scan(/\S+/) { |word| words[word] += 1 }
     sleep 10  # simulate a lot of work
     self.stats = {words: words}
-  end 
-  
+  end
+
   require "thread"
   def self.queue; @queue ||= Queue.new end
   def self.thread
     @thread ||= Thread.new do
       while job = queue.pop
         job.call
-      end 
+      end
     end
   end
   thread  # start the Thread
-  
-  after_create :add_stats  def add_stats    self.class.queue << -> { calculate_stats; save }  end
+
+  after_create :add_stats
+  def add_stats
+    self.class.queue << -> { calculate_stats; save }
+  end
 end
 ```
 
 添加一条记录，10秒后会自动给该记录 stats 字段添加 words Hash
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> Article.create!(subject: "Stats", body: "Lorem ipsum...");Time.now.strftime("%H:%M:%S")=> "15:24:10">> [Article.last.stats, Time.now.strftime("%H:%M:%S")]=> [nil, "15:24:13"]>> [Article.last.stats, Time.now.strftime("%H:%M:%S")]=>[{:words=>{"Lorem"=>1, "ipsum"=>1, ...}, "15:24:26"]
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> Article.create!(subject: "Stats", body: "Lorem ipsum...");
+Time.now.strftime("%H:%M:%S")
+=> "15:24:10"
+>> [Article.last.stats, Time.now.strftime("%H:%M:%S")]
+=> [nil, "15:24:13"]
+>> [Article.last.stats, Time.now.strftime("%H:%M:%S")]
+=>[{:words=>{"Lorem"=>1, "ipsum"=>1, ...}, "15:24:26"]
 ```
 
 ###### 39 - 用 Rails 生成静态站点
@@ -244,7 +275,14 @@ Static::Application.configure do
 end
 
 
-class ApplicationController < ActionController::Base  protect_from_forgery  if ENV["GENERATING_SITE"]    after_filter do |c|      c.cache_page(nil, nil, Zlib::BEST_COMPRESSION)    end  end end
+class ApplicationController < ActionController::Base
+  protect_from_forgery
+  if ENV["GENERATING_SITE"]
+    after_filter do |c|
+      c.cache_page(nil, nil, Zlib::BEST_COMPRESSION)
+    end
+  end
+end
 ```
 
 修改 rake static:generate 任务

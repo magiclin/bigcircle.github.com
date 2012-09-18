@@ -12,7 +12,6 @@ description: introduce 10 things you didn't know rails could do
 说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下
 
 Pass 掉第一个 [fridayhug](http://fridayhug.com)，我们是开心拥抱每一天
-<!--more-->
 
 ###### 1 - 最小的rails app
 
@@ -52,6 +51,7 @@ end
 ```
 
 执行 `rake notes`
+<!--more-->
 
 ```
 app/controllers/users_controller.rb:
@@ -64,7 +64,7 @@ app/views/articles/index.html.erb:
   * [ 1] [OPTIMIZE] Paginate this listing.
 ```
 
-查看单独的 TODO / FIXME / OPTIMIZE 
+查看单独的 TODO / FIXME / OPTIMIZE
 
 ```
 rake notes:todo
@@ -124,15 +124,15 @@ rails s thin / thin start
 
 ```
  - lib/custom/railtie.rb
- 
+
  module Custom
    class Railtie < Rails::Railtie
      config.custom = ActiveSupport::OrderedOptions.new
    end
  end
- 
+
  - config/application.rb
- 
+
  require_relative "../lib/custom/railtie"
 
  module Blog
@@ -145,7 +145,7 @@ rails s thin / thin start
 
 ###### 7 - keep funny
 
-作者给出了个介绍 ruby 以及一些相关 blog的网站 [rubydramas](http://www.rubydramas.com)，搞笑的是这个网站右上角标明 
+作者给出了个介绍 ruby 以及一些相关 blog的网站 [rubydramas](http://www.rubydramas.com)，搞笑的是这个网站右上角标明
 
 ```
 Powered by PHP
@@ -200,7 +200,7 @@ class CreateUsers < ActiveRecord::Migration
       t.text :bio
       t.timestamps
     end
-    
+
     add_index :users, :name
     add_index :users, :email, :unique => true
   end

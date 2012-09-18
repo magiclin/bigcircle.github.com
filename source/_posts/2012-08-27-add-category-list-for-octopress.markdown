@@ -7,7 +7,6 @@ categories: [octopress]
 ---
 Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
 为了使界面简洁点，就只添加了一个分类列表
-<!-- more -->
 
 - 新建分类列表 source/_inclide/custom/asides/category_list.html
 
@@ -21,6 +20,8 @@ Octopress可定制的功能很多，可以在侧边栏添加分类列表，最�
 ```
 
 - 新建插件： plugins/category_list_tag.rb
+
+<!-- more -->
 
 {% gist 3485442 category_list_tag.rb %}
 

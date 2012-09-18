@@ -9,7 +9,6 @@ description: ruby performance tricks you should know
 ---
 前两天看到这个 [ruby performance tricks](http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/) 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下
 由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试
-<!--more-->
 
 ######不要在控制流中滥用rescue捕获异常
 
@@ -41,6 +40,8 @@ end
 ```
 
 跑分数据可以看出使用了rescue，性能损失超过43倍
+
+<!--more-->
 
 ```
 ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-linux]

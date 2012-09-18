@@ -11,7 +11,6 @@ description: how to optimize octopress for seo
 
 - [给octopress博客添加豆瓣侧边栏](http://tinyxd.me/blog/2012/07/09/add-douban-aside/)
 - [添加新浪微博侧边栏](http://caok.github.com/blog/2012/06/24/install-octopress-to-write-blog/)
-<!--more-->
 - [给octopress加上标签云](http://log4d.com/2012/05/tag-cloud/)
 - [添加about，友情链接](http://shanewfx.github.com/blog/2012/08/13/improve-blog-theme/)
 
@@ -22,6 +21,7 @@ description: how to optimize octopress for seo
 ##### 添加 meta data description
 
 文章生产时默认会生成 layout, title, date, comments, categories 这几项，如果多添加2个选项 'keywords', 'description'，会在 generate 文章的时候自动生成相应的 meta 标签
+<!--more-->
 
 如果文章 header 写成这样
 

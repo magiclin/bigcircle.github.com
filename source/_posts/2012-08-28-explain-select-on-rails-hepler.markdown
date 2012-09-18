@@ -12,15 +12,15 @@ rails的actionview提供了简单的select方法生产表单选择项，根据 [
 ```ruby
 select(object, method, choices, options = {}, html_options = {})
 ```
-<!--more-->
+
 - object是指select选项所修饰的目标对象，通常是一个Model对象
 - method是目标对象的属性（方法）名
 - choices可以是任何可枚举的对象，数组，Hash或者是包含了选择框的数据库查询结果
 - options选项
 - html_options是html相关选项
 
-include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.   
-例如对于  @post.person_id => 2  
+include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.
+例如对于  @post.person_id => 2
 
 ```
 select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, {:include_blank => 'None'})
@@ -32,6 +32,8 @@ select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, {:includ
   <option value="3">Tobias</option>
 </select>
 ```
+
+<!--more-->
 
 index => nil 不显示空选项或提示项，直接显示第一个值
 
@@ -83,7 +85,7 @@ select(:person, :id, Persion.all, {:onchange => 'doSomething()'})
 select_tag(name, option_tags = nil, options = {})
 ```
 
-option => {:multiple, :disable, :include_blank, :prompt} 
+option => {:multiple, :disable, :include_blank, :prompt}
 后三个和select里面用法一样，mutiple 允许同时传递多个值，相当于一个多选框
 
 option_tags 可以自己手写几个option标签，或者用现成的方法，其实就是option标签的helper方法，Api 中的几个 [例子](http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select)
@@ -120,5 +122,5 @@ option_groups_from_collection_for_select(collection, group_method, group_label_m
 
 Rails 源码在此，有兴趣的可以拜读下 [Here](https://github.com/rails/rails/blob/27c8debdc6b242c845a279187205a2b057e18469/actionpack/lib/action_view/helpers/form_options_helper.rb#L156)
 
-用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询   
+用 select 的好处就是书写简洁，可以配合js生产联动查询，比如说最常用的省市查询
 不过对于不熟悉语法的人可能读起来就不如直接 select > option 直接明了，需要花时间去明白什么意思，各有利弊吧

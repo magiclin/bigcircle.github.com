@@ -10,7 +10,6 @@ description: rails tricks about tap try
 tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥
 
 从 tap 的 [Api](http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap) 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.
-<!--more-->
 
 ```ruby
 1.9.3p194 :015 > Object.instance_methods.grep /tap/
@@ -38,6 +37,7 @@ end
   .select {|x| x%2==0} .tap {|x| puts "evens: #{x.inspect}"}
   .map { |x| x*x }     .tap {|x| puts "squares: #{x.inspect}"}
 ```
+<!--more-->
 
 **用途二：简化代码**。我们构建一个方法想返回一个 String / Array / Hash 之类结果，一般的做法是先定义一个变量，结果把运算结果赋值给这个变量，接着返回变量，用 tap 一步搞定，其实就是源码意思的实现
 
@@ -62,7 +62,7 @@ def try(*args)
 end
 ```
 
-上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，[源码](https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb) .    
+上面一个try是对 Object 的扩展，下面的是对 NilClass 的扩展，这就是为什么会nil不会抛出异常的原因，[源码](https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/object/try.rb) .
 try 如果只接受 block 则传递 self 给 block，返回 block 执行后的结果，否则就执行
 [public_send](http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-public_send)，public_send 与 send 的不同之处，public_send 只会 call public_method，看例子
 

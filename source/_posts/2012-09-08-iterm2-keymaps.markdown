@@ -10,7 +10,7 @@ description: iterm2 keymaps intro
 Mac 原来自带的终端工具 Terminal 不好用是出了名的，虽然最近几个版本苹果稍微做了些优化，功能上，可用性方面增强不少，无奈有个更好用的 Iterm2 摆在那，基本上也就没有多少出场机会了
 
 [Iterm2](http://www.iterm2.com/)，经常使用终端的同学肯定早就切换到这个东东上了，开源免费，和 zsh 搭配差不多已经取代 Terminal + bash 成了 Mac 上终端工具的标准配置。
-<!--more-->
+
 Iterm2 的优点：
 
 - 兼容性好，远程服务器 vi 什么的低版本能很好兼容，Terminal 则会出问题
@@ -19,6 +19,8 @@ Iterm2 的优点：
 - 分屏简单方便，可以根据自己需要同时搭配上 tmux，大屏用起来爽到爆
 
 [官方文档](http://www.iterm2.com/#/section/documentation) 有非常详细的介绍，先来看看自带有哪些很实用的功能/快捷键
+
+<!--more-->
 
 1. ⌘ + 数字在各 tab 标签直接来回切换
 2. 选择即复制 + 鼠标中键粘贴，这个很实用

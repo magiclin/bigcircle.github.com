@@ -14,7 +14,7 @@ description: 10 things you didn't know rails could do
 ```ruby
 rake db:migrate:status
 ```
-<!--more-->
+
 会输出 migration 的状态，这在解决迁移版本冲突的时候很有用
 
 ```
@@ -39,6 +39,8 @@ Summer,summer@example.com
 ```
 
 创建 rake 任务导入 users 表
+
+<!--more-->
 
 ```
 require 'csv'
@@ -66,7 +68,7 @@ class Article <  ActiveRecord::Base
     def dump(object); Array(object).to_csv; end
   end
   serialize :categories, CSVSerializer
-  
+
   attr_accessible :body, :subject, :categories
 end
 ```
@@ -116,7 +118,7 @@ end
 rails g resource event article:belongs_to triggle
 ```
 
-创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录，   
+创建3条 edit 记录和10条 view 记录。 Event.count 标明有13条记录，
 group(:triggle).count 表示统计 triggle group 之后的数量，也可以用 count(:group => :trigger)
 
 
@@ -156,7 +158,19 @@ car更改 owner 时，如果有了 new_owner，就把原 owner 赋给 previous_o
 ###### 17 - 构造示例数据
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> User.find(1)=> #<User id: 1, name: "James", email: "￼￼￼￼￼￼￼james@example.com", ...>￼￼￼￼￼>> jeg2 = User.instantiate("id" => 1, "email" => "￼￼￼￼=> #<User id: 1, email: "james@example.com">>> jeg2.name = "James Edward Gray II"￼￼￼￼=> "James Edward Gray II">> jeg2.save!=> true>> User.find(1)￼￼￼￼￼￼james@example.com", ...>
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> User.find(1)
+=> #<User id: 1, name: "James", email: "
+￼￼￼￼￼￼￼james@example.com", ...>
+￼￼￼￼￼>> jeg2 = User.instantiate("id" => 1, "email" => "
+￼￼￼￼=> #<User id: 1, email: "james@example.com">
+>> jeg2.name = "James Edward Gray II"
+￼￼￼￼=> "James Edward Gray II"
+>> jeg2.save!
+=> true
+>> User.find(1)
+￼￼￼￼￼￼james@example.com", ...>
 ```
 
 伪造一条记录，并不是数据库中的真实数据，也不会把原有数据覆盖
@@ -166,7 +180,17 @@ $ rails cLoading development environment (Rails 3.2.3)>> User.find(1)=> #<Use
 去掉适配器中对 string 长度的限制，这个应该是 PostgreSQL 数据库的特性
 
 ```
-module PsqlApp  class Application < Rails::Application    # Switch to limitless strings    initializer "postgresql.no_default_string_limit" do      ActiveSupport.on_load(:active_record) do        adapter = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter        adapter::NATIVE_DATABASE_TYPES[:string].delete(:limit)      end    end endend
+module PsqlApp
+  class Application < Rails::Application
+    # Switch to limitless strings
+    initializer "postgresql.no_default_string_limit" do
+      ActiveSupport.on_load(:active_record) do
+        adapter = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+        adapter::NATIVE_DATABASE_TYPES[:string].delete(:limit)
+      end
+    end
+ end
+end
 ```
 
 创建 user 表，bio 字符串
@@ -176,7 +200,17 @@ rails g resource user bio
 ```
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> very_long_bio = "X" * 10_000; :set=> :set>> User.create!(bio: very_long_bio)=> #<User id: 1, bio:"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX...", created_at: "2012-04-14 23:02:08",updated_at: "2012-04-14 23:02:08">>> User.last.bio.size=> 10000
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> very_long_bio = "X" * 10_000; :set
+=> :set
+>> User.create!(bio: very_long_bio)
+=> #<User id: 1, bio:
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XX...", created_at: "2012-04-14 23:02:08",
+updated_at: "2012-04-14 23:02:08">
+>> User.last.bio.size
+=> 10000
 ```
 
 ###### 19 - PostgreSQL 中使用全文搜索
@@ -211,13 +245,33 @@ end
 Model 中添加 search 方法
 
 ```
-class Article < ActiveRecord::Base  attr_accessible :body, :subject  def self.search(query)    sql = sanitize_sql_array(["plainto_tsquery('english', ?)", query])    where(      "search @@ #{sql}"    ).order(      "ts_rank_cd(search, #{sql}) DESC"    )end end
+class Article < ActiveRecord::Base
+  attr_accessible :body, :subject
+  def self.search(query)
+    sql = sanitize_sql_array(["plainto_tsquery('english', ?)", query])
+    where(
+      "search @@ #{sql}"
+    ).order(
+      "ts_rank_cd(search, #{sql}) DESC"
+    )
+end end
 ```
 
 PostgreSQL 数据库没用过，这段看例子吧
 
 ```
-$ rails cLoading development environment (Rails 3.2.3)>> Article.create!(subject: "Full Text Search")=> #<Article id: 1, ...>>> Article.create!(body: "A stemmed search.")=> #<Article id: 2, ...>>> Article.create!(body: "You won't find me!")=> #<Article id: 3, ...>>> Article.search("search").map { |a| a.subject || a.body }=> ["Full Text Search", "A stemmed search."]>> Article.search("stemming").map { |a| a.subject || a.body }=> ["A stemmed search."]
+$ rails c
+Loading development environment (Rails 3.2.3)
+>> Article.create!(subject: "Full Text Search")
+=> #<Article id: 1, ...>
+>> Article.create!(body: "A stemmed search.")
+=> #<Article id: 2, ...>
+>> Article.create!(body: "You won't find me!")
+=> #<Article id: 3, ...>
+>> Article.search("search").map { |a| a.subject || a.body }
+=> ["Full Text Search", "A stemmed search."]
+>> Article.search("stemming").map { |a| a.subject || a.body }
+=> ["A stemmed search."]
 ```
 
 ###### 21 - 每个用户使用不同的数据库
@@ -225,7 +279,10 @@ $ rails cLoading development environment (Rails 3.2.3)>> Article.create!(subje
 ```
 - user_database.rb
 
-def connect_to_user_database(name)  config = ActiveRecord::Base.configurations["development"].merge("database" => "db/#{name}.sqlite3")  ActiveRecord::Base.establish_connection(config)end
+def connect_to_user_database(name)
+  config = ActiveRecord::Base.configurations["development"].merge("database" => "db/#{name}.sqlite3")
+  ActiveRecord::Base.establish_connection(config)
+end
 ```
 
 创建 rake 任务：新增用户数据库和创建
@@ -240,7 +297,7 @@ namespace :db do
     connect_to_user_database(name)
     ActiveRecord::Base.connection
   end
-  
+
   namespace :migrate do
     desc "Migrate all user databases"
     task :all => %w[environment load_config] do
@@ -254,28 +311,63 @@ namespace :db do
         ) do |migration|
           ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
         end
-      end 
+      end
     end
-  end 
+  end
 end
 ```
 
 执行几个rake 任务创建不同的数据库
 
 ```
-$ rails g resource user name$ rake db:add DB_NAME=ruby_rogues$ rake db:add DB_NAME=grays$ rake db:migrate:all==  CreateUsers: migrating ==================================-- create_table(:users)   -> 0.0008s==  CreateUsers: migrated (0.0008s) ===========================  CreateUsers: migrating ==================================-- create_table(:users)   -> 0.0007s==  CreateUsers: migrated (0.0008s) =========================
+$ rails g resource user name
+$ rake db:add DB_NAME=ruby_rogues
+$ rake db:add DB_NAME=grays
+$ rake db:migrate:all
+==  CreateUsers: migrating ==================================
+-- create_table(:users)
+   -> 0.0008s
+==  CreateUsers: migrated (0.0008s) =========================
+==  CreateUsers: migrating ==================================
+-- create_table(:users)
+   -> 0.0007s
+==  CreateUsers: migrated (0.0008s) =========================
 ```
 
 创建几条记录，为不同的数据库创建不同的数据
 
 ```
-$ rails c>> connect_to_user_database("ruby_rogues")=> #<ActiveRecord::ConnectionAdapters::ConnectionPool...>>> User.create!(name: "Chuck")=> #<User id: 1, name: "Chuck", ...>>> User.create!(name: "Josh")=> #<User id: 2, name: "Josh", ...>>> User.create!(name: "Avdi")=> #<User id: 3, name: "Avdi", ...>...>> connect_to_user_database("grays")=> #<ActiveRecord::ConnectionAdapters::ConnectionPool...>>> User.create!(name: "James")=> #<User id: 1, name: "James", ...>>> User.create!(name: "Dana")=> #<User id: 2, name: "Dana", ...>>> User.create!(name: "Summer")=> #<User id: 3, name: "Summer", ...>
+$ rails c
+>> connect_to_user_database("ruby_rogues")
+=> #<ActiveRecord::ConnectionAdapters::ConnectionPool...>
+>> User.create!(name: "Chuck")
+=> #<User id: 1, name: "Chuck", ...>
+>> User.create!(name: "Josh")
+=> #<User id: 2, name: "Josh", ...>
+>> User.create!(name: "Avdi")
+=> #<User id: 3, name: "Avdi", ...>
+...
+>> connect_to_user_database("grays")
+=> #<ActiveRecord::ConnectionAdapters::ConnectionPool...>
+>> User.create!(name: "James")
+=> #<User id: 1, name: "James", ...>
+>> User.create!(name: "Dana")
+=> #<User id: 2, name: "Dana", ...>
+>> User.create!(name: "Summer")
+=> #<User id: 3, name: "Summer", ...>
 ```
 
 ApplicationController 里面添加 before_filter 根据登陆的二级域名判断连接哪个数据库
 
 ```
-class ApplicationController < ActionController::Base  protect_from_forgery  before_filter :connect_to_databaseprivate  def connect_to_database    connect_to_user_database(request.subdomains.first)  end end
+class ApplicationController < ActionController::Base
+  protect_from_forgery
+  before_filter :connect_to_database
+private
+  def connect_to_database
+    connect_to_user_database(request.subdomains.first)
+  end
+end
 ```
 
 中场休息，未完待续。。。内容真心多啊，不过有用的不多

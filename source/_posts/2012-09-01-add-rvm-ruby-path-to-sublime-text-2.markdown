@@ -8,7 +8,7 @@ keywords: mac, sublime text 2, ruby
 description: use rvm ruby in sublime text 2
 ---
 用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby
-<!--more-->
+
 默认自带的 build 目录位于
 
 ```c
@@ -29,7 +29,10 @@ description: use rvm ruby in sublime text 2
 "cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "-KU", "$file"]
 ```
 
+
 你也可以自己改成 rvm 默认的 default ruby
+
+<!--more-->
 
 ```c
 which ruby

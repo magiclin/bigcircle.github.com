@@ -9,7 +9,7 @@ categories: [domain, github]
 域名基本上大家都推荐[Godaddy](http://www.godaddy.com) or [Name](http://www.name.com)，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦
 
 #####大概流程如下：
-<!-- more -->
+
 - 注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码
 - 挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算
 - 可以用paypal或者直接用支持visa/mastercard的双币信用卡支付。我是现申请的paypal账号，绑定自己的招行信用卡。(招行信用卡各种好用，强烈推荐去办张2W额度的!!当然我的额度只有5k,不过支付十几美金还是可以的)，没有申请的同学网上申请的例子一大把，不要怕弄错了，其实过程很简单
@@ -17,6 +17,7 @@ categories: [domain, github]
 - 确认完了就会自动扣款，马上手机短信就来了，扣钱很是快捷，这样你想要的域名就到手了。
 
 接下来就是解析DNS到自己的github page上
+<!-- more -->
 
 - 进入 Name 账户 << account << your domain << DNS Record Management . 账户设置里面右边有一大堆选择框，选择这个进入就会看到一个添加 Record Type的下拉框，默认就是A，继续把 github page ip写到 Record Answer 里面，Add Record，其他都不用填，这部分OK啦
 - 在项目代码下/source目录下创建CNAME文件，添入刚注册的域名，push到github上，静候DNS生效，差不多十几分钟就OK了
