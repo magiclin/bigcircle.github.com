@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="用 Google 大婶搜索了下 Octopress 可以定制的内容，发现可以定制的东西真的还蛮多的，也基本都是平常能看得的几个功能，比如下面几个： 给octopress博客添加豆瓣侧边栏 添加新浪微博侧边栏 给octopress加上标签云 添加about，友情链接 不如我一向遵循 less is &hellip;">
+  <meta name="description" content="记得前段时间 RailsConf2012 之后看过一个不错的pdf，10 things you didn’t know rails could do 说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下 Pass 掉第一个 fridayhug， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,116 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-30T11:22:00+08:00" pubdate data-updated="true">2012-08-30 11:22:00</time>
+        
+         | <a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>记得前段时间 RailsConf2012 之后看过一个不错的pdf，<a href="https://speakerdeck.com/u/jeg2/p/10-things-you-didnt-know-rails-could-do">10 things you didn’t know rails could do</a></p>
+
+<p>说是10个，但是给出了42个实例，这几天抽空又回味了下，料很多，写的很好，顺便总结学习下</p>
+
+<p>Pass 掉第一个 <a href="http://fridayhug.com">fridayhug</a>，我们是开心拥抱每一天</p>
+
+<h6 id="rails-app">1 - 最小的rails app</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sx">%w(action_controller/railtie coderay markaby)</span><span class="o">.</span><span class="n">map</span> <span class="o">&amp;</span><span class="nb">method</span><span class="p">(</span><span class="ss">:require</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">run</span> <span class="no">TheSmallestRailsApp</span> <span class="o">||=</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Rails</span><span class="o">::</span><span class="no">Application</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">secret_token</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">append</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">root</span> <span class="n">to</span><span class="p">:</span> <span class="nb">proc</span> <span class="p">{</span>
+</span><span class="line">      <span class="o">[</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;text/html&quot;</span><span class="p">},</span> <span class="o">[</span><span class="no">Markaby</span><span class="o">::</span><span class="no">Builder</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span>
+</span><span class="line">        <span class="n">title</span> <span class="vi">@title</span> <span class="o">=</span> <span class="s2">&quot;The Smallest Rails App&quot;</span>
+</span><span class="line">        <span class="n">h3</span> <span class="s2">&quot;I am </span><span class="si">#@title</span><span class="s2">!&quot;</span>
+</span><span class="line">        <span class="nb">p</span> <span class="s2">&quot;Here is my source code:&quot;</span>
+</span><span class="line">        <span class="n">div</span> <span class="p">{</span> <span class="no">CodeRay</span><span class="o">.</span><span class="n">scan_file</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">line_numbers</span><span class="p">:</span> <span class="ss">:table</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line">        <span class="nb">p</span> <span class="p">{</span> <span class="n">a</span> <span class="s2">&quot;Make me smaller&quot;</span><span class="p">,</span> <span class="n">href</span><span class="p">:</span> <span class="s2">&quot;//goo.gl/YdRpy&quot;</span> <span class="p">}</span>
+</span><span class="line">      <span class="p">}</span><span class="o">]]</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">  <span class="p">}</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class="line">  <span class="kp">initialize</span><span class="o">!</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="todo">2 - 提醒功能 TODO</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class="line">  <span class="c1"># TODO:  Make it possible to create new users.</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># FIXME: Should token really  be accessible?</span>
+</span><span class="line">  <span class="n">attr_accessible</span> <span class="ss">:bil</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:token</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;%</span><span class="c1"># OPTIMIZE: Paginate this listing. %&gt;</span>
+</span><span class="line"><span class="o">&lt;%=</span> <span class="n">render</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>执行 <code>rake notes</code>
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -322,72 +432,6 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-category-list-for-octopress.html/">给Octopress添加分类列表</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-27T11:24:00+08:00" pubdate data-updated="true">2012-08-27 11:24:00</time>
-        
-         | <a href="/blog/add-category-list-for-octopress.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表</p>
-
-<ul>
-  <li>新建分类列表 source/_inclide/custom/asides/category_list.html</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="o">&lt;</span><span class="nx">section</span><span class="o">&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Categories</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;categories&quot;</span><span class="o">&gt;</span>
-</span><span class="line">    <span class="p">{</span><span class="o">%</span> <span class="nx">category_list</span> <span class="o">%</span><span class="p">}</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="err">/ul&gt;</span>
-</span><span class="line"><span class="o">&lt;</span><span class="err">/section&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>新建插件： plugins/category_list_tag.rb</li>
-</ul>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-category-list-for-octopress.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -405,11 +449,11 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
-<li class='category'><a href='/blog/categories/mac/'>mac (8)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (9)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
 <li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
-<li class='category'><a href='/blog/categories/shell/'>shell (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
 <li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
 
@@ -418,6 +462,10 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东&#8211;终端输出cow</a>
+      </li>
     
       <li class="post">
         <a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a>
@@ -453,10 +501,6 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     
       <li class="post">
         <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a>
       </li>
     
   </ul>

@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>一个好玩的东东--终端输出cow - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="a funny command line tool">
+  <meta name="keywords" content="mac linux ruby shell">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/a-funny-command-line-tool.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feed.feedsky.com/imdayuan" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">一个好玩的东东--终端输出cow</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-25T16:15:00+08:00" pubdate data-updated="true">2012-09-25 16:15:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>昨天看到 <a href="https://github.com/busyloop/lolcat">lolcat</a>，本以为是 cat 的一个增强版，美化下输出什么的，搜了下才发现居然是用 ruby 写的，看了下源码，原来实现也很简单。代码虽少，版本号可不能少，已经迭代到42了，看来作者更新很勤快啊，还有一说是 42是宇宙的答案，或许作者为了获取最终的答案。先看下效果图</p>
+
+<p><img src="/images/2012-09-25/1.png" /></p>
+
+<p>安装方法也很简单</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">fortune</span>
+</span><span class="line"><span class="n">gem</span> <span class="n">install</span> <span class="n">cowsay</span> <span class="n">lolcat</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+<p>其中 fotrune 负责随机生成一句话，cowsay 随机生成一个图像，lolcat 彩色打印
+多试了几次发现生成的图像还挺多，于是好奇是怎么生成这些图像的，去 gem 里面看了下原来是预先定义了十九个图像，还以为真是随机生成的。。上面这个小恶魔的模板是</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">module</span> <span class="nn">Cowsay</span>
+</span><span class="line">  <span class="k">module</span> <span class="nn">Character</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">class</span> <span class="nc">Daemon</span> <span class="o">&lt;</span> <span class="no">Base</span>
+</span><span class="line">      <span class="k">def</span> <span class="nf">template</span>
+</span><span class="line">        <span class="o">&lt;&lt;-</span><span class="no">TEMPLATE</span>
+</span><span class="line"><span class="sh">   #{@thoughts}         ,        ,</span>
+</span><span class="line"><span class="sh">    #{@thoughts}       /(        )`</span>
+</span><span class="line"><span class="sh">     #{@thoughts}      \\ \\___   / |</span>
+</span><span class="line"><span class="sh">            /- _  `-/  &#39;</span>
+</span><span class="line"><span class="sh">           (/\\/ \\ \\   /\\</span>
+</span><span class="line"><span class="sh">           / /   | `    \\</span>
+</span><span class="line"><span class="sh">           O O   ) /    |</span>
+</span><span class="line"><span class="sh">           `-^--&#39;`&lt;     &#39;</span>
+</span><span class="line"><span class="sh">          (_.)  _  )   /</span>
+</span><span class="line"><span class="sh">           `.___/`    /</span>
+</span><span class="line"><span class="sh">             `-----&#39; /</span>
+</span><span class="line"><span class="sh">&lt;----.     __ / __   \\</span>
+</span><span class="line"><span class="sh">&lt;----|====O)))==) \\) /====</span>
+</span><span class="line"><span class="sh">&lt;----&#39;    `--&#39; `.__,&#39; \\</span>
+</span><span class="line"><span class="sh">             |        |</span>
+</span><span class="line"><span class="sh">              \\       /</span>
+</span><span class="line"><span class="sh">        ______( (_  / \\______</span>
+</span><span class="line"><span class="sh">      ,&#39;  ,-----&#39;   |        \\</span>
+</span><span class="line"><span class="sh">      `--{__________)        \\/</span>
+</span><span class="line"><span class="no">        TEMPLATE</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样只需要随机调用这些文件就可以生成样式了。再次启用谷歌娘查了下，原来这个灵感来自于 Linux 下的一个同名的东西叫做 cowsay / cowthink，下下来看下这个是怎么实现的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">cowthink</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>cowthink 其实就是在 cowsay 基础上封装了下，所以看 cowsay 就可以了</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">cd</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="no">Cellar</span><span class="o">/</span><span class="n">cowsay</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mo">03</span><span class="o">/</span>
+</span><span class="line"><span class="n">find</span> <span class="n">share</span><span class="o">/</span><span class="n">cows</span> <span class="o">-</span><span class="nb">name</span> <span class="s1">&#39;*.cow&#39;</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个实现方式也是一样，先预设一些 cow，再随机输出，只不过这里面的 cow 多点，有46个，感兴趣的可以看下这里面还有哪些 cow</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">cowsay</span> <span class="o">-</span><span class="n">h</span>
+</span><span class="line"><span class="no">Usage</span><span class="p">:</span> <span class="n">cowsay</span> <span class="o">[-</span><span class="n">bdgpstwy</span><span class="o">]</span> <span class="o">[-</span><span class="n">h</span><span class="o">]</span> <span class="o">[-</span><span class="n">e</span> <span class="n">eyes</span><span class="o">]</span> <span class="o">[-</span><span class="n">f</span> <span class="n">cowfile</span><span class="o">]</span>
+</span><span class="line">          <span class="o">[-</span><span class="n">l</span><span class="o">]</span> <span class="o">[-</span><span class="n">n</span><span class="o">]</span> <span class="o">[-</span><span class="n">T</span> <span class="n">tongue</span><span class="o">]</span> <span class="o">[-</span><span class="n">W</span> <span class="n">wrapcolumn</span><span class="o">]</span> <span class="o">[</span><span class="n">message</span><span class="o">]</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">cowsay</span> <span class="o">-</span><span class="n">by</span> <span class="o">-</span><span class="n">f</span> <span class="n">daemon</span> <span class="s1">&#39;hello world&#39;</span> <span class="o">|</span> <span class="n">lolcat</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-25T16:15:00+08:00" pubdate data-updated="true">2012-09-25 16:15:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>, <a class='category' href='/blog/categories/shell/'>shell</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/a-funny-command-line-tool.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/a-funny-command-line-tool.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/enhance-your-touchpad.html/" title="Previous Post: 增强触控板之 Jitouch">&larr; 增强触控板之 Jitouch</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (9)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东--终端输出cow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class='platform'>Made on </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/a-funny-command-line-tool.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/a-funny-command-line-tool.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
