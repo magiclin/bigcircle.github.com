@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "一个好玩的东东"
+title: "一个好玩的东东--终端输出cow"
 date: 2012-09-25 16:15
 comments: true
-categories: [mac]
-keywords: mac linux ruby
+categories: [mac, shell]
+keywords: mac linux ruby shell
 description: a funny command line tool
 ---
 昨天看到 [lolcat](https://github.com/busyloop/lolcat)，本以为是 cat 的一个增强版，美化下输出什么的，搜了下才发现居然是用 ruby 写的，看了下源码，原来实现也很简单。代码虽少，版本号可不能少，已经迭代到42了，看来作者更新很勤快啊，还有一说是 42是宇宙的答案，或许作者为了获取最终的答案。先看下效果图
