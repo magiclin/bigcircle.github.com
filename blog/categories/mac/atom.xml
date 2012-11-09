@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-25T17:02:33+08:00</updated>
+  <updated>2012-11-09T12:21:33+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用 sublime 修改远程文件]]></title>
+    <link href="http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/"/>
+    <updated>2012-11-09T11:18:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file</id>
+    <content type="html"><![CDATA[<p>遇到个特殊情况，服务器不能用 git 同步代码，如果遇到 bug 需要及时修复，可能一次更改不完善，需要改了再改。一般情况下我们都是在本地修改测试OK之后更新到服务器，不能在本地修改的情况下我们只能在服务器上直接修改了，但是对于一个不是很习惯用vim同时又很习惯sublime的猿来说就很淡腾了</p>
+
+<p>如果能用sublime直接修改服务器上代码就好了，以前textmate就有过这样的先例，rmate就是创造出来做这个的，好在sublime很多时间都可以把textmate的东西直接拿过来用，rmate也不例外</p>
+
+<ul>
+  <li>装一个叫 rsub 的插件，直接在 install package里面搜就有</li>
+  <li>开启本地端口转发，rsub 默认的是 52698</li>
+</ul>
+
+<p><code>c
+ssh -R 52698:localhost:52698 user@remote_domain
+</code>
+<!-- more -->
+- 或者在 .ssh/config 中加入</p>
+
+<p><code>
+host remote_domain
+  RemoteForward 52698 127.0.0.1:52698
+</code></p>
+
+<ul>
+  <li>登陆服务器 ssh user@123.456.78.90，添加rmate脚本</li>
+</ul>
+
+<p>```
+curl https://raw.github.com/aurora/rmate/master/rmate &gt; rmate
+sudo mv rmate /usr/local/bin
+sudo chmod +x /usr/local/bin/rmate</p>
+
+<h1 id="bashprofile">在 ~/.bash_profile里面定义快捷键</h1>
+<p>alias sl=’sudo rmate’
+```</p>
+
+<p>我一般比较懒，会开启我使用的用户免sudo输入密码，自用服务器上能省则省。。。但是可能会有安全问题，使用要慎重。接着就可以在服务器上打开需要修改的文件</p>
+
+<p><code>
+sl your_file.xx
+# 如果遇到只读文件，可以添加 -f 参数修改
+sl -f your_file.xx
+</code></p>
+
+<p>但是这样只能在服务上打开一个文件到本地修改，修改完之后会自动同步到服务器上，和用 vim 修改的唯一区别就是可以使用本地的编辑器了。功能有限，不能提供目录树修改，只是为习惯编辑器的同学提供另一种选择而已。大家还是应该努力深入自觉勤奋地学习vim啊！！</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一个好玩的东东--终端输出cow]]></title>
@@ -233,74 +284,6 @@ Better Touch Tool 我下下来试了下感觉和 jitouch 差不多，设置不�
 </code></p>
 
 <p>可以把这个文件备份下来，等下次换环境了直接导入也免得重新配置</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Sublime Text 2 使用 RVM ]]></title>
-    <link href="http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2.html/"/>
-    <updated>2012-09-01T13:43:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/add-rvm-ruby-path-to-sublime-text-2</id>
-    <content type="html"><![CDATA[<p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby</p>
-
-<p>默认自带的 build 目录位于</p>
-
-<p><code>c
-~/Library/Application\ Support/Sublime\ Text\ 2/Packages/Ruby/Ruby.sublime-build
-</code></p>
-
-<p>默认的配置是这样的</p>
-
-<p><code>
-"cmd": ["ruby", "$file"],
-"file_regex": "^(...*?):([0-9]*):?([0-9]*)",
-"selector": "source.ruby"
-</code></p>
-
-<p>切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8</p>
-
-<p><code>
-"cmd": ["/Users/yourname/.rvm/bin/rvm-auto-ruby", "-KU", "$file"]
-</code></p>
-
-<p>你也可以自己改成 rvm 默认的 default ruby</p>
-
-<!--more-->
-
-<p>```c
-which ruby</p>
-
-<p>=&gt; /Users/yourname/.rvm/rubies/ruby-1.9.3-p194/bin/ruby
-```</p>
-
-<p>默认执行快捷键是 <code>⌘ + b</code> / <code>F7</code>，可以自己定义成喜欢的按键</p>
-
-<p><code>
-{ "keys": ["super+b"], "command": "build" },
-</code></p>
-
-<p>如何构建不用语言的 build，参考 <a href="http://addyosmani.com/blog/custom-sublime-text-build-systems-for-popular-tools-and-languages/">这篇</a>，差不多列举全了，构造方式也很简单</p>
-
-<hr />
-
-<p>另外推荐个我最常用的快捷键</p>
-
-<ul>
-  <li>在打开的几个标签之间前后切换。当打开很多标签时，又不喜欢用鼠标点来点去的可以试下这个</li>
-</ul>
-
-<p><code>
-{ "keys": ["super+1"], "command": "prev_view" },
-{ "keys": ["super+2"], "command": "next_view" },
-</code></p>
-
-<p>这个快捷键同样适用于设置 Chrome/TotalFinder/iTerm 等能打开多标签的app，设置方式如下</p>
-
-<p><img src="http://m2.img.libdd.com/farm4/2012/0901/15/57756B60A70B4B4D6BEE07D177C25C55C856F5189977_500_448.jpg" alt="" /></p>
-
-<p>其他我定义的快捷键都在 <a href="https://github.com/Bigcircle/config/blob/master/sublime/User/Default%20(OSX).sublime-keymap">这</a>，有需要的可以去淘几个</p>
-
-<p>工欲善其事，必先利其器，利用好工具可以给开发带来很大的便利，节省很多时间</p>
 ]]></content>
   </entry>
   

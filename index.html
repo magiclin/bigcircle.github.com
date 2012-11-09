@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="昨天看到 lolcat，本以为是 cat 的一个增强版，美化下输出什么的，搜了下才发现居然是用 ruby 写的，看了下源码，原来实现也很简单。代码虽少，版本号可不能少，已经迭代到42了，看来作者更新很勤快啊，还有一说是 42是宇宙的答案，或许作者为了获取最终的答案。先看下效果图 安装方法也很简单 &hellip;">
+  <meta name="description" content="遇到个特殊情况，服务器不能用 git 同步代码，如果遇到 bug 需要及时修复，可能一次更改不完善，需要改了再改。一般情况下我们都是在本地修改测试OK之后更新到服务器，不能在本地修改的情况下我们只能在服务器上直接修改了，但是对于一个不是很习惯用vim同时又很习惯sublime的猿来说就很淡腾了 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/use-sublime-to-modify-remote-file.html/">使用 Sublime 修改远程文件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-09T11:18:00+08:00" pubdate data-updated="true">2012-11-09 11:18:00</time>
+        
+         | <a href="/blog/use-sublime-to-modify-remote-file.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>遇到个特殊情况，服务器不能用 git 同步代码，如果遇到 bug 需要及时修复，可能一次更改不完善，需要改了再改。一般情况下我们都是在本地修改测试OK之后更新到服务器，不能在本地修改的情况下我们只能在服务器上直接修改了，但是对于一个不是很习惯用vim同时又很习惯sublime的猿来说就很淡腾了</p>
+
+<p>如果能用sublime直接修改服务器上代码就好了，以前textmate就有过这样的先例，rmate就是创造出来做这个的，好在sublime很多时间都可以把textmate的东西直接拿过来用，rmate也不例外</p>
+
+<ul>
+  <li>装一个叫 rsub 的插件，直接在 install package里面搜就有</li>
+  <li>开启本地端口转发，rsub 默认的是 52698</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">ssh</span> <span class="o">-</span><span class="n">R</span> <span class="mi">52698</span><span class="o">:</span><span class="n">localhost</span><span class="o">:</span><span class="mi">52698</span> <span class="n">user</span><span class="err">@</span><span class="n">remote_domain</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/use-sublime-to-modify-remote-file.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -285,104 +338,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-04T19:57:00+08:00" pubdate data-updated="true">2012-09-04 19:57:00</time>
-        
-         | <a href="/blog/ruby-performance-tricks-you-should-know.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前两天看到这个 <a href="http://greyblake.com/blog/2012/09/02/ruby-perfomance-tricks/">ruby performance tricks</a> 作者总结的不错，但是很多人不喜欢看 e 文，刚好学习顺便翻译下
-由于现在基本上都已经过渡到 1.9.3，测试数据均在 1.9.3 版本下测试</p>
-
-<h6 id="rescue">不要在控制流中滥用rescue捕获异常</h6>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
-</span><span class="line">
-</span><span class="line"><span class="k">class</span> <span class="nc">Obj</span>
-</span><span class="line">  <span class="k">def</span> <span class="nf">with_condition</span>
-</span><span class="line">    <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:mythical_method</span><span class="p">)</span> <span class="p">?</span> <span class="nb">self</span><span class="o">.</span><span class="n">mythical_method</span> <span class="p">:</span> <span class="kp">nil</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">  <span class="k">def</span> <span class="nf">with_rescue</span>
-</span><span class="line">    <span class="nb">self</span><span class="o">.</span><span class="n">mythical_method</span>
-</span><span class="line">  <span class="k">rescue</span> <span class="no">NoMethodError</span>
-</span><span class="line">    <span class="kp">nil</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="n">obj</span> <span class="o">=</span> <span class="no">Obj</span><span class="o">.</span><span class="n">new</span>
-</span><span class="line"><span class="n">N</span> <span class="o">=</span> <span class="mi">10_000_000</span>
-</span><span class="line">
-</span><span class="line"><span class="nb">puts</span> <span class="no">RUBY_DESCRIPTION</span>
-</span><span class="line">
-</span><span class="line"><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;rescue/condition&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
-</span><span class="line">  <span class="n">rescue_report</span>     <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;rescue:&quot;</span><span class="p">)</span>    <span class="p">{</span> <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">obj</span><span class="o">.</span><span class="n">with_rescue</span>  <span class="p">}</span> <span class="p">}</span>
-</span><span class="line">  <span class="n">condition_report</span>  <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;condition:&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">N</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">obj</span><span class="o">.</span><span class="n">with_if</span>      <span class="p">}</span> <span class="p">}</span>
-</span><span class="line">  <span class="o">[</span><span class="n">rescue_report</span> <span class="o">/</span> <span class="n">condition_report</span><span class="o">]</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>跑分数据可以看出使用了rescue，性能损失超过43倍</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/ruby-performance-tricks-you-should-know.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -398,11 +353,12 @@
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
-<li class='category'><a href='/blog/categories/mac/'>mac (9)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
 <li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
+<li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
 <li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
 
@@ -411,6 +367,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/use-sublime-to-modify-remote-file.html/">使用 sublime 修改远程文件</a>
+      </li>
     
       <li class="post">
         <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东&#8211;终端输出cow</a>
@@ -446,10 +406,6 @@
     
       <li class="post">
         <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a>
       </li>
     
   </ul>

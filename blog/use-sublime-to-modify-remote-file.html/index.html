@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>修改Octopress主题样式 - Hi, I’m dayuan</title>
+  <title>使用 sublime 修改远程文件 - Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行 主要修改了以下几个方面： 默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉 整体颜色以 # &hellip;">
-  
+  <meta name="description" content="use sublime to modify remote file">
+  <meta name="keywords" content="ruby sublime mac rsub">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/blog/modify-octopress-style-and-color.html/">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">修改Octopress主题样式</h1>
+      <h1 class="entry-title">使用 Sublime 修改远程文件</h1>
     
     
       <p class="meta">
@@ -93,7 +93,7 @@
   
 
 
-<time datetime="2012-08-27T19:17:00+08:00" pubdate data-updated="true">2012-08-27 19:17:00</time>
+<time datetime="2012-11-09T11:18:00+08:00" pubdate data-updated="true">2012-11-09 11:18:00</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -102,20 +102,59 @@
   </header>
 
 
-<div class="entry-content"><p>默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行</p>
+<div class="entry-content"><p>遇到个特殊情况，服务器不能用 git 同步代码，如果遇到 bug 需要及时修复，可能一次更改不完善，需要改了再改。一般情况下我们都是在本地修改测试OK之后更新到服务器，不能在本地修改的情况下我们只能在服务器上直接修改了，但是对于一个不是很习惯用vim同时又很习惯sublime的猿来说就很淡腾了</p>
 
-<p>主要修改了以下几个方面：</p>
+<p>如果能用sublime直接修改服务器上代码就好了，以前textmate就有过这样的先例，rmate就是创造出来做这个的，好在sublime很多时间都可以把textmate的东西直接拿过来用，rmate也不例外</p>
 
 <ul>
-  <li>默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉</li>
-  <li>整体颜色以 <code>#2697e3</code> 和 <code>lightblue</code> 为主，看着统一一点</li>
-  <li>所有背景统一为一个背景</li>
-  <li>去掉各种边边框框，让样式尽量简单一点</li>
-  <li>修改引用gist代码和普通代码的高亮和样式</li>
+  <li>装一个叫 rsub 的插件，直接在 install package里面搜就有</li>
+  <li>开启本地端口转发，rsub 默认的是 52698</li>
 </ul>
 
-<p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾
-<!-- more --></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">ssh</span> <span class="o">-</span><span class="n">R</span> <span class="mi">52698</span><span class="o">:</span><span class="n">localhost</span><span class="o">:</span><span class="mi">52698</span> <span class="n">user</span><span class="err">@</span><span class="n">remote_domain</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!-- more -->
+<ul>
+  <li>或者在 .ssh/config 中加入</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">host</span> <span class="n">remote_domain</span>
+</span><span class="line">  <span class="n">RemoteForward</span> <span class="mi">52698</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">52698</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>登陆服务器 ssh user@123.456.78.90，添加rmate脚本</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">curl</span> <span class="n">https</span><span class="o">:</span><span class="c1">//raw.github.com/aurora/rmate/master/rmate &gt; rmate</span>
+</span><span class="line"><span class="n">sudo</span> <span class="n">mv</span> <span class="n">rmate</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span>
+</span><span class="line"><span class="n">sudo</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">rmate</span>
+</span><span class="line">
+</span><span class="line"><span class="cp"># 在 ~/.bash_profile里面定义快捷键</span>
+</span><span class="line"><span class="n">alias</span> <span class="n">sl</span><span class="o">=</span><span class="err">&#39;</span><span class="n">sudo</span> <span class="n">rmate</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>我一般比较懒，会开启我使用的用户免sudo输入密码，自用服务器上能省则省。。。但是可能会有安全问题，使用要慎重。接着就可以在服务器上打开需要修改的文件</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">sl</span> <span class="n">your_file</span><span class="p">.</span><span class="n">xx</span>
+</span><span class="line"><span class="cp"># 如果遇到只读文件，可以添加 -f 参数修改</span>
+</span><span class="line"><span class="n">sl</span> <span class="o">-</span><span class="n">f</span> <span class="n">your_file</span><span class="p">.</span><span class="n">xx</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>但是这样只能在服务上打开一个文件到本地修改，修改完之后会自动同步到服务器上，和用 vim 修改的唯一区别就是可以使用本地的编辑器了。功能有限，不能提供目录树修改，只是为习惯编辑器的同学提供另一种选择而已。大家还是应该努力深入自觉勤奋地学习vim啊！！</p>
+
 </div>
 
 
@@ -138,12 +177,12 @@
   
 
 
-<time datetime="2012-08-27T19:17:00+08:00" pubdate data-updated="true">2012-08-27 19:17:00</time>
+<time datetime="2012-11-09T11:18:00+08:00" pubdate data-updated="true">2012-11-09 11:18:00</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+    <a class='category' href='/blog/categories/mac/'>mac</a>, <a class='category' href='/blog/categories/sublime/'>sublime</a>
   
 </span>
 
@@ -152,7 +191,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/modify-octopress-style-and-color.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/modify-octopress-style-and-color.html/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/" >Tweet</a>
   
   
   
@@ -161,10 +200,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/add-category-list-for-octopress.html/" title="Previous Post: 给Octopress添加分类列表">&larr; 给Octopress添加分类列表</a>
+        <a class="basic-alignment left" href="/blog/a-funny-command-line-tool.html/" title="Previous Post: 一个好玩的东东--终端输出cow">&larr; 一个好玩的东东--终端输出cow</a>
       
-      
-        <a class="basic-alignment right" href="/blog/explain-select-on-rails-hepler.html/" title="Next Post: rails view select 方法学习">rails view select 方法学习 &rarr;</a>
       
     </p>
   </footer>
@@ -263,8 +300,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://Bigcircle.github.com/blog/modify-octopress-style-and-color.html/';
-        var disqus_url = 'http://Bigcircle.github.com/blog/modify-octopress-style-and-color.html/';
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-09-25T17:02:33+08:00</updated>
+  <updated>2012-11-09T12:21:33+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用 sublime 修改远程文件]]></title>
+    <link href="http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file.html/"/>
+    <updated>2012-11-09T11:18:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/use-sublime-to-modify-remote-file</id>
+    <content type="html"><![CDATA[<p>遇到个特殊情况，服务器不能用 git 同步代码，如果遇到 bug 需要及时修复，可能一次更改不完善，需要改了再改。一般情况下我们都是在本地修改测试OK之后更新到服务器，不能在本地修改的情况下我们只能在服务器上直接修改了，但是对于一个不是很习惯用vim同时又很习惯sublime的猿来说就很淡腾了</p>
+
+<p>如果能用sublime直接修改服务器上代码就好了，以前textmate就有过这样的先例，rmate就是创造出来做这个的，好在sublime很多时间都可以把textmate的东西直接拿过来用，rmate也不例外</p>
+
+<ul>
+  <li>装一个叫 rsub 的插件，直接在 install package里面搜就有</li>
+  <li>开启本地端口转发，rsub 默认的是 52698</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">ssh</span> <span class="o">-</span><span class="n">R</span> <span class="mi">52698</span><span class="o">:</span><span class="n">localhost</span><span class="o">:</span><span class="mi">52698</span> <span class="n">user</span><span class="err">@</span><span class="n">remote_domain</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!-- more -->
+<ul>
+  <li>或者在 .ssh/config 中加入</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">host</span> <span class="n">remote_domain</span>
+</span><span class="line">  <span class="n">RemoteForward</span> <span class="mi">52698</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">52698</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>登陆服务器 ssh user@123.456.78.90，添加rmate脚本</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">curl</span> <span class="n">https</span><span class="o">:</span><span class="c1">//raw.github.com/aurora/rmate/master/rmate &gt; rmate</span>
+</span><span class="line"><span class="n">sudo</span> <span class="n">mv</span> <span class="n">rmate</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span>
+</span><span class="line"><span class="n">sudo</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">rmate</span>
+</span><span class="line">
+</span><span class="line"><span class="cp"># 在 ~/.bash_profile里面定义快捷键</span>
+</span><span class="line"><span class="n">alias</span> <span class="n">sl</span><span class="o">=</span><span class="err">&#39;</span><span class="n">sudo</span> <span class="n">rmate</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>我一般比较懒，会开启我使用的用户免sudo输入密码，自用服务器上能省则省。。。但是可能会有安全问题，使用要慎重。接着就可以在服务器上打开需要修改的文件</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">sl</span> <span class="n">your_file</span><span class="p">.</span><span class="n">xx</span>
+</span><span class="line"><span class="cp"># 如果遇到只读文件，可以添加 -f 参数修改</span>
+</span><span class="line"><span class="n">sl</span> <span class="o">-</span><span class="n">f</span> <span class="n">your_file</span><span class="p">.</span><span class="n">xx</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>但是这样只能在服务上打开一个文件到本地修改，修改完之后会自动同步到服务器上，和用 vim 修改的唯一区别就是可以使用本地的编辑器了。功能有限，不能提供目录树修改，只是为习惯编辑器的同学提供另一种选择而已。大家还是应该努力深入自觉勤奋地学习vim啊！！</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一个好玩的东东--终端输出cow]]></title>
@@ -3555,36 +3616,6 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 <hr />
 
 <p>本来准备同时把光驱拆了装个128G SSD，但是又要1K大洋，暂时对速度上也没有多大追求，还是等有钱了再折腾吧，有在帝都的同学想借工具可以联系我，免费借用加拆机指导哦。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给github page绑定域名]]></title>
-    <link href="http://Bigcircle.github.com/blog/bind-domain-with-github-page.html/"/>
-    <updated>2012-08-20T16:26:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/bind-domain-with-github-page</id>
-    <content type="html"><![CDATA[<p>今天突然感觉写点东西应该有个小域名，刚好github page的域名绑定服务so easy，遂去买了个绑上。
-域名基本上大家都推荐<a href="http://www.godaddy.com">Godaddy</a> or <a href="http://www.name.com">Name</a>，大厂商牌子响。有碍于 Godaddy 繁琐的购买流程，决定还是去Name买，省心省事，过程也不是很麻烦</p>
-
-<h5 id="section">大概流程如下：</h5>
-
-<ul>
-  <li>注册Name账户，可以用google授权登陆，登陆之后会给你发封邮件告知登陆账户(gmail邮箱)和密码</li>
-  <li>挑选自己心仪的域名，购买多少就看自己钱包了，差不多了到 checkout 页面准备结算</li>
-  <li>可以用paypal或者直接用支持visa/mastercard的双币信用卡支付。我是现申请的paypal账号，绑定自己的招行信用卡。(招行信用卡各种好用，强烈推荐去办张2W额度的!!当然我的额度只有5k,不过支付十几美金还是可以的)，没有申请的同学网上申请的例子一大把，不要怕弄错了，其实过程很简单</li>
-  <li>申请好paypal，绑定完信用卡之后回到刚才的checkout页面，如果没有手抖多点了几个域名就可以支付了，选择paypal选项，要求输入基本信息，输入之，会跳转到paypal页面，又是验证信息，正确输入。(注意:扣钱是不需要你输入信用卡密码的，所以在支付之前一定要确认好)</li>
-  <li>确认完了就会自动扣款，马上手机短信就来了，扣钱很是快捷，这样你想要的域名就到手了。</li>
-</ul>
-
-<p>接下来就是解析DNS到自己的github page上
-<!-- more --></p>
-
-<ul>
-  <li>进入 Name 账户 « account « your domain « DNS Record Management . 账户设置里面右边有一大堆选择框，选择这个进入就会看到一个添加 Record Type的下拉框，默认就是A，继续把 github page ip写到 Record Answer 里面，Add Record，其他都不用填，这部分OK啦</li>
-  <li>在项目代码下/source目录下创建CNAME文件，添入刚注册的域名，push到github上，静候DNS生效，差不多十几分钟就OK了</li>
-</ul>
-
-<p>本来想贴几张图的，但是懒病又犯了。好在过程比较简单，图暂省</p>
 ]]></content>
   </entry>
   
