@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-11-09T12:21:33+08:00</updated>
+  <updated>2012-11-13T17:52:36+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,240 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[服务器上搭建redis环境]]></title>
+    <link href="http://Bigcircle.github.com/blog/setup-redis-on-server.html/"/>
+    <updated>2012-11-13T16:19:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/setup-redis-on-server</id>
+    <content type="html"><![CDATA[<p>在 Centos 上搭一个redis服务，本来准备直接 yum 安装，看了下攻略发现编译更简单，顺便可以自定义下配置文件，做下小笔记，以备后用</p>
+
+<ul>
+  <li>先去主页下个最新版本 http://redis.io/download</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">cd</span> <span class="sr">/usr/</span><span class="n">local</span> <span class="o">&amp;&amp;</span> <span class="n">wget</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">redis</span><span class="o">.</span><span class="n">googlecode</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</span><span class="line"><span class="n">tar</span> <span class="n">zxvf</span> <span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span>
+</span><span class="line"><span class="c1"># make 会把功能创建到 src 目录下，make install 会将几个服务命令copy到 /usr/local/bin下</span>
+</span><span class="line"><span class="n">make</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<ul>
+  <li>自带工具</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># make install 之后会创建4个命令行公交</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">server</span> <span class="c1"># 顾名思义就是启动服务用的，一般后面应该跟上 path/to/redis.conf</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">cli</span>    <span class="c1"># 命令行操作工具,交互操作就靠这个了。据说可以用 telnet 根据其纯文本协议进行操作，没有试过</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">benchmark</span> <span class="c1"># redis性能测试，测试redis在你的系统及你的配置下的读写性能，启动redis服务器之后直接 redis-benchmark，会依次测试 GET SET INCR LPUSH 等操作的执行速度和每秒请求数</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">check</span><span class="o">-</span><span class="n">aof</span> <span class="c1"># 用于日志检查和恢复，检查 .aof 文件</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">check</span><span class="o">-</span><span class="n">dump</span> <span class="c1"># 用于redis数据文件检查，检查 .rdb 文件</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查看是否正常安装</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">which</span> <span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</span><span class="line"><span class="c1"># 或者启动服务，正常启动表示ok</span>
+</span><span class="line"><span class="n">src</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">server</span> <span class="n">redis</span><span class="o">.</span><span class="n">conf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>修改配置文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">cp</span> <span class="n">redis</span><span class="o">.</span><span class="n">conf</span> <span class="sr">/etc/</span><span class="n">redis</span><span class="o">.</span><span class="n">conf</span>
+</span><span class="line"><span class="c1"># 修改 daemonize 属性，以便启动时直接后台启动</span>
+</span><span class="line"><span class="n">daemonize</span> <span class="n">yes</span>
+</span><span class="line"><span class="c1"># 目前还没有涉及到参数优化，设置个后台就可以了。具体参数优化可以参考 </span>
+</span><span class="line"><span class="c1"># http://simon-zzm.blog.163.com/blog/static/888095222011911478186/</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>创建启动服务</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># 自带的有一个 utils/install_server.sh 脚步创建启动服务，但是创建时会报错</span>
+</span><span class="line"><span class="c1"># 看了下是176行创建链接的 update-rc.d 命令是ubuntu/debian中的，在 centos 中是没有的，</span>
+</span><span class="line"><span class="c1"># 而且它创建的各种目录也不符合习惯，还是自己写</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 创建db目录和log目录</span>
+</span><span class="line"><span class="sr">/usr/s</span><span class="n">bin</span><span class="o">/</span><span class="n">useradd</span> <span class="n">redis</span>
+</span><span class="line"><span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">redis</span>
+</span><span class="line"><span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">redis</span>
+</span><span class="line"><span class="n">chown</span> <span class="n">redis</span><span class="o">.</span><span class="n">redis</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">redis</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>创建启动脚本 /etc/init.d/redis</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">PATH</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">sbin</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">bin</span>
+</span><span class="line">
+</span><span class="line"><span class="no">REDISPORT</span><span class="o">=</span><span class="mi">6379</span>
+</span><span class="line"><span class="no">EXEC</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</span><span class="line"><span class="no">REDIS_CLI</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">cli</span>
+</span><span class="line">
+</span><span class="line"><span class="no">PIDFILE</span><span class="o">=</span><span class="sr">/var/</span><span class="n">run</span><span class="o">/</span><span class="n">redis</span><span class="o">.</span><span class="n">pid</span>
+</span><span class="line"><span class="no">CONF</span><span class="o">=</span><span class="s2">&quot;/etc/redis.conf&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> <span class="k">in</span>
+</span><span class="line">    <span class="n">start</span><span class="p">)</span>
+</span><span class="line">        <span class="k">if</span> <span class="o">[</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$PIDFILE</span> <span class="o">]</span>
+</span><span class="line">        <span class="k">then</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;$PIDFILE exists, process is already running or crashed&quot;</span>
+</span><span class="line">        <span class="k">else</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;Starting Redis server...&quot;</span>
+</span><span class="line">                <span class="vg">$EXEC</span> <span class="vg">$CONF</span>
+</span><span class="line">        <span class="n">fi</span>
+</span><span class="line">        <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$?&quot;</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="o">]</span>
+</span><span class="line">        <span class="k">then</span>
+</span><span class="line">              <span class="n">echo</span> <span class="s2">&quot;Redis is running...&quot;</span>
+</span><span class="line">        <span class="n">fi</span>
+</span><span class="line">        <span class="p">;;</span>
+</span><span class="line">    <span class="n">stop</span><span class="p">)</span>
+</span><span class="line">        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$PIDFILE</span> <span class="o">]</span>
+</span><span class="line">        <span class="k">then</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;$PIDFILE does not exist, process is not running&quot;</span>
+</span><span class="line">        <span class="k">else</span>
+</span><span class="line">                <span class="no">PID</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">cat</span> <span class="vg">$PIDFILE</span><span class="p">)</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;Stopping ...&quot;</span>
+</span><span class="line">                <span class="vg">$REDIS_CLI</span> <span class="o">-</span><span class="nb">p</span> <span class="vg">$REDISPORT</span> <span class="no">SHUTDOWN</span>
+</span><span class="line">                <span class="k">while</span> <span class="o">[</span> <span class="o">-</span><span class="n">x</span> <span class="err">$</span><span class="p">{</span><span class="no">PIDFILE</span><span class="p">}</span> <span class="o">]</span>
+</span><span class="line">               <span class="k">do</span>
+</span><span class="line">                    <span class="n">echo</span> <span class="s2">&quot;Waiting for Redis to shutdown ...&quot;</span>
+</span><span class="line">                    <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line">                <span class="n">done</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;Redis stopped&quot;</span>
+</span><span class="line">        <span class="n">fi</span>
+</span><span class="line">        <span class="p">;;</span>
+</span><span class="line">   <span class="n">restart</span><span class="o">|</span><span class="n">force</span><span class="o">-</span><span class="n">reload</span><span class="p">)</span>
+</span><span class="line">        <span class="err">$</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="n">stop</span>
+</span><span class="line">        <span class="err">$</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="n">start</span>
+</span><span class="line">        <span class="p">;;</span>
+</span><span class="line">  <span class="o">*</span><span class="p">)</span>
+</span><span class="line">    <span class="n">echo</span> <span class="s2">&quot;Usage: /etc/init.d/redis {start|stop|restart|force-reload}&quot;</span> <span class="o">&gt;&amp;</span><span class="mi">2</span>
+</span><span class="line">        <span class="nb">exit</span> <span class="mi">1</span>
+</span><span class="line"><span class="n">esac</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>添加可执行权限</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="sr">/etc/ini</span><span class="n">t</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">redis</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>开启服务就可以使用啦</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sr">/etc/ini</span><span class="n">t</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">redis</span> <span class="n">start</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 查看开启进程</span>
+</span><span class="line"><span class="n">ps</span> <span class="n">aux</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">v</span> <span class="n">grep</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">redis</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 进入命令行执行操作</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">cli</span>
+</span><span class="line"><span class="n">redis</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">6379</span><span class="o">&gt;</span> <span class="n">set</span> <span class="n">a</span> <span class="n">b</span>
+</span><span class="line"><span class="no">OK</span>
+</span><span class="line"><span class="n">redis</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">6379</span><span class="o">&gt;</span> <span class="n">get</span> <span class="n">a</span>
+</span><span class="line"><span class="s2">&quot;b&quot;</span>
+</span><span class="line"><span class="n">redis</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">6379</span><span class="o">&gt;</span> <span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>关于 redis 的用法，已经有位好心人翻译了最新的 <a href="http://redis.readthedocs.org/en/latest/">redis-commands</a>，可以下载一份离线版本作为手头资料查看</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用 sublime 修改远程文件]]></title>
@@ -3542,80 +3776,6 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 <p>其实就是一个习惯的培养过程，好的习惯对于生活和工作都是很有好处</p>
 
 <p>培养习惯，从今天开始，从现在开始。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac升级内存手记，高清大图(12P)]]></title>
-    <link href="http://Bigcircle.github.com/blog/modify-mac-to-8g-memory.html/"/>
-    <updated>2012-08-21T20:58:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/modify-mac-to-8g-memory</id>
-    <content type="html"><![CDATA[<p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
-主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点</p>
-
-<ul>
-  <li>系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选</li>
-  <li>外形拉轰，think different 理念，适合与众不同的人。。</li>
-  <li>操作快捷，内置各种快捷键，借助 Alfred / QuickSilver 可以做到全盘快捷键</li>
-  <li>装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品</li>
-  <li>待机时间长，广告号称7小时，虽说目前Mountain Lion在待机方面可能比预期的短点，但4～5个小时还是没有问题的，相对于普通pc的2个小时强太多了，相信下个补丁应该能在待机时间方面优化优化</li>
-  <li>用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事</li>
-</ul>
-
-<p>当然缺点也是有的，特别是对于已经习惯windows的同学来说，这里就不罗列啦。。
-<!--more--></p>
-
-<p>标配的内存才4G，根据一年开发经验来说肯定是不够用的，Chrome多开几个网页，终端运行几个差不多就满了，要是用Xcode这类巨占内存的东西那就什么都别开了，所以说升到8G刻不容缓。。当然16G必须是极好的，但是价格要贵很多，想想8G怎么也够了，还是一切从简吧。</p>
-
-<p>先来张全景图，刚开包</p>
-
-<p><img src="http://m3.img.libdd.com/farm5/90/8B1399A8265164466811344338418D5A_1280_960.jpg" alt="" /></p>
-
-<p>内存条 4G*2 ,三星金条，据说兼容性最好，双通道的优势比 8G＊1 要好，不过差距不大，各种电商均有售，我是在京东上买的，主要是可以送到家门口。。。懒。。</p>
-
-<p><img src="http://m2.img.libdd.com/farm5/173/50E3E8D65DCAAEB6D4B9FC5A2A6302AD_1280_960.jpg" alt="" /></p>
-
-<p>拆机工具，45＊1 , pro 的是ph000 ,剩下的可以拆拆 iphone 什么的。。淘宝有售</p>
-
-<p><img src="http://m3.img.libdd.com/farm4/193/4A44B3C6119B728FB8C0C0D36A1B5CC1_1280_960.jpg" alt="" /></p>
-
-<p>开拆。背面一大踹各种认证标明不是国行，买的港版，显示 Assembled in China, 比国行便宜2k+</p>
-
-<p><img src="http://m3.img.libdd.com/farm5/124/2FCF6C74233D9BBF6D7F5399A2CA587C_1280_960.jpg" alt="" /></p>
-
-<p>全景图 光驱，硬盘，电池，主板，风扇，散热设计主要在尾部和键盘(键盘表面也是散热之一，所以键盘感觉到热很正常)</p>
-
-<p><img src="http://m2.img.libdd.com/farm5/138/769D5738C7518F51008FF24EE6BD448A_1280_960.jpg" alt="" /></p>
-
-<p>主板来张特写，精密仪器啊，密密麻麻</p>
-
-<p><img src="http://m1.img.libdd.com/farm4/24/B1CA8203D0000DA2FEFF8F8BC7DB3B18_1280_960.jpg" alt="" /></p>
-
-<p>拆下来的原装内存 现代牌 2G*2</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/31/BC98EDCE869C1939C46F8718487CF01F_1280_960.jpg" alt="" /></p>
-
-<p>三星和原装对比，短了一截，当时有点吓着了，内存包装都拆了，退货都没得退。
-好在除了个头不一样，规格还算一样的，插还是可以插进去的，只是比大块头费点劲</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/216/BFC0726FC23BFCDCFFABFFEE891643D8_1280_960.jpg" alt="" /></p>
-
-<p>插完之后的特写，稍微短了一点，不过无伤大雅</p>
-
-<p><img src="http://m3.img.libdd.com/farm4/196/F4B2D58192AD8453E14C8D2DD8A13CC4_1280_960.jpg" alt="" /></p>
-
-<p>再次开机，显示为8G内存，证明兼容性尚可，没问题</p>
-
-<p><img src="http://m3.img.libdd.com/farm5/197/D96443C0F518BDF817B178BC4AB9F4C5_586_268.PNG" alt="" /></p>
-
-<p>最后来张 Logo和键盘照</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/215/31861739FCDD63D99B1DBCAC7EE8EBD7_1280_960.jpg" alt="" />
-<img src="http://m3.img.libdd.com/farm4/72/2F8D4889C36D8B995B93E10654F95D48_1280_960.jpg" alt="" /></p>
-
-<hr />
-
-<p>本来准备同时把光驱拆了装个128G SSD，但是又要1K大洋，暂时对速度上也没有多大追求，还是等有钱了再折腾吧，有在帝都的同学想借工具可以联系我，免费借用加拆机指导哦。</p>
 ]]></content>
   </entry>
   

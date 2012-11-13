@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>服务器上搭建redis环境 - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="setup redis on server">
+  <meta name="keywords" content="redis server">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/setup-redis-on-server.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feed.feedsky.com/imdayuan" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">服务器上搭建redis环境</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-13T16:19:00+08:00" pubdate data-updated="true">2012-11-13 16:19:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在 Centos 上搭一个redis服务，本来准备直接 yum 安装，看了下攻略发现编译更简单，顺便可以自定义下配置文件，做下小笔记，以备后用</p>
+
+<ul>
+  <li>先去主页下个最新版本 http://redis.io/download</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">cd</span> <span class="sr">/usr/</span><span class="n">local</span> <span class="o">&amp;&amp;</span> <span class="n">wget</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">redis</span><span class="o">.</span><span class="n">googlecode</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</span><span class="line"><span class="n">tar</span> <span class="n">zxvf</span> <span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span>
+</span><span class="line"><span class="c1"># make 会把功能创建到 src 目录下，make install 会将几个服务命令copy到 /usr/local/bin下</span>
+</span><span class="line"><span class="n">make</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<ul>
+  <li>自带工具</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># make install 之后会创建4个命令行公交</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">server</span> <span class="c1"># 顾名思义就是启动服务用的，一般后面应该跟上 path/to/redis.conf</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">cli</span>    <span class="c1"># 命令行操作工具,交互操作就靠这个了。据说可以用 telnet 根据其纯文本协议进行操作，没有试过</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">benchmark</span> <span class="c1"># redis性能测试，测试redis在你的系统及你的配置下的读写性能，启动redis服务器之后直接 redis-benchmark，会依次测试 GET SET INCR LPUSH 等操作的执行速度和每秒请求数</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">check</span><span class="o">-</span><span class="n">aof</span> <span class="c1"># 用于日志检查和恢复，检查 .aof 文件</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">check</span><span class="o">-</span><span class="n">dump</span> <span class="c1"># 用于redis数据文件检查，检查 .rdb 文件</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>查看是否正常安装</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">which</span> <span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</span><span class="line"><span class="c1"># 或者启动服务，正常启动表示ok</span>
+</span><span class="line"><span class="n">src</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">server</span> <span class="n">redis</span><span class="o">.</span><span class="n">conf</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>修改配置文件</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">cp</span> <span class="n">redis</span><span class="o">.</span><span class="n">conf</span> <span class="sr">/etc/</span><span class="n">redis</span><span class="o">.</span><span class="n">conf</span>
+</span><span class="line"><span class="c1"># 修改 daemonize 属性，以便启动时直接后台启动</span>
+</span><span class="line"><span class="n">daemonize</span> <span class="n">yes</span>
+</span><span class="line"><span class="c1"># 目前还没有涉及到参数优化，设置个后台就可以了。具体参数优化可以参考 </span>
+</span><span class="line"><span class="c1"># http://simon-zzm.blog.163.com/blog/static/888095222011911478186/</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>创建启动服务</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># 自带的有一个 utils/install_server.sh 脚步创建启动服务，但是创建时会报错</span>
+</span><span class="line"><span class="c1"># 看了下是176行创建链接的 update-rc.d 命令是ubuntu/debian中的，在 centos 中是没有的，</span>
+</span><span class="line"><span class="c1"># 而且它创建的各种目录也不符合习惯，还是自己写</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 创建db目录和log目录</span>
+</span><span class="line"><span class="sr">/usr/s</span><span class="n">bin</span><span class="o">/</span><span class="n">useradd</span> <span class="n">redis</span>
+</span><span class="line"><span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">redis</span>
+</span><span class="line"><span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">redis</span>
+</span><span class="line"><span class="n">chown</span> <span class="n">redis</span><span class="o">.</span><span class="n">redis</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">redis</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>创建启动脚本 /etc/init.d/redis</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">PATH</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">sbin</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">bin</span>
+</span><span class="line">
+</span><span class="line"><span class="no">REDISPORT</span><span class="o">=</span><span class="mi">6379</span>
+</span><span class="line"><span class="no">EXEC</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</span><span class="line"><span class="no">REDIS_CLI</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">cli</span>
+</span><span class="line">
+</span><span class="line"><span class="no">PIDFILE</span><span class="o">=</span><span class="sr">/var/</span><span class="n">run</span><span class="o">/</span><span class="n">redis</span><span class="o">.</span><span class="n">pid</span>
+</span><span class="line"><span class="no">CONF</span><span class="o">=</span><span class="s2">&quot;/etc/redis.conf&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> <span class="k">in</span>
+</span><span class="line">    <span class="n">start</span><span class="p">)</span>
+</span><span class="line">        <span class="k">if</span> <span class="o">[</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$PIDFILE</span> <span class="o">]</span>
+</span><span class="line">        <span class="k">then</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;$PIDFILE exists, process is already running or crashed&quot;</span>
+</span><span class="line">        <span class="k">else</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;Starting Redis server...&quot;</span>
+</span><span class="line">                <span class="vg">$EXEC</span> <span class="vg">$CONF</span>
+</span><span class="line">        <span class="n">fi</span>
+</span><span class="line">        <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$?&quot;</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="o">]</span>
+</span><span class="line">        <span class="k">then</span>
+</span><span class="line">              <span class="n">echo</span> <span class="s2">&quot;Redis is running...&quot;</span>
+</span><span class="line">        <span class="n">fi</span>
+</span><span class="line">        <span class="p">;;</span>
+</span><span class="line">    <span class="n">stop</span><span class="p">)</span>
+</span><span class="line">        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="o">-</span><span class="n">f</span> <span class="vg">$PIDFILE</span> <span class="o">]</span>
+</span><span class="line">        <span class="k">then</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;$PIDFILE does not exist, process is not running&quot;</span>
+</span><span class="line">        <span class="k">else</span>
+</span><span class="line">                <span class="no">PID</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">cat</span> <span class="vg">$PIDFILE</span><span class="p">)</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;Stopping ...&quot;</span>
+</span><span class="line">                <span class="vg">$REDIS_CLI</span> <span class="o">-</span><span class="nb">p</span> <span class="vg">$REDISPORT</span> <span class="no">SHUTDOWN</span>
+</span><span class="line">                <span class="k">while</span> <span class="o">[</span> <span class="o">-</span><span class="n">x</span> <span class="err">$</span><span class="p">{</span><span class="no">PIDFILE</span><span class="p">}</span> <span class="o">]</span>
+</span><span class="line">               <span class="k">do</span>
+</span><span class="line">                    <span class="n">echo</span> <span class="s2">&quot;Waiting for Redis to shutdown ...&quot;</span>
+</span><span class="line">                    <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line">                <span class="n">done</span>
+</span><span class="line">                <span class="n">echo</span> <span class="s2">&quot;Redis stopped&quot;</span>
+</span><span class="line">        <span class="n">fi</span>
+</span><span class="line">        <span class="p">;;</span>
+</span><span class="line">   <span class="n">restart</span><span class="o">|</span><span class="n">force</span><span class="o">-</span><span class="n">reload</span><span class="p">)</span>
+</span><span class="line">        <span class="err">$</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="n">stop</span>
+</span><span class="line">        <span class="err">$</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="n">start</span>
+</span><span class="line">        <span class="p">;;</span>
+</span><span class="line">  <span class="o">*</span><span class="p">)</span>
+</span><span class="line">    <span class="n">echo</span> <span class="s2">&quot;Usage: /etc/init.d/redis {start|stop|restart|force-reload}&quot;</span> <span class="o">&gt;&amp;</span><span class="mi">2</span>
+</span><span class="line">        <span class="nb">exit</span> <span class="mi">1</span>
+</span><span class="line"><span class="n">esac</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>添加可执行权限</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="sr">/etc/ini</span><span class="n">t</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">redis</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>开启服务就可以使用啦</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sr">/etc/ini</span><span class="n">t</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">redis</span> <span class="n">start</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 查看开启进程</span>
+</span><span class="line"><span class="n">ps</span> <span class="n">aux</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">v</span> <span class="n">grep</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">redis</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 进入命令行执行操作</span>
+</span><span class="line"><span class="n">redis</span><span class="o">-</span><span class="n">cli</span>
+</span><span class="line"><span class="n">redis</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">6379</span><span class="o">&gt;</span> <span class="n">set</span> <span class="n">a</span> <span class="n">b</span>
+</span><span class="line"><span class="no">OK</span>
+</span><span class="line"><span class="n">redis</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">6379</span><span class="o">&gt;</span> <span class="n">get</span> <span class="n">a</span>
+</span><span class="line"><span class="s2">&quot;b&quot;</span>
+</span><span class="line"><span class="n">redis</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">6379</span><span class="o">&gt;</span> <span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>关于 redis 的用法，已经有位好心人翻译了最新的 <a href="http://redis.readthedocs.org/en/latest/">redis-commands</a>，可以下载一份离线版本作为手头资料查看</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-13T16:19:00+08:00" pubdate data-updated="true">2012-11-13 16:19:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/server/'>server</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/setup-redis-on-server.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/setup-redis-on-server.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/use-sublime-to-modify-remote-file.html/" title="Previous Post: 使用 sublime 修改远程文件">&larr; 使用 sublime 修改远程文件</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
+<li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/setup-redis-on-server.html/">服务器上搭建redis环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/use-sublime-to-modify-remote-file.html/">使用 sublime 修改远程文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东--终端输出cow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class='platform'>Made on </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/setup-redis-on-server.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/setup-redis-on-server.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
