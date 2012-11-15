@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-11-13T17:52:36+08:00</updated>
+  <updated>2012-11-15T21:04:58+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,131 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[修改 GC 参数提高 Ruby 性能]]></title>
+    <link href="http://Bigcircle.github.com/blog/improve-ruby-performance.html/"/>
+    <updated>2012-11-15T15:50:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/improve-ruby-performance</id>
+    <content type="html"><![CDATA[<p>最近看到有人提到最新的 ruby-patch 对性能有个很大的优化，不知是真是假，参考了老外一篇对 rvm 升级的<a href="http://astrails.com/blog/2012/11/13/rvm-install-patched-ruby-for-faster-rails-startup">介绍</a>，在本机上测试了下，感觉没什么大的变化，可能本机性能比生产环境要好很多，这点小的优化在单次测试中体现不出来，但在服务器上可能就有很大的性能提升。在此介绍下，希望能提供点帮助</p>
+
+<ul>
+  <li>更新 rvm 到最新版本获取最新的 patch</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rvm</span> <span class="n">get</span> <span class="n">head</span>
+</span><span class="line"><span class="n">rvm</span> <span class="n">install</span> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span> <span class="o">--</span><span class="n">patch</span> <span class="n">falcon</span> <span class="o">-</span><span class="n">n</span> <span class="n">falcon</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+<p>如果直接给 1.9.3 打补丁可能会爆 <code>Patch 'falcon' not found</code> 的错误，这是因为 falcon 补丁还没有支持到最新的 ruby 版本，需要在本地找到支持的最新版本</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">➜</span> <span class="n">ls</span> <span class="vg">$rvm_path</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/*/*</span><span class="n">falcon</span><span class="o">*</span> <span class="o">|</span> <span class="n">sort</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p0</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">patch</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p125</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">patch</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p194</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">diff</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p286</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">diff</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以看到最新的补丁支持到p286版本，刚好本地原装的就是这个版本</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">➜</span> <span class="n">rvm</span> <span class="n">install</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p286</span> <span class="o">--</span><span class="n">patch</span> <span class="n">falcon</span> <span class="o">-</span><span class="n">n</span> <span class="n">falcon</span>
+</span><span class="line"><span class="c1"># 安装完之后会重新编译一个ruby版本，而不是把原有版本覆盖</span>
+</span><span class="line"><span class="err">➜</span> <span class="n">ls</span> <span class="o">~</span><span class="sr">/.rvm/</span><span class="n">rubies</span>
+</span><span class="line"><span class="n">default</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">7</span><span class="o">-</span><span class="n">p370</span>  <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p194</span>  <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p286</span><span class="o">-</span><span class="n">falcon</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>接着修改 GC 参数，添加到 .bashrc / .zshrc 中</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_MIN_SLOTS</span><span class="o">=</span><span class="mi">1000000</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_FREE_MIN</span><span class="o">=</span><span class="mi">500000</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_SLOTS_INCREMENT</span><span class="o">=</span><span class="mi">1000000</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_SLOTS_GROWTH_FACTOR</span><span class="o">=</span><span class="mi">1</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span><span class="mi">100000000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GC参数设置，具体解释看 <a href="http://bbs.chinaunix.net/thread-3661069-1-1.html">这篇</a>，ruby 默认的GC参数都太小，上面的参数是 REE 官方建议的参数</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">{</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_MIN_SLOTS</span>             <span class="o">=&gt;</span> <span class="s1">&#39;初始堆大小，默认10000，越大需要占用的内存越多&#39;</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_FREE_MIN</span>              <span class="o">=&gt;</span> <span class="s1">&#39;GC后可用的heap slot的最小值，默认4096，如果太小，就会按照下面2个参数分配新栈&#39;</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_SLOTS_INCREMENT</span>       <span class="o">=&gt;</span> <span class="s1">&#39;当Ruby需要开辟一片新的堆栈所需的数，默认是10000&#39;</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_SLOTS_GROWTH_FACTOR</span>   <span class="o">=&gt;</span> <span class="s1">&#39;当ruby需要新的堆栈的时候， 此参数做为一个乘数被用来计算这片新的堆栈的大小&#39;</span>
+</span><span class="line">  <span class="no">RUBY_GC_MALLOC_LIMIT</span>            <span class="o">=&gt;</span> <span class="s1">&#39;允许不触发GC而分配的C数据结构的最大值，默认8000000 byte，设置的太低就会触发垃圾回收&#39;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>看下 37single 和 twitter 的参数设置，差距上差不多</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">37</span><span class="n">signals</span>
+</span><span class="line"><span class="no">RUBY_HEAP_MIN_SLOTS</span><span class="o">=</span><span class="mi">600000</span>
+</span><span class="line"><span class="no">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span><span class="mi">59000000</span>
+</span><span class="line"><span class="no">RUBY_HEAP_FREE_MIN</span><span class="o">=</span><span class="mi">100000</span>
+</span><span class="line">
+</span><span class="line"><span class="n">twitter</span>
+</span><span class="line"><span class="no">RUBY_HEAP_MIN_SLOTS</span><span class="o">=</span><span class="mi">500000</span>
+</span><span class="line"><span class="no">RUBY_HEAP_SLOTS_INCREMENT</span><span class="o">=</span><span class="mi">250000</span>
+</span><span class="line"><span class="no">RUBY_HEAP_SLOTS_GROWTH_FACTOR</span><span class="o">=</span><span class="mi">1</span>
+</span><span class="line"><span class="no">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span><span class="mi">50000000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>接下来测试下执行情况</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rvm</span> <span class="n">use</span> <span class="n">default</span>
+</span><span class="line"><span class="n">time</span> <span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">57</span><span class="n">s</span> <span class="n">user</span> <span class="mi">0</span><span class="o">.</span><span class="mo">04</span><span class="n">s</span> <span class="nb">system</span> <span class="mi">99</span><span class="o">%</span> <span class="n">cpu</span> <span class="mi">0</span><span class="o">.</span><span class="mi">610</span> <span class="n">total</span>
+</span><span class="line">
+</span><span class="line"><span class="n">rvm</span> <span class="n">use</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p286</span><span class="o">-</span><span class="n">falcon</span>
+</span><span class="line"><span class="n">time</span> <span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>
+</span><span class="line"><span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">14</span><span class="n">s</span> <span class="n">user</span> <span class="mi">0</span><span class="o">.</span><span class="mo">02</span><span class="n">s</span> <span class="nb">system</span> <span class="mi">98</span><span class="o">%</span> <span class="n">cpu</span> <span class="mi">0</span><span class="o">.</span><span class="mi">163</span> <span class="n">total</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以看到执行时间从 0.610s 到 0.163s 提升了300%。。。。虽然是毫秒级别的，但这个提示貌似有点凶猛，等什么时候修改到生产环境测试下是不是效率提示真的有这么大</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[服务器上搭建redis环境]]></title>
@@ -3751,31 +3876,6 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
 
 <p>执行这2个操作中的一个后服务将会立即停止，需要注意的是，不能通过 kill PID 的方式杀死该服务，kill -9 删除服务也会重启，只能通过这两种方式才能终止，如果想修改服务最好先 unload 服务，修改完之后再 load，直接修改可能会导致电脑重启</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[集中注意力]]></title>
-    <link href="http://Bigcircle.github.com/blog/how-to-focus-your-attention.html/"/>
-    <updated>2012-08-23T10:20:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/how-to-focus-your-attention</id>
-    <content type="html"><![CDATA[<p>今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢，我想这可能跟大学几年养成的不好的习惯有关，很少有激情去做一件事，也很少集中注意力在一件事情上(除了WoW)，这也就造成了目前这种不好的局面</p>
-
-<p>于是打开万能的Google大婶，搜索敏感词，找到一大堆相应答案，针对自己的情况，相应总结下，也作为以后工作的准则，让每天时间花的稍微充实先，自勉！！</p>
-
-<p><strong>排除干扰：</strong> 很多时候都会被各种提醒打断，看到新奇的Blog也会不自觉的多看一会，以后工作时间除了休闲一律关掉QQ(有单独的信息手机会提示)，这样以前用的很多调出信息这个动作就几乎退出快捷键了。看网页即看即关，尽量少出现以前同时开30+网页的情况，迅速回到工作状态
-<!--more-->
-<strong>明确目标：</strong> 很多时候做着做着就不知道该做什么了，不自觉就切到Chrome上了，以后开始时都预先在笔记本上确定今天任务是什么，包括工作完成后应该加的学习任务，趁现在学习热情高昂多学点</p>
-
-<p><strong>规划时间：</strong> 确定完任务目标之后评估下大概完成时间，一个存在于意识中的时限能忘记琐碎的小事从而提升工作速度，同时也可避免拖延和耽搁，也有利于合理规划工作安排</p>
-
-<p><strong>多看窗外：</strong> 这一年最大的问题就是视力下降严重，虽然还是不需要戴眼镜，但是感觉到眼睛比以前特别容易疲劳，眼中的小黑点也不时转悠。刚好公司又是很大的落地窗，可以很方便地眺望近处和远方的高楼大厦。。(被包围，没办法)，让眼睛可以从液晶屏的围剿中舒缓一会</p>
-
-<p><strong>多运动：</strong> 上大学后就很少运动了，估计目前身体已经连亚健康都不如了，饱满的精神需要充沛的体能，健康的身体做支撑，以前在这方面做的太少了，虽然时常也经常想多运动运动，但是一到行动就懒得不行，现在床上还依然摆着一堆N长时间没洗的衣服。。懒是个大问题</p>
-
-<p>其实就是一个习惯的培养过程，好的习惯对于生活和工作都是很有好处</p>
-
-<p>培养习惯，从今天开始，从现在开始。</p>
 ]]></content>
   </entry>
   

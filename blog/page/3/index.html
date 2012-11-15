@@ -9,19 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 这篇 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听 21 - 自动写文件 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-class Comment &hellip;">
+  <meta name="description" content="这个系列完结篇，貌似内容挺多，但是实用的没几个 从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇 这篇 blog 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +74,95 @@ class Comment &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T14:47:00+08:00" pubdate data-updated="true">2012-08-31 14:47:00</time>
+        
+         | <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这个系列完结篇，貌似内容挺多，但是实用的没几个</p>
+
+<p>从阅读心里学来说，太长的篇幅容易让读者失去忍耐力，文章后面的内容就会草草略过，怎么感觉太长的系列写起来也让我失去忍耐力呢。。。继续忍耐，完结此篇</p>
+
+<p>这篇 <a href="http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/">blog</a> 介绍了4个最喜欢的 Rails3.2 隐藏特性，这4条都在这个系列中，作者可能也是从这学来的吧</p>
+
+<h6 id="render-any-object">31 - Render Any Object</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Event</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">to_partial_path</span>
+</span><span class="line">    <span class="s2">&quot;events/</span><span class="si">#{</span><span class="n">trigger</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># events/edit or events/view</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="vi">@events</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:event</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="http://edgeapi.rubyonrails.org/classes/ActiveModel/Conversion.html#method-i-to_partial_path">to_partial_path</a> 是 ActiveModel 內建的实例方法，返回一个和可识别关联对象路径的字符串，原文是这么说的，目前还没看明白这么用的目的在哪</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Returns</span> <span class="n">a</span> <span class="n">string</span> <span class="n">identifying</span> <span class="n">the</span> <span class="n">path</span> <span class="n">associated</span> <span class="n">with</span> <span class="n">the</span> <span class="n">object</span><span class="o">.</span>
+</span><span class="line"><span class="no">ActionPack</span> <span class="n">uses</span> <span class="n">this</span> <span class="n">to</span> <span class="n">find</span> <span class="n">a</span> <span class="n">suitable</span> <span class="n">partial</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">the</span> <span class="n">object</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="group-option">32 - 生成 group option</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&lt;</span><span class="sx">%= select_tag( :grouped_menu, grouped_options_for_select(</span>
+</span><span class="line"><span class="sx">  &quot;Group A&quot; =</span><span class="o">&gt;</span> <span class="sx">%w[One Two Three]</span><span class="p">,</span>
+</span><span class="line">  <span class="s2">&quot;Group B&quot;</span> <span class="o">=&gt;</span> <span class="sx">%w[One Two Three]</span>
+</span><span class="line"><span class="p">)</span> <span class="p">)</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这个其实就是用到了 grouped_options_for_select ，我在前面的 <a href="http://dayuan.im/blog/explain-select-on-rails-hepler.html/">博文</a> 提到过这几个 select 的用法</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -427,64 +504,6 @@ class Comment &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/compile-textmate.html/">编译Textmate</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-28T23:43:00+08:00" pubdate data-updated="true">2012-08-28 23:43:00</time>
-        
-         | <a href="/blog/compile-textmate.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前段时间 <a href="http://macromates.com/">Textmate</a> 开源着实让大家大吃一斤，论坛上，Twitter，包括微博上也都是各种转发，谈论。</p>
-
-<p>Textmate 无须多作介绍，知道的应该都知道。号称能够和 Emacs Vim 并称的神器，当然是在 Mac 上和 Ruby 界，很多编译库都是系统依赖的，作者可能也没想移植到 linux/windows 下，所以没造成大火的局面，不过美金也赚的差不多了</p>
-
-<p>我从做开发伊始就一直用的 Sublime Text 2，也是一个大量借鉴 Textmate 理念和功能的产品，易用性相当不错，也有很多现成的包可以用，跨平台，不爽的是快捷键不能跨，windows下快捷键得另改，好在现在已经不需要切到 windows 了，也就少了这个烦恼。上次在 v2ex 看到有人发编译后的app，感觉编译应该不是很难。以前一直想试用下，但是version 1下的汉字显示实在是不行，现在升级到版本2了貌似解决了这个问题，就尝试着编译个尝尝鲜，看和 ST2 哪个更好用</p>
-
-<p>Github 上托管地址 <a href="https://github.com/textmate/textmate">Here</a></p>
-
-<h5 id="section">安装编译所需工具</h5>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">ragel</span> <span class="n">boost</span> <span class="n">multimarkdown</span> <span class="n">hg</span> <span class="n">ninja</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>boost 源码放在 sourceforge 上，下载可能需要挂代理，而且速度也很慢
-ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的话需要 brew update 下</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/compile-textmate.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -505,7 +524,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
-<li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (3)</a></li>
 <li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
 <li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
@@ -517,6 +536,10 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a>
+      </li>
     
       <li class="post">
         <a href="/blog/setup-redis-on-server.html/">服务器上搭建redis环境</a>
@@ -552,10 +575,6 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     
       <li class="post">
         <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a>
       </li>
     
   </ul>

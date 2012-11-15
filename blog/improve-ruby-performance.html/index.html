@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>修改 GC 参数提高 Ruby 性能 - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="improve ruby gc performance">
+  <meta name="keywords" content="ruby gc">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/improve-ruby-performance.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feed.feedsky.com/imdayuan" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">修改 GC 参数提高 Ruby 性能</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T15:50:00+08:00" pubdate data-updated="true">2012-11-15 15:50:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近看到有人提到最新的 ruby-patch 对性能有个很大的优化，不知是真是假，参考了老外一篇对 rvm 升级的<a href="http://astrails.com/blog/2012/11/13/rvm-install-patched-ruby-for-faster-rails-startup">介绍</a>，在本机上测试了下，感觉没什么大的变化，可能本机性能比生产环境要好很多，这点小的优化在单次测试中体现不出来，但在服务器上可能就有很大的性能提升。在此介绍下，希望能提供点帮助</p>
+
+<ul>
+  <li>更新 rvm 到最新版本获取最新的 patch</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rvm</span> <span class="n">get</span> <span class="n">head</span>
+</span><span class="line"><span class="n">rvm</span> <span class="n">install</span> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span> <span class="o">--</span><span class="n">patch</span> <span class="n">falcon</span> <span class="o">-</span><span class="n">n</span> <span class="n">falcon</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+<p>如果直接给 1.9.3 打补丁可能会爆 <code>Patch 'falcon' not found</code> 的错误，这是因为 falcon 补丁还没有支持到最新的 ruby 版本，需要在本地找到支持的最新版本</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">➜</span> <span class="n">ls</span> <span class="vg">$rvm_path</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/*/*</span><span class="n">falcon</span><span class="o">*</span> <span class="o">|</span> <span class="n">sort</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p0</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">patch</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p125</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">patch</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p194</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">diff</span>
+</span><span class="line"><span class="sr">/Users/</span><span class="n">dayuan</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">patches</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">p286</span><span class="o">/</span><span class="n">falcon</span><span class="o">.</span><span class="n">diff</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以看到最新的补丁支持到p286版本，刚好本地原装的就是这个版本</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">➜</span> <span class="n">rvm</span> <span class="n">install</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p286</span> <span class="o">--</span><span class="n">patch</span> <span class="n">falcon</span> <span class="o">-</span><span class="n">n</span> <span class="n">falcon</span>
+</span><span class="line"><span class="c1"># 安装完之后会重新编译一个ruby版本，而不是把原有版本覆盖</span>
+</span><span class="line"><span class="err">➜</span> <span class="n">ls</span> <span class="o">~</span><span class="sr">/.rvm/</span><span class="n">rubies</span>
+</span><span class="line"><span class="n">default</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">7</span><span class="o">-</span><span class="n">p370</span>  <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p194</span>  <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p286</span><span class="o">-</span><span class="n">falcon</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>接着修改 GC 参数，添加到 .bashrc / .zshrc 中</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_MIN_SLOTS</span><span class="o">=</span><span class="mi">1000000</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_FREE_MIN</span><span class="o">=</span><span class="mi">500000</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_SLOTS_INCREMENT</span><span class="o">=</span><span class="mi">1000000</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_HEAP_SLOTS_GROWTH_FACTOR</span><span class="o">=</span><span class="mi">1</span>
+</span><span class="line"><span class="n">export</span> <span class="no">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span><span class="mi">100000000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GC参数设置，具体解释看 <a href="http://bbs.chinaunix.net/thread-3661069-1-1.html">这篇</a>，ruby 默认的GC参数都太小，上面的参数是 REE 官方建议的参数</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">{</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_MIN_SLOTS</span>             <span class="o">=&gt;</span> <span class="s1">&#39;初始堆大小，默认10000，越大需要占用的内存越多&#39;</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_FREE_MIN</span>              <span class="o">=&gt;</span> <span class="s1">&#39;GC后可用的heap slot的最小值，默认4096，如果太小，就会按照下面2个参数分配新栈&#39;</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_SLOTS_INCREMENT</span>       <span class="o">=&gt;</span> <span class="s1">&#39;当Ruby需要开辟一片新的堆栈所需的数，默认是10000&#39;</span>
+</span><span class="line">  <span class="no">RUBY_HEAP_SLOTS_GROWTH_FACTOR</span>   <span class="o">=&gt;</span> <span class="s1">&#39;当ruby需要新的堆栈的时候， 此参数做为一个乘数被用来计算这片新的堆栈的大小&#39;</span>
+</span><span class="line">  <span class="no">RUBY_GC_MALLOC_LIMIT</span>            <span class="o">=&gt;</span> <span class="s1">&#39;允许不触发GC而分配的C数据结构的最大值，默认8000000 byte，设置的太低就会触发垃圾回收&#39;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>看下 37single 和 twitter 的参数设置，差距上差不多</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">37</span><span class="n">signals</span>
+</span><span class="line"><span class="no">RUBY_HEAP_MIN_SLOTS</span><span class="o">=</span><span class="mi">600000</span>
+</span><span class="line"><span class="no">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span><span class="mi">59000000</span>
+</span><span class="line"><span class="no">RUBY_HEAP_FREE_MIN</span><span class="o">=</span><span class="mi">100000</span>
+</span><span class="line">
+</span><span class="line"><span class="n">twitter</span>
+</span><span class="line"><span class="no">RUBY_HEAP_MIN_SLOTS</span><span class="o">=</span><span class="mi">500000</span>
+</span><span class="line"><span class="no">RUBY_HEAP_SLOTS_INCREMENT</span><span class="o">=</span><span class="mi">250000</span>
+</span><span class="line"><span class="no">RUBY_HEAP_SLOTS_GROWTH_FACTOR</span><span class="o">=</span><span class="mi">1</span>
+</span><span class="line"><span class="no">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span><span class="mi">50000000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>接下来测试下执行情况</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rvm</span> <span class="n">use</span> <span class="n">default</span>
+</span><span class="line"><span class="n">time</span> <span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">57</span><span class="n">s</span> <span class="n">user</span> <span class="mi">0</span><span class="o">.</span><span class="mo">04</span><span class="n">s</span> <span class="nb">system</span> <span class="mi">99</span><span class="o">%</span> <span class="n">cpu</span> <span class="mi">0</span><span class="o">.</span><span class="mi">610</span> <span class="n">total</span>
+</span><span class="line">
+</span><span class="line"><span class="n">rvm</span> <span class="n">use</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p286</span><span class="o">-</span><span class="n">falcon</span>
+</span><span class="line"><span class="n">time</span> <span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>
+</span><span class="line"><span class="sb">`which rails`</span> <span class="n">runner</span> <span class="s2">&quot;puts :OK&quot;</span>  <span class="mi">0</span><span class="o">.</span><span class="mi">14</span><span class="n">s</span> <span class="n">user</span> <span class="mi">0</span><span class="o">.</span><span class="mo">02</span><span class="n">s</span> <span class="nb">system</span> <span class="mi">98</span><span class="o">%</span> <span class="n">cpu</span> <span class="mi">0</span><span class="o">.</span><span class="mi">163</span> <span class="n">total</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以看到执行时间从 0.610s 到 0.163s 提升了300%。。。。虽然是毫秒级别的，但这个提示貌似有点凶猛，等什么时候修改到生产环境测试下是不是效率提示真的有这么大</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T15:50:00+08:00" pubdate data-updated="true">2012-11-15 15:50:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/improve-ruby-performance.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/improve-ruby-performance.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/setup-redis-on-server.html/" title="Previous Post: 服务器上搭建redis环境">&larr; 服务器上搭建redis环境</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (3)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
+<li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/setup-redis-on-server.html/">服务器上搭建redis环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/use-sublime-to-modify-remote-file.html/">使用 sublime 修改远程文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东--终端输出cow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class='platform'>Made on </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/improve-ruby-performance.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/improve-ruby-performance.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

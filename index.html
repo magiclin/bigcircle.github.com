@@ -9,11 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="在 Centos 上搭一个redis服务，本来准备直接 yum 安装，看了下攻略发现编译更简单，顺便可以自定义下配置文件，做下小笔记，以备后用 先去主页下个最新版本 http://redis.io/download 1
-2
-3
-4
-cd /usr/local &amp;&amp; wget &hellip;">
+  <meta name="description" content="最近看到有人提到最新的 ruby-patch 对性能有个很大的优化，不知是真是假，参考了老外一篇对 rvm 升级的介绍，在本机上测试了下，感觉没什么大的变化，可能本机性能比生产环境要好很多，这点小的优化在单次测试中体现不出来，但在服务器上可能就有很大的性能提升。在此介绍下，希望能提供点帮助 更新 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +74,58 @@ cd /usr/local &amp;&amp; wget &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T15:50:00+08:00" pubdate data-updated="true">2012-11-15 15:50:00</time>
+        
+         | <a href="/blog/improve-ruby-performance.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近看到有人提到最新的 ruby-patch 对性能有个很大的优化，不知是真是假，参考了老外一篇对 rvm 升级的<a href="http://astrails.com/blog/2012/11/13/rvm-install-patched-ruby-for-faster-rails-startup">介绍</a>，在本机上测试了下，感觉没什么大的变化，可能本机性能比生产环境要好很多，这点小的优化在单次测试中体现不出来，但在服务器上可能就有很大的性能提升。在此介绍下，希望能提供点帮助</p>
+
+<ul>
+  <li>更新 rvm 到最新版本获取最新的 patch</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">rvm</span> <span class="n">get</span> <span class="n">head</span>
+</span><span class="line"><span class="n">rvm</span> <span class="n">install</span> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span> <span class="o">--</span><span class="n">patch</span> <span class="n">falcon</span> <span class="o">-</span><span class="n">n</span> <span class="n">falcon</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/improve-ruby-performance.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -291,57 +339,6 @@ cd /usr/local &amp;&amp; wget &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-15T16:16:00+08:00" pubdate data-updated="true">2012-09-15 16:16:00</time>
-        
-         | <a href="/blog/intro-flico-and-touchpad.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如丝般顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。其实之前就已经有目标了，所以购买过程非常快，也只是在买和不买之间犹豫了两天，对于目前很穷的我来说是笔大开销。。</p>
-
-<p>键盘肯定 HHKB 和 realforce 是当之无愧的王者，那个价钱也让看到的人望而却步；低端的国产键盘胜在便宜，性价比高，缺点是做工较差，手感比正规的 chery 和 flico 还是要差很多的，加上比较钟爱小巧型的键盘，右侧数字键对我来说基本上没有出场机会，所以最终决定买个折衷的 flico 圣手2代 87无冲茶轴。之所以不买青轴，大家也知道它是办公室杀手，会导致在同事那声望冷淡甚至仇恨，加上可能还有点游戏的需求，茶轴这种兼顾性的设计还是比较适合我的</p>
-
-<p>两件套购买过程没用到10分钟，淘宝上也就那么几家，选了家 tmall 信誉高点且最近成交量比较大的卖家无交流直接拍下，卖家也在拍下后不到一个小时就发货了，速度还是很迅速的。触控板看了下价格都差不多，于是直接去 apple 官网买了个了事。剩下的就是短暂的等待了，基本上第二天下午就都从上海发到了北京，顺风的速度一向令人满意</p>
-
-<p>从表面上它是无刻板</p>
-
-<p><img src="http://m1.img.libdd.com/farm5/2012/0915/16/56C4E8FC9F566DE1631ADCF2B50B8357999FCE663682_1280_960.jpg" alt="" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/intro-flico-and-touchpad.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -360,7 +357,7 @@ cd /usr/local &amp;&amp; wget &hellip;">
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
-<li class='category'><a href='/blog/categories/ruby/'>ruby (2)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (3)</a></li>
 <li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
 <li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
@@ -372,6 +369,10 @@ cd /usr/local &amp;&amp; wget &hellip;">
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a>
+      </li>
     
       <li class="post">
         <a href="/blog/setup-redis-on-server.html/">服务器上搭建redis环境</a>
@@ -407,10 +408,6 @@ cd /usr/local &amp;&amp; wget &hellip;">
     
       <li class="post">
         <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a>
       </li>
     
   </ul>
