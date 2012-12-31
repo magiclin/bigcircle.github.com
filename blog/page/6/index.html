@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: rails - Hi, I’m dayuan</title>
+  <title>Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="Category: rails">
+  <meta name="description" content="其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
+折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修 octopress 基于 Jekyll 和 github-page 的一套静态 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.comblog/categories/rails/index.html">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/page/6/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -72,123 +73,89 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-  <article role="article">
-
-    
-    <header>
-      <h1 class="entry-title">Category: Rails</h1>
+      <div class="blog-index">
+  
+  
+  
+    <article>
       
-    </header>
+  <header>
     
-    <div id="blog-archives" class="category">
-  
-  
-  
+      <h1 class="entry-title"><a href="/blog/chu-shi-octopress.html/">初识Octopress</a></h1>
     
-    <h2>2012</h2>
-  
-  <article>
     
-<h1><a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a></h1>
-<time datetime="2012-09-03T14:38:00+08:00" pubdate>
-  <span class='time'>9 - 03
-</time>
-
-<footer>
-  <span class="categories">in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
+      <p class="meta">
+        
 
 
-  </article>
+
+
+
+
+
+
   
-  
-  
-  <article>
+
+
+<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
+        
+         | <a href="/blog/chu-shi-octopress.html/#disqus_thread">Comments</a>
+        
+      </p>
     
-<h1><a href="/blog/10-things-you-didnt-know-rails-could-do-4.html/">你可能错过的 Rails 技巧(四)</a></h1>
-<time datetime="2012-08-31T14:47:00+08:00" pubdate>
-  <span class='time'>8 - 31
-</time>
-
-<footer>
-  <span class="categories">in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
+  </header>
 
 
-  </article>
-  
-  
-  
-  <article>
-    
-<h1><a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a></h1>
-<time datetime="2012-08-31T09:55:00+08:00" pubdate>
-  <span class='time'>8 - 31
-</time>
+  <div class="entry-content"><p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
+折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
 
-<footer>
-  <span class="categories">in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
+<h3 id="octopress">octopress</h3>
 
+<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
 
-  </article>
-  
-  
-  
-  <article>
-    
-<h1><a href="/blog/10-things-you-didnt-know-rails-could-do-2.html/">你可能错过的 Rails 技巧(二)</a></h1>
-<time datetime="2012-08-30T21:39:00+08:00" pubdate>
-  <span class='time'>8 - 30
-</time>
+<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
 
-<footer>
-  <span class="categories">in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">curl -L https://get.rvm.io | bash -s stable
+</span><span class="line"><span class="c"># 我用的 zsh ,根据自身情况换成 .bash_profile</span>
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;</span>
+</span><span class="line"><span class="s2"># RVM</span>
+</span><span class="line"><span class="s2">[[ -s &#39;/Users/`whoami`/.rvm/scripts/rvm&#39; ]] &amp;&amp; source &#39;/Users/`whoami`/.rvm/scripts/rvm&#39;</span>
+</span><span class="line"><span class="s2">[[ -s &#39;$HOME/.rvm/scripts/rvm&#39; ]] &amp;&amp; . &#39;$HOME/.rvm/scripts/rvm&quot;</span> &gt;&gt; ~/.zshrc
+</span><span class="line"><span class="nb">source</span> ~/.zshrc				<span class="c"># 使刚才配置生效</span>
+</span><span class="line">rvm install 1.9.3
+</span><span class="line">rvm use 1.9.3 --default			<span class="c"># rvm安装1.9.3版本ruby，并默认使用该版本</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h6 id="octopress-">复制 Octopress 到本地</h6>
 
-  </article>
-  
-  
-  
-  <article>
-    
-<h1><a href="/blog/10-things-you-didnt-know-rails-could-do-1.html/">你可能错过的 Rails 技巧(一)</a></h1>
-<time datetime="2012-08-30T11:22:00+08:00" pubdate>
-  <span class='time'>8 - 30
-</time>
-
-<footer>
-  <span class="categories">in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
-
-
-  </article>
-  
-  
-  
-  <article>
-    
-<h1><a href="/blog/explain-select-on-rails-hepler.html/">rails view select 方法学习</a></h1>
-<time datetime="2012-08-28T10:52:00+08:00" pubdate>
-  <span class='time'>8 - 28
-</time>
-
-<footer>
-  <span class="categories">in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
-
-
-  </article>
-  
 </div>
-
-    
-  </article>
   
-</div>
+  
+    <footer>
+      <a rel="full-article" href="/blog/chu-shi-octopress.html/">Read more &rarr;</a>
+    </footer>
+  
 
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
 <aside class="sidebar">
   
     <section>
@@ -230,7 +197,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东--终端输出cow</a>
+        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东&#8211;终端输出cow</a>
       </li>
     
       <li class="post">
@@ -258,7 +225,6 @@
 
   
 </aside>
-
 
     </div>
   </div>

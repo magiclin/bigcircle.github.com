@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="前段时间入手 Mac 的同时顺便买了套罗技的无线键鼠，的确很小巧便宜，但是手感却惨不忍睹，打字变成了负担而不是享受，同时由于已经非常习惯 Mac 触控板那如丝般顺滑的手感，但是用自带的触控板一天下来胳膊会很疼，很是伤手腕。接着加上同事的怂恿，遂决定入手机械键盘和触控板以解放双手。 &hellip;">
+  <meta name="description" content="试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch 和 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,57 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T20:23:00+08:00" pubdate data-updated="true">2012-09-16 20:23:00</time>
+        
+         | <a href="/blog/enhance-your-touchpad.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch  和 Better Touch Tool，以后看网页就可以单手操作了</p>
+
+<h5 id="jitouch">Jitouch</h5>
+
+<p>Jitouch 可以用来增强 Magic Mouse 和 Trackpad 的手势，据说对 MM 的手势识别率相当高，不过暂时没有 MM，估计也不会买 MM 的我来说就无所谓了，能够支持触控板就 OK 了。</p>
+
+<p>默认已经设好了一些快捷手势，都挺不错的，功能如下：</p>
+
+<p><img src="/images/2012-09-16/1.png" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/enhance-your-touchpad.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -362,73 +413,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-01T13:43:00+08:00" pubdate data-updated="true">2012-09-01 13:43:00</time>
-        
-         | <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>用 Sublime Text 2 的同学使用 rvm 时会发现内置的可执行 ruby build 不可用了或者还是默认执行系统自带的 ruby-1.8.7 版本，当执行的脚本中用到 1.9.2 新语法的时候可能会被错，这个时候就需要切换到 rvm 版本控制的 ruby</p>
-
-<p>默认自带的 build 目录位于</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="o">~/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span><span class="err">\</span> <span class="n">Support</span><span class="o">/</span><span class="n">Sublime</span><span class="err">\</span> <span class="n">Text</span><span class="err">\</span> <span class="mi">2</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">Ruby</span><span class="o">/</span><span class="n">Ruby</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">build</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>默认的配置是这样的</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-</span><span class="line"><span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
-</span><span class="line"><span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.ruby&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>切换到 rvm 只需要改 cmd - ruby 指向路径， -KU 增加对中文输出支持，当然文件类型也要求是 utf-8</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/Users/yourname/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;-KU&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>你也可以自己改成 rvm 默认的 default ruby</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -446,6 +430,7 @@
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
@@ -461,6 +446,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/wo-de-2012.html/">我的2012</a>
+      </li>
     
       <li class="post">
         <a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a>
@@ -498,10 +487,6 @@
         <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
-      </li>
-    
   </ul>
 </section>
 
@@ -511,7 +496,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  Copyright &copy; 2013 - <a href="https://github.com/bigcircle">bigcircle</a> -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
   <span class='platform'>Made on </span>
 </p>

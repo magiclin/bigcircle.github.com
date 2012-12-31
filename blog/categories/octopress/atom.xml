@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2012-12-21T00:32:09+08:00</updated>
+  <updated>2013-01-01T02:36:09+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -144,6 +144,7 @@ keywords: ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>

@@ -9,7 +9,8 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="今天一早来上班还是跟往常一样，打开一大堆该看要看想看的东西，不知不觉半个小时过去了，都没注意一眨眼就10点了。好吧，开始码代码啦，敲了会又不自觉切到Chrome看看，QQ不时跳出个信息，刚集中的注意力一下突然感觉又没了，这种感觉自从开始工作就一直困扰着我，为什么工作时这么难去集中注意力呢， &hellip;">
+  <meta name="description" content="每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
+搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的 开机自动启动GoAgent &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +75,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Mac设置goagent开机自启动</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-25T12:19:00+08:00" pubdate data-updated="true">2012-08-25 12:19:00</time>
+        
+         | <a href="/blog/start-goagent-automatically-when-boot-in-mac.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
+搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的</p>
+
+<ul>
+  <li><a href="http://keating.iteye.com/blog/1463521">开机自动启动GoAgent</a></li>
+  <li><a href="http://adelzhang.blogspot.com/2011/10/ubuntugoagent.html">ubuntu下goagent开机自启动</a></li>
+</ul>
+
+<p>用linux的同学可以参考下，对症下药，应该问题不大，不过这些方法在Mac下用不了，启动文件存放位置方法和linux还是有所不同的，那么有没有在Mac下自启动的简单方法呢，答案当然是有的，过程也不复杂
+用过 <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (Mac下的一个包管理器) 的同学都会觉得这个工具很方便，相当于linux上的apt-get和yum，方便大家下载安装各种需要很多依赖的东西，可能有时候依赖包还不是很完善，但是差不多已经取代Macports成为Mac上最好用的包管理器了，没有用的建议装一个(和port只能2选1)</p>
+
+<p>如果你安装过mysql/mongo这类可以有开机启动项的软件，安装之后会有一大堆提示，比如这样</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/start-goagent-automatically-when-boot-in-mac.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -293,79 +348,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/chu-shi-octopress.html/">初识Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
-        
-         | <a href="/blog/chu-shi-octopress.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
-折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
-
-<h3 id="octopress">octopress</h3>
-
-<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
-
-<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">curl -L https://get.rvm.io | bash -s stable
-</span><span class="line"><span class="c"># 我用的 zsh ,根据自身情况换成 .bash_profile</span>
-</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;</span>
-</span><span class="line"><span class="s2"># RVM</span>
-</span><span class="line"><span class="s2">[[ -s &#39;/Users/`whoami`/.rvm/scripts/rvm&#39; ]] &amp;&amp; source &#39;/Users/`whoami`/.rvm/scripts/rvm&#39;</span>
-</span><span class="line"><span class="s2">[[ -s &#39;$HOME/.rvm/scripts/rvm&#39; ]] &amp;&amp; . &#39;$HOME/.rvm/scripts/rvm&quot;</span> &gt;&gt; ~/.zshrc
-</span><span class="line"><span class="nb">source</span> ~/.zshrc				<span class="c"># 使刚才配置生效</span>
-</span><span class="line">rvm install 1.9.3
-</span><span class="line">rvm use 1.9.3 --default			<span class="c"># rvm安装1.9.3版本ruby，并默认使用该版本</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h6 id="octopress-">复制 Octopress 到本地</h6>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/chu-shi-octopress.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/6/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -380,6 +365,7 @@
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
@@ -395,6 +381,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/wo-de-2012.html/">我的2012</a>
+      </li>
     
       <li class="post">
         <a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a>
@@ -432,10 +422,6 @@
         <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-rvm-ruby-path-to-sublime-text-2.html/">Sublime Text 2 使用 RVM </a>
-      </li>
-    
   </ul>
 </section>
 
@@ -445,7 +431,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  Copyright &copy; 2013 - <a href="https://github.com/bigcircle">bigcircle</a> -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
   <span class='platform'>Made on </span>
 </p>
