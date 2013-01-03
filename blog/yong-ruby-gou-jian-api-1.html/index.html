@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>初识Octopress - Hi, I’m dayuan</title>
+  <title>用ruby 构建 api 之 grape - Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
-折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修 octopress 基于 Jekyll 和 github-page 的一套静态 &hellip;">
-  
+  <meta name="description" content="use ruby to create api">
+  <meta name="keywords" content="ruby api grape">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/blog/chu-shi-octopress.html/">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -78,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">初识Octopress</h1>
+      <h1 class="entry-title">用ruby 构建 Api 之 Grape</h1>
     
     
       <p class="meta">
@@ -94,7 +93,7 @@
   
 
 
-<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
+<time datetime="2013-01-03T17:08:00+08:00" pubdate data-updated="true">2013-01-03 17:08:00</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -103,78 +102,11 @@
   </header>
 
 
-<div class="entry-content"><p>其实久仰 Octopress 大名已久，只是一直懒得弄，最近找工作顺便搭个 Blog 开始写点所学所想。
-折腾了下 Jekyll，也是需要自己去折腾主题，先拿 Octopress 用着，等什么时候闲点再把主题修修</p>
+<div class="entry-content"><p>这几天看几篇文章介绍api的好处，刚好api也是我们业务中一块很重要的部分</p>
 
-<h3 id="octopress">octopress</h3>
-
-<p>基于 Jekyll 和 github-page 的一套静态 blog 系统，可以通过 theme/plugin 定制自己喜欢的功能/样式，采用markdown编写，让写作从此简单。深受各大DS欢迎，也是伸手党的最爱，当然也为我等小折腾提供了便利，不用再考虑什么托管，样式，域名等一大堆繁琐的东西。下面把这次配置过程简单总结下，也为可能需要的朋友提供下指引，都是重复造轮子，就看大家喜欢哪款了。</p>
-
-<h6 id="rvm--ruby">安装 rvm &amp; ruby</h6>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">curl -L https://get.rvm.io | bash -s stable
-</span><span class="line"><span class="c"># 我用的 zsh ,根据自身情况换成 .bash_profile</span>
-</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;</span>
-</span><span class="line"><span class="s2"># RVM</span>
-</span><span class="line"><span class="s2">[[ -s &#39;/Users/`whoami`/.rvm/scripts/rvm&#39; ]] &amp;&amp; source &#39;/Users/`whoami`/.rvm/scripts/rvm&#39;</span>
-</span><span class="line"><span class="s2">[[ -s &#39;$HOME/.rvm/scripts/rvm&#39; ]] &amp;&amp; . &#39;$HOME/.rvm/scripts/rvm&quot;</span> &gt;&gt; ~/.zshrc
-</span><span class="line"><span class="nb">source</span> ~/.zshrc				<span class="c"># 使刚才配置生效</span>
-</span><span class="line">rvm install 1.9.3
-</span><span class="line">rvm use 1.9.3 --default			<span class="c"># rvm安装1.9.3版本ruby，并默认使用该版本</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h6 id="octopress-">复制 Octopress 到本地</h6>
-
-<!-- more -->
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">git clone git clone git://github.com/imathis/octopress.git myblog
-</span><span class="line"><span class="nb">cd </span>myblog
-</span><span class="line">bundle install				<span class="c"># 安装所需 gem</span>
-</span><span class="line">rake install				<span class="c"># 安装默认主题</span>
-</span><span class="line">rake preview				<span class="c"># 本地预览, http://localhost:4000</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h6 id="github">部署到 github</h6>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">rake setup_github_pages
-</span><span class="line"><span class="c"># 按提示输入 github 上对应仓库，注意替换 your_name，此时会建立一个 origin 远程仓库，对应你项目目录下的 master 分支</span>
-</span><span class="line">git@github.com:your_username/your_username.github.com.git
-</span><span class="line">rake generate				<span class="c"># 将所有内容生成静态文件</span>
-</span><span class="line">rake deploy 				<span class="c"># 部署到github上</span>
-</span><span class="line">
-</span><span class="line"><span class="c"># 创建 source 分支 用于保存作文和配置文件</span>
-</span><span class="line">git add .
-</span><span class="line">git commit -m <span class="s1">&#39;create source branch&#39;</span>
-</span><span class="line">git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>OK，到此大概流程差不多就这样了，大家可能会遇到各种问题，这个时候 Google娘 就是你最好的帮手了。
-不知不觉已经夜深人静了，明天把 Disqus 加上就可以留个小言啦。</p>
-
+<p>— 参考
+1. <a href="http://www.ctocio.com/ccnews/3512.html">为什么所有企业都需要API</a>
+2. <a href="http://tech2ipo.com/56814">API利无穷，公司都该提供</a></p>
 </div>
 
 
@@ -197,12 +129,12 @@
   
 
 
-<time datetime="2012-08-16T00:37:00+08:00" pubdate data-updated="true">2012-08-16 00:37:00</time>
+<time datetime="2013-01-03T17:08:00+08:00" pubdate data-updated="true">2013-01-03 17:08:00</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -211,7 +143,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/chu-shi-octopress.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/chu-shi-octopress.html/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/" >Tweet</a>
   
   
   
@@ -220,8 +152,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/wo-de-2012.html/" title="Previous Post: 我的2012">&larr; 我的2012</a>
       
-        <a class="basic-alignment right" href="/blog/use-sudo-without-password.html/" title="Next Post: 免去sudo时输入密码">免去sudo时输入密码 &rarr;</a>
       
     </p>
   </footer>
@@ -322,8 +254,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://Bigcircle.github.com/blog/chu-shi-octopress.html/';
-        var disqus_url = 'http://Bigcircle.github.com/blog/chu-shi-octopress.html/';
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/';
         var disqus_script = 'embed.js';
       
     (function () {

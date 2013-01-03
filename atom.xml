@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2013-01-01T02:37:43+08:00</updated>
+  <updated>2013-01-03T17:13:35+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用ruby 构建 api 之 grape]]></title>
+    <link href="http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/"/>
+    <updated>2013-01-03T17:08:00+08:00</updated>
+    <id>http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1</id>
+    <content type="html"><![CDATA[<p>这几天看几篇文章介绍api的好处，刚好api也是我们业务中一块很重要的部分</p>
+
+<p>— 参考
+1. <a href="http://www.ctocio.com/ccnews/3512.html">为什么所有企业都需要API</a>
+2. <a href="http://tech2ipo.com/56814">API利无穷，公司都该提供</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[我的2012]]></title>
@@ -3732,69 +3745,6 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 
 <p>整体框架基本忠于原作，等什么时候看到好看的样式再折腾
 <!-- more --></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给Octopress添加分类列表]]></title>
-    <link href="http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/"/>
-    <updated>2012-08-27T11:24:00+08:00</updated>
-    <id>http://Bigcircle.github.com/blog/add-category-list-for-octopress</id>
-    <content type="html"><![CDATA[<p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表</p>
-
-<ul>
-  <li>新建分类列表 source/_inclide/custom/asides/category_list.html</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="o">&lt;</span><span class="nx">section</span><span class="o">&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Categories</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;categories&quot;</span><span class="o">&gt;</span>
-</span><span class="line">    <span class="p">{</span><span class="o">%</span> <span class="nx">category_list</span> <span class="o">%</span><span class="p">}</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="err">/ul&gt;</span>
-</span><span class="line"><span class="o">&lt;</span><span class="err">/section&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>新建插件： plugins/category_list_tag.rb</li>
-</ul>
-
-<!-- more -->
-
-<div><script src="https://gist.github.com/3485442.js?file=category_list_tag.rb"></script>
-<noscript><pre><code>module Jekyll
-  class CategoryListTag &lt; Liquid::Tag
-    def render(context)
-      html = &quot;&quot;
-      categories = context.registers[:site].categories.keys
-      categories.sort.each do |category|
-        posts_in_category = context.registers[:site].categories[category].size
-        category_dir = context.registers[:site].config['category_dir']
-        category_url = File.join(category_dir, category.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase)
-        html &lt;&lt; &quot;&lt;li class='category'&gt;&lt;a href='http://Bigcircle.github.com/#{category_url}/'&gt;#{category} (#{posts_in_category})&lt;/a&gt;&lt;/li&gt;\n&quot;
-      end
-      html
-    end
-  end
-end
-
-Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></pre></noscript></div>
-
-<ul>
-  <li> 更改配置 _config.yml</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_posts.html</span><span class="p-Indicator">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>同时把侧边栏默认显示在最下面，保留可以在侧面打开的功能，页面布局看起来就简单多了</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="试用了几天触控板，各种感觉舒爽，难怪苹果会单独出了一个，虽然预设了很多快捷手势，但是物无完物，人的贪心总是不足的，有了就想要更多，希望能够自定义熟悉顺手的快捷键，好在触控板出来已经快2年了，肯定有人已经想到了这点，而且已经这么做了，目前有2款比较好用的软件可以设置，分别是 Jitouch 和 &hellip;">
+  <meta name="description" content="昨天看到 lolcat，本以为是 cat 的一个增强版，美化下输出什么的，搜了下才发现居然是用 ruby 写的，看了下源码，原来实现也很简单。代码虽少，版本号可不能少，已经迭代到42了，看来作者更新很勤快啊，还有一说是 42是宇宙的答案，或许作者为了获取最终的答案。先看下效果图 安装方法也很简单 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东&#8211;终端输出cow</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-25T16:15:00+08:00" pubdate data-updated="true">2012-09-25 16:15:00</time>
+        
+         | <a href="/blog/a-funny-command-line-tool.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天看到 <a href="https://github.com/busyloop/lolcat">lolcat</a>，本以为是 cat 的一个增强版，美化下输出什么的，搜了下才发现居然是用 ruby 写的，看了下源码，原来实现也很简单。代码虽少，版本号可不能少，已经迭代到42了，看来作者更新很勤快啊，还有一说是 42是宇宙的答案，或许作者为了获取最终的答案。先看下效果图</p>
+
+<p><img src="/images/2012-09-25/1.png" /></p>
+
+<p>安装方法也很简单</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">brew</span> <span class="n">install</span> <span class="n">fortune</span>
+</span><span class="line"><span class="n">gem</span> <span class="n">install</span> <span class="n">cowsay</span> <span class="n">lolcat</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/a-funny-command-line-tool.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -331,88 +383,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 Tap & Try</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-03T14:38:00+08:00" pubdate data-updated="true">2012-09-03 14:38:00</time>
-        
-         | <a href="/blog/rails-tricks-about-tap-and-try.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>tap 和 try 是 Rails 开发过程中两个很常用的方法，在调试和写出简洁代码上有着不错的发挥</p>
-
-<p>从 tap 的 <a href="http://www.ruby-doc.org/core-1.9.3/Object.html#method-i-tap">Api</a> 可以看出，tap 是 Object 的 instance_method，传递 self 给一个 block，最后返回 self.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">015</span> <span class="o">&gt;</span> <span class="no">Object</span><span class="o">.</span><span class="n">instance_methods</span><span class="o">.</span><span class="n">grep</span> <span class="sr">/tap/</span>
-</span><span class="line"> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:tap</span><span class="o">]</span>
-</span><span class="line">
-</span><span class="line"><span class="k">def</span> <span class="nf">tap</span>		<span class="c1">#tap 源码实现</span>
-</span><span class="line">  <span class="k">yield</span> <span class="nb">self</span>
-</span><span class="line">  <span class="nb">self</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><strong>用途一：调试</strong>。当你使用链式方法发生错误时，如果需要测试这个过程中哪出了问题，一般的做法是拆断这个方法，设置中间变量，接着测试中间变量是否正确，如果正确，则把变量换个地方继续测试，方法很长时就没法测了，当然 Ruby 为你想好了，有着优雅又简便的实现</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sx">%w(x y z)</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">upcase</span><span class="o">.</span><span class="n">next</span> <span class="c1"># =&gt; &quot;Y&quot;</span>
-</span><span class="line">
-</span><span class="line"><span class="sx">%w(x y z)</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">p</span> <span class="n">x</span> <span class="p">}</span><span class="o">.</span><span class="n">upcase</span><span class="o">.</span><span class="n">next</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>输出每步的结果看看</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>                <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;original: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
-</span><span class="line">  <span class="o">.</span><span class="n">to_a</span>                <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;array: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
-</span><span class="line">  <span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">}</span> <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;evens: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
-</span><span class="line">  <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="p">}</span>     <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;squares: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/rails-tricks-about-tap-and-try.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -434,7 +404,7 @@
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
-<li class='category'><a href='/blog/categories/ruby/'>ruby (3)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (4)</a></li>
 <li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
 <li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
@@ -446,6 +416,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/yong-ruby-gou-jian-api-1.html/">用ruby 构建 api 之 grape</a>
+      </li>
     
       <li class="post">
         <a href="/blog/wo-de-2012.html/">我的2012</a>
@@ -481,10 +455,6 @@
     
       <li class="post">
         <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
       </li>
     
   </ul>

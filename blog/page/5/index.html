@@ -9,8 +9,8 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="每次开机都得手动开启goagent，首先打开iTerm再输入，虽然平时很多时间都在跟终端打交道，也定义了快捷键go简单输入，但还是觉得麻烦，占了一个标签页不说，还时不时掉线，这个就无法忍了
-搜索了下自动开启的方法，都是一些 linux 下的方法，比如说这两篇关键字靠前的 开机自动启动GoAgent &hellip;">
+  <meta name="description" content="Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
+为了使界面简洁点，就只添加了一个分类列表 新建分类列表 source/_inclide/custom/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +75,72 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-category-list-for-octopress.html/">给Octopress添加分类列表</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T11:24:00+08:00" pubdate data-updated="true">2012-08-27 11:24:00</time>
+        
+         | <a href="/blog/add-category-list-for-octopress.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
+为了使界面简洁点，就只添加了一个分类列表</p>
+
+<ul>
+  <li>新建分类列表 source/_inclide/custom/asides/category_list.html</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="o">&lt;</span><span class="nx">section</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Categories</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;categories&quot;</span><span class="o">&gt;</span>
+</span><span class="line">    <span class="p">{</span><span class="o">%</span> <span class="nx">category_list</span> <span class="o">%</span><span class="p">}</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="err">/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>新建插件： plugins/category_list_tag.rb</li>
+</ul>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-category-list-for-octopress.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -285,69 +351,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/use-sudo-without-password.html/">免去sudo时输入密码</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-20T14:16:00+08:00" pubdate data-updated="true">2012-08-20 14:16:00</time>
-        
-         | <a href="/blog/use-sudo-without-password.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>经常敲命令的同学肯定会遇到需要root权限的问题，为了安全考虑大部分情况下千万不要在root权限下操作，否则会遇到各种难缠的问题，sudo 就是为解决这个问题产生的。</p>
-
-<h3 id="section">为什么不想敲密码</h3>
-
-<ul>
-  <li>程序员往往都是很懒的，很多代码的产生就是为了方便懒惰的程序员</li>
-  <li>输入密码很麻烦，很费时。(好吧，其实也花不了多长时间。。)</li>
-  <li>能方便设置一些启动项，特别是一个项目启动项很多，为了懒就写一个启动脚本</li>
-  <li>自己的系统自己用，没必要像在服务器上对权限要求那么严格</li>
-  <li>当然也有忘记root密码的情况。。</li>
-</ul>
-
-<h3 id="section-1">怎么做</h3>
-<p>其实很简单，只需要小修改 /etc/sudoers 这个文件就可以了。
-默认情况的权限是这样的</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">root <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
-</span><span class="line">%admin <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/use-sudo-without-password.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -369,7 +372,7 @@
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
-<li class='category'><a href='/blog/categories/ruby/'>ruby (3)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (4)</a></li>
 <li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
 <li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
@@ -381,6 +384,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/yong-ruby-gou-jian-api-1.html/">用ruby 构建 api 之 grape</a>
+      </li>
     
       <li class="post">
         <a href="/blog/wo-de-2012.html/">我的2012</a>
@@ -416,10 +423,6 @@
     
       <li class="post">
         <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/rails-tricks-about-tap-and-try.html/">Rails 技巧之 tap & try</a>
       </li>
     
   </ul>
