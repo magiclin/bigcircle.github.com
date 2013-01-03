@@ -4,7 +4,7 @@
   <title><![CDATA[Hi, I’m dayuan]]></title>
   <link href="http://Bigcircle.github.com/atom.xml" rel="self"/>
   <link href="http://Bigcircle.github.com/"/>
-  <updated>2013-01-03T17:13:35+08:00</updated>
+  <updated>2013-01-03T21:09:26+08:00</updated>
   <id>http://Bigcircle.github.com/</id>
   <author>
     <name><![CDATA[bigcircle]]></name>
@@ -18,11 +18,172 @@
     <link href="http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1.html/"/>
     <updated>2013-01-03T17:08:00+08:00</updated>
     <id>http://Bigcircle.github.com/blog/yong-ruby-gou-jian-api-1</id>
-    <content type="html"><![CDATA[<p>这几天看几篇文章介绍api的好处，刚好api也是我们业务中一块很重要的部分</p>
+    <content type="html"><![CDATA[<p>这几天看几篇文章介绍api的好处，刚好api也是我们业务中一块很重要的部分，最近也它作为一个单独的模块从主业务中独立出来，试用了下几个框架及不同的部署方案，虽然方法稍有差异，但是都很方便，只能说 ruby 在处理抽象业务逻辑上太方便了。首先介绍下 grape</p>
 
-<p>— 参考
-1. <a href="http://www.ctocio.com/ccnews/3512.html">为什么所有企业都需要API</a>
-2. <a href="http://tech2ipo.com/56814">API利无穷，公司都该提供</a></p>
+<!--more-->
+
+<p><a href="https://github.com/intridea/grape">grape</a> is a rest-like api micro-framework for ruby. 最开始也是从 ruby-china 的源码中才知道它，看了下实现的确简单和方便，于是就开始把项目中的 api 全部迁移到了 grape 中。根据自己的业务逻辑相应的切分成了以下结构</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="err">├──</span> <span class="n">api</span><span class="p">.</span><span class="n">rb</span>               <span class="err">#</span> <span class="err">主文件</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">entities</span><span class="p">.</span><span class="n">rb</span>          <span class="err">#</span> <span class="err">一些简单查询调用</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">helpers</span><span class="p">.</span><span class="n">rb</span>           <span class="err">#</span> <span class="err">一些公用方法</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">patch</span><span class="p">.</span><span class="n">rb</span>             <span class="err">#</span> <span class="err">给</span> <span class="n">grape</span> <span class="err">打补丁</span><span class="p">(</span><span class="err">修改源码自用</span><span class="p">)</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">helpers</span>              <span class="err">#</span> <span class="err">各个</span> <span class="n">api</span> <span class="err">文件复杂查询，相当于</span> <span class="n">controller</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">aa_helper</span><span class="p">.</span><span class="n">rb</span>		
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">bb_helper</span><span class="p">.</span><span class="n">rb</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">cc_helper</span><span class="p">.</span><span class="n">rb</span>
+</span><span class="line"><span class="o">|</span>   <span class="err">├──</span> <span class="p">...</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">restfuls</span>             <span class="err">#</span> <span class="err">路由存放文件，按照前缀放于不同文件，便于查找</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">aa</span><span class="p">.</span><span class="n">rb</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">bb</span><span class="p">.</span><span class="n">rb</span>
+</span><span class="line"><span class="o">|</span>   <span class="err">├──</span> <span class="p">...</span>
+</span><span class="line"><span class="o">|</span>   <span class="err">├──</span> <span class="p">...</span>
+</span><span class="line"><span class="err">└──</span> <span class="n">validations</span>          <span class="err">#</span> <span class="err">一些验证方法</span><span class="o">/</span><span class="err">信息</span>
+</span><span class="line">    <span class="err">├──</span> <span class="n">base</span><span class="p">.</span><span class="n">rb</span>
+</span><span class="line">    <span class="err">├──</span> <span class="n">depreated</span><span class="p">.</span><span class="n">rb</span>     <span class="err">#</span> <span class="err">过期方法，为了兼容以前接口</span>
+</span><span class="line">    <span class="err">├──</span> <span class="n">error</span><span class="p">.</span><span class="n">rb</span>         <span class="err">#</span> <span class="err">所有错误类型归类</span><span class="p">(</span><span class="err">因为自定义很多跟业务相关的错误</span><span class="p">)</span>
+</span><span class="line">    <span class="err">└──</span> <span class="n">validate</span><span class="p">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样划分的目的在于使业务逻辑更清晰了，也便于维护，需要修改或添加什么 api 直接去 restfuls 中的对应文件修改就可以了。同时把以前在 model 中的代码都集中重到 helpers 文件中集中管理，修改也需要去 helpers 下对应的文件。这样差不多已经成了一个独立的模块，想拆分出去就很方便了</p>
+
+<p>在 rails 中使用 grape 很方便，在 Gemfile 中添加 <code>gem grape</code> 后 <code>bundle install</code>，如果想放在 lib 下就直接在 lib 下新建文件夹把这些文件放进去，如果想放在 app 下就在 app 下新建文件夹放入这些文件，添加自动加载</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="p">(</span><span class="n">in</span> <span class="n">config</span><span class="o">/</span><span class="n">application</span><span class="p">.</span><span class="n">rb</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">class</span> <span class="n">Application</span> <span class="o">&lt;</span> <span class="n">Rails</span><span class="o">::</span><span class="n">Application</span>
+</span><span class="line">  <span class="p">...</span>
+</span><span class="line">  <span class="n">config</span><span class="p">.</span><span class="n">autoload_paths</span> <span class="o">+=</span> <span class="o">%</span><span class="n">W</span><span class="p">(</span><span class="err">#</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">root</span><span class="p">}</span><span class="o">/</span><span class="n">lib</span><span class="p">)</span>
+</span><span class="line">  <span class="n">config</span><span class="p">.</span><span class="n">autoload_paths</span> <span class="o">+=</span> <span class="o">%</span><span class="n">W</span><span class="p">(</span><span class="err">#</span><span class="p">{</span><span class="n">config</span><span class="p">.</span><span class="n">root</span><span class="p">}</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">api</span><span class="p">)</span>
+</span><span class="line"><span class="n">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>接着在 route.rb 中挂载 api</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;api/api&#39;</span>
+</span><span class="line"><span class="n">mount</span> <span class="no">Project</span><span class="o">::</span><span class="no">Api</span> <span class="o">=&gt;</span> <span class="s1">&#39;/&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样差不多所有的准备工作都完成了，只需要把所需要的接口单独写入对应的文件就可以了。写个测试 api</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Dir</span><span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/lib/api/restfuls/*.rb&quot;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="nb">require</span> <span class="n">file</span><span class="p">}</span>
+</span><span class="line"><span class="no">Dir</span><span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/lib/api/*.rb&quot;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="nb">require</span> <span class="n">file</span><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="k">module</span> <span class="nn">Project</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Api</span> <span class="o">&lt;</span> <span class="no">Grape</span><span class="o">::</span><span class="no">API</span>
+</span><span class="line">    <span class="nb">format</span> <span class="ss">:json</span>
+</span><span class="line">    <span class="n">helpers</span> <span class="no">ApiHelpers</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">rescue_from</span> <span class="ss">:all</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+</span><span class="line">      <span class="no">Rack</span><span class="o">::</span><span class="no">Response</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span> <span class="o">]</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="p">{</span> <span class="s2">&quot;Content-type&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">})</span><span class="o">.</span><span class="n">finish</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">mount</span> <span class="no">Restfuls</span><span class="o">::</span><span class="no">Aa</span>
+</span><span class="line">    <span class="n">mount</span> <span class="no">Restfuls</span><span class="o">::</span><span class="no">Bb</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">params</span> <span class="p">{</span><span class="n">requires</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="nb">String</span><span class="p">}</span>
+</span><span class="line">    <span class="n">get</span> <span class="s1">&#39;/test(.:format)&#39;</span> <span class="k">do</span>
+</span><span class="line">      <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:a</span><span class="o">]</span><span class="p">}</span>
+</span><span class="line">      <span class="p">{</span><span class="ss">:code</span> <span class="o">=&gt;</span> <span class="mi">200</span><span class="p">}</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">curl</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">3000</span><span class="o">/</span><span class="nb">test</span><span class="o">.</span><span class="n">json?a</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可能有人会有疑问，为什么不都写到 entities.rb 中而要分发到 helpers 文件夹中呢？取名 helpers 可能造成误解，其实它们充当的是 controller 的作用，里面的方法都是跟业务相关的方法。还有 entities 本身提供的功能太简单了，如果设计到复杂的 sql 语句或者需要根据需要定制输出信息，就会变得很麻烦，很多时候需要去 model 里面扩写 as_json 这个方法，还是用原生的写法比较舒服和便于理解修改。调用这些 helper 方法也很简单，和在 Rails 中一样，直接在对应的 restful/aa.rb 文件中 添加 <code>helpers Helpers::AaHelper</code> 就可以了，命名没有什么强制要求。</p>
+
+<p>真正的 helper 方法都位于 helpers.rb 和 validations 中，可以自定义一些通用的方法和验证信息，如果需要引入外来接口也可以直接放在 helpers.rb 中，像我们会有个发短信的模块需要和 api 对接，可以将封装之后的接口直接拿过来生成一个调用方法，可能也就需要多添加几行代码，比如这样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">(</span><span class="k">in</span> <span class="n">helpers</span><span class="o">.</span><span class="n">rb</span><span class="p">)</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;sms&#39;</span>    <span class="c1"># lib/sms.rb 短信封装的thrift实现ruby client</span>
+</span><span class="line">
+</span><span class="line"><span class="k">module</span> <span class="nn">Project</span>
+</span><span class="line">  <span class="k">module</span> <span class="nn">ApiHelpers</span>
+</span><span class="line">
+</span><span class="line">    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class="line">    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span><span class="line">      <span class="no">Sms</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">start_send</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>好像差不多就这么点东西，因为 grape 本身就是一个很简洁的 framework，grape wiki 内容也很齐全，基本上遇到的问题都能找到答案，如果不用重写代码的话，半天就能把原有代码全部牵过去，没有用过的同学可以试下。</p>
+
+<h5 id="something">Something</h5>
+
+<ol>
+  <li><a href="http://www.ctocio.com/ccnews/3512.html">为什么所有企业都需要API</a></li>
+  <li><a href="http://tech2ipo.com/56814">API利无穷，公司都该提供</a></li>
+  <li><a href="https://github.com/intridea/grape/wiki">grape wifi</a></li>
+  <li><a href="https://groups.google.com/forum/?fromgroups#!forum/ruby-grape">google group</a></li>
+</ol>
 ]]></content>
   </entry>
   
