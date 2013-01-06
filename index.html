@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="这几天看几篇文章介绍api的好处，刚好api也是我们业务中一块很重要的部分，最近也它作为一个单独的模块从主业务中独立出来，试用了下几个框架及不同的部署方案，虽然方法稍有差异，但是都很方便，只能说 ruby 在处理抽象业务逻辑上太方便了。首先介绍下 grape ">
+  <meta name="description" content="上期说到在 rails 中用 grape 方便构建 api，如果是日常简单运用还可以，但是一般需要api的地方都不是请求量很低的运用，或多或少都对并发量有所要求，用 rails 这种重型框架做可能就有点大材小用，而且并不是很符合高并发要求，很多慢查询会导致请求阻塞，有时候甚至丢失请求，这个就不 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,7 +80,49 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/yong-ruby-gou-jian-api-1.html/">用ruby 构建 Api 之 Grape</a></h1>
+      <h1 class="entry-title"><a href="/blog/use-ruby-to-build-api-with-goliath.html/">用 Ruby 构建 Api 之 Goliath</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-05T18:00:00+08:00" pubdate data-updated="true">2013-01-05 18:00:00</time>
+        
+         | <a href="/blog/use-ruby-to-build-api-with-goliath.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上期说到在 rails 中用 grape 方便构建 api，如果是日常简单运用还可以，但是一般需要api的地方都不是请求量很低的运用，或多或少都对并发量有所要求，用 rails 这种重型框架做可能就有点大材小用，而且并不是很符合高并发要求，很多慢查询会导致请求阻塞，有时候甚至丢失请求，这个就不 happy 了，也是不能容忍的，与其费时间优化代码，不如从框架层面找个更合适的选择
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/use-ruby-to-build-api-with-goliath.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/use-ruby-to-build-api-with-grape.html/">用 Ruby 构建 Api 之 Grape</a></h1>
     
     
       <p class="meta">
@@ -98,7 +140,7 @@
 
 <time datetime="2013-01-03T17:08:00+08:00" pubdate data-updated="true">2013-01-03 17:08:00</time>
         
-         | <a href="/blog/yong-ruby-gou-jian-api-1.html/#disqus_thread">Comments</a>
+         | <a href="/blog/use-ruby-to-build-api-with-grape.html/#disqus_thread">Comments</a>
         
       </p>
     
@@ -111,7 +153,7 @@
   
   
     <footer>
-      <a rel="full-article" href="/blog/yong-ruby-gou-jian-api-1.html/">Read more &rarr;</a>
+      <a rel="full-article" href="/blog/use-ruby-to-build-api-with-grape.html/">Read more &rarr;</a>
     </footer>
   
 
@@ -150,7 +192,7 @@
 
   <div class="entry-content"><p>安全度过世界末日，又到一年总结时，马上就要跨年了，就把总结留在2012吧</p>
 
-<p>去年，世界局势风云变换，不过都跟我没多大关系，虽然按照蝴蝶效应来说，可能是我不经意间的一个屁助推奥巴马连任美国总统，左右了世界局势。   <br />
+<p>去年，世界局势风云变换，不过都跟我没多大关系，虽然按照蝴蝶效应来说，可能是我不经意间的一个喷嚏助推奥巴马连任美国总统，左右了世界局势。   <br />
 去年，换了一个新地方，换了一份新工作，换了一套新装备，换了一批新朋友，换了一种新生活。
 </div>
   
@@ -271,59 +313,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/use-sublime-to-modify-remote-file.html/">使用 Sublime 修改远程文件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-09T11:18:00+08:00" pubdate data-updated="true">2012-11-09 11:18:00</time>
-        
-         | <a href="/blog/use-sublime-to-modify-remote-file.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>遇到个特殊情况，服务器不能用 git 同步代码，如果遇到 bug 需要及时修复，可能一次更改不完善，需要改了再改。一般情况下我们都是在本地修改测试OK之后更新到服务器，不能在本地修改的情况下我们只能在服务器上直接修改了，但是对于一个不是很习惯用vim同时又很习惯sublime的猿来说就很淡腾了</p>
-
-<p>如果能用sublime直接修改服务器上代码就好了，以前textmate就有过这样的先例，rmate就是创造出来做这个的，好在sublime很多时间都可以把textmate的东西直接拿过来用，rmate也不例外</p>
-
-<ul>
-  <li>装一个叫 rsub 的插件，直接在 install package里面搜就有</li>
-  <li>开启本地端口转发，rsub 默认的是 52698</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="n">ssh</span> <span class="o">-</span><span class="n">R</span> <span class="mi">52698</span><span class="o">:</span><span class="n">localhost</span><span class="o">:</span><span class="mi">52698</span> <span class="n">user</span><span class="err">@</span><span class="n">remote_domain</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/use-sublime-to-modify-remote-file.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -343,7 +332,7 @@
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
-<li class='category'><a href='/blog/categories/ruby/'>ruby (4)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (5)</a></li>
 <li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
 <li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
 <li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
@@ -357,7 +346,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/yong-ruby-gou-jian-api-1.html/">用ruby 构建 api 之 grape</a>
+        <a href="/blog/use-ruby-to-build-api-with-goliath.html/">用 ruby 构建 api 之 goliath</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/use-ruby-to-build-api-with-grape.html/">用 ruby 构建 api 之 grape</a>
       </li>
     
       <li class="post">
@@ -390,10 +383,6 @@
     
       <li class="post">
         <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/ruby-performance-tricks-you-should-know.html/">一些 Ruby 性能技巧</a>
       </li>
     
   </ul>

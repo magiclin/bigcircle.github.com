@@ -1,0 +1,664 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>用 ruby 构建 api 之 goliath - Hi, I’m dayuan</title>
+  <meta name="author" content="bigcircle">
+
+  
+  <meta name="description" content="上期说到在 rails 中用 grape 方便构建 api，如果是日常简单运用还可以，但是一般需要api的地方都不是请求量很低的运用，或多或少都对并发量有所要求，用 rails 这种重型框架做可能就有点大材小用，而且并不是很符合高并发要求，很多慢查询会导致请求阻塞，有时候甚至丢失请求，这个就不 &hellip;">
+  <meta name="keywords" content="ruby api goliath grape">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/use-ruby-to-build-api-with-goliath.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hi, I’m dayuan" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34355176-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hi, I’m dayuan</a></h1>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feed.feedsky.com/imdayuan" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+
+  <form action="http://google.com/search" method="get">
+    <fieldset role="search">
+      <input type="hidden" name="q" value="site:Bigcircle.github.com" />
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    </fieldset>
+  </form>
+
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">用 Ruby 构建 Api 之 Goliath</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-05T18:00:00+08:00" pubdate data-updated="true">2013-01-05 18:00:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>上期说到在 rails 中用 grape 方便构建 api，如果是日常简单运用还可以，但是一般需要api的地方都不是请求量很低的运用，或多或少都对并发量有所要求，用 rails 这种重型框架做可能就有点大材小用，而且并不是很符合高并发要求，很多慢查询会导致请求阻塞，有时候甚至丢失请求，这个就不 happy 了，也是不能容忍的，与其费时间优化代码，不如从框架层面找个更合适的选择
+<!--more-->
+有次在 beijing ruby 聚会时汉东哥分享了下他们用 goliath 做高并发 api 的经验，刚好最近也准备把 api 作为单独的服务从项目中独立出来，就用 goliath 尝试了下，效果很不错，简单介绍下 goliath</p>
+
+<p><code>goliath is an open source version of the non-blocking (asynchronous) ruby lightweight web server framework, powered by an eventMachine reactor</code></p>
+
+<p>异步非阻塞，基于 eventmachine，轻量级，易读(no collbacks)，易维护，听上去都是优点，let’s start</p>
+
+<p>上期已经把 grape 独立成了一个模块，为了不对现有 api 做太多更改，决定把 grape 整体迁移过来，目录结构如下</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">├──</span> <span class="no">Capfile</span>
+</span><span class="line"><span class="err">├──</span> <span class="no">Gemfile</span>
+</span><span class="line"><span class="err">├──</span> <span class="no">Rakefile</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">app</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">api</span>        <span class="c1"># 以前 api 中的文件</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">lib</span>        <span class="c1"># 其他接口的文件</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">└──</span> <span class="n">models</span>     <span class="c1"># model</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">config</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">application</span><span class="o">.</span><span class="n">rb</span>  <span class="c1"># 数据库连接</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">config</span><span class="o">.</span><span class="n">yml</span>      <span class="c1"># 各种config都放在这个文件，所以没有单独一个 database.yml</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">├──</span> <span class="n">deploy</span><span class="o">.</span><span class="n">rb</span>
+</span><span class="line"><span class="err">│  </span> <span class="err">└──</span> <span class="n">listen</span><span class="o">.</span><span class="n">god</span>      <span class="c1"># god 配置文件</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">log</span>
+</span><span class="line"><span class="err">├──</span> <span class="n">server</span><span class="o">.</span><span class="n">rb</span>      <span class="c1"># goliath 启动文件</span>
+</span><span class="line"><span class="err">└──</span> <span class="n">tmp</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>由于还要用到 activerecord，所以就把原有项目中的 models 全部复制过来了，可以把里面无用代码全部删掉，因为所有的查询方法都在 api中。简单配置下 application.rb 和 server.rb，注意 config.yml 中 mysql adapter 最好用 em_mysql2</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;em-synchrony/activerecord&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;yaml&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;mysql2&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">env</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;DATABASE_URL&#39;</span><span class="o">]</span> <span class="p">?</span> <span class="s1">&#39;production&#39;</span> <span class="p">:</span> <span class="s1">&#39;development&#39;</span>
+</span><span class="line"><span class="no">DB_CONFIG</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/config.yml&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="n">mysql_config</span> <span class="o">=</span> <span class="no">DB_CONFIG</span><span class="o">[</span><span class="s1">&#39;mysql&#39;</span><span class="o">][</span><span class="n">env</span><span class="o">]</span>
+</span><span class="line"><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">mysql_config</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s2">&quot;bundler/setup&quot;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;goliath&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;grape&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/app/api/api&quot;</span>
+</span><span class="line"><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/config/application&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 初始化时加载路径 app/api app/lib app/models</span>
+</span><span class="line"><span class="sx">%w[api models lib]</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">folder</span><span class="o">|</span>
+</span><span class="line">   <span class="vg">$LOAD_PATH</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/app/</span><span class="si">#{</span><span class="n">folder</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 自定义Log的输出样式</span>
+</span><span class="line"><span class="no">Goliath</span><span class="o">::</span><span class="no">Request</span><span class="o">.</span><span class="n">log_block</span> <span class="o">=</span> <span class="nb">proc</span> <span class="k">do</span> <span class="o">|</span><span class="n">env</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="o">|</span>
+</span><span class="line">  <span class="nb">method</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="no">Goliath</span><span class="o">::</span><span class="no">Request</span><span class="o">::</span><span class="no">REQUEST_METHOD</span><span class="o">]</span>
+</span><span class="line">  <span class="n">path</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="no">Goliath</span><span class="o">::</span><span class="no">Request</span><span class="o">::</span><span class="no">REQUEST_URI</span><span class="o">]</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">env</span><span class="o">[</span><span class="no">Goliath</span><span class="o">::</span><span class="no">Request</span><span class="o">::</span><span class="no">RACK_LOGGER</span><span class="o">].</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="nb">method</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2"> in </span><span class="si">#{</span><span class="s1">&#39;%.2f&#39;</span> <span class="o">%</span> <span class="n">elapsed_time</span><span class="si">}</span><span class="s2"> ms&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">ProjectApi</span> <span class="o">&lt;</span> <span class="no">Goliath</span><span class="o">::</span><span class="no">API</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">response</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class="line">    <span class="o">::</span><span class="no">Project</span><span class="o">::</span><span class="no">Api</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注意在 api 中调用 models的时候需要 require model，所以需要在 api.rb 中require一下，这样在执行 Model 时才能顺利找到，如果报找不到文件的错误，需要把所有的 require 改成绝对路径，像下面一样</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/../models/*.rb&#39;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="nb">require</span> <span class="n">file</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果不需要 goliath 提供的 middleware 的话简单配置下就可以运行了，虽然也是 rack-base，但是不能用基于 rack 规范的 web server 启动，按照官方说明是必须位于 Goliath::API 类中且不能自定义包含 run 的方法，那就只能单独开启一个进程了</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># production 环境开始log 定向到 log/production.log</span>
+</span><span class="line"><span class="n">ruby</span> <span class="n">server</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">sv</span> <span class="o">-</span><span class="n">e</span> <span class="n">production</span> <span class="o">-</span><span class="n">l</span> <span class="n">log</span><span class="o">/</span><span class="n">production</span><span class="o">.</span><span class="n">log</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>配置下 god，开4个进程</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># god 配置文件 监测 goliath 程序是否运行正常</span>
+</span><span class="line"><span class="c1"># start =&gt; god -c config/listen.god -D</span>
+</span><span class="line">
+</span><span class="line"><span class="no">API_ENV</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GOLIATH_ENV&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;production&#39;</span>
+</span><span class="line"><span class="no">API_ROOT</span> <span class="o">=</span> <span class="s2">&quot;/path/to/goliath-api&quot;</span>
+</span><span class="line"><span class="no">God</span><span class="o">.</span><span class="n">pid_file_directory</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2">/config&quot;</span>
+</span><span class="line"><span class="no">PROCESS_NUM</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="no">PROCESS_NUM</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">port</span><span class="o">|</span>
+</span><span class="line">  <span class="no">God</span><span class="o">.</span><span class="n">watch</span> <span class="k">do</span> <span class="o">|</span><span class="n">w</span><span class="o">|</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">dir</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2">/log/</span><span class="si">#{</span><span class="no">API_ENV</span><span class="si">}</span><span class="s2">.log&quot;</span>
+</span><span class="line">    <span class="n">port</span> <span class="o">+=</span> <span class="mi">8000</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;api-</span><span class="si">#{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mi">30</span><span class="o">.</span><span class="n">seconds</span> <span class="c1"># default</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;cd </span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2"> &amp;&amp; ruby server.rb -sv -e production -l log/production.log \</span>
+</span><span class="line"><span class="s2">               -p </span><span class="si">#{</span><span class="n">port</span><span class="si">}</span><span class="s2"> -P </span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2">/tmp/pids/api.</span><span class="si">#{</span><span class="n">port</span><span class="si">}</span><span class="s2">.pid -d&quot;</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;kill -QUIT `cat </span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2">/tmp/pids/api.</span><span class="si">#{</span><span class="n">port</span><span class="si">}</span><span class="s2">.pid&quot;</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">restart</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">w</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2"> &amp;&amp; </span><span class="si">#{</span><span class="n">w</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">start_grace</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">seconds</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">restart_grace</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">seconds</span>     <span class="c1"># 重启缓冲时间</span>
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">pid_file</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">API_ROOT</span><span class="si">}</span><span class="s2">/tmp/pids/api.</span><span class="si">#{</span><span class="n">port</span><span class="si">}</span><span class="s2">.pid&quot;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">behavior</span><span class="p">(</span><span class="ss">:clean_pid_file</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">start_if</span> <span class="k">do</span> <span class="o">|</span><span class="n">start</span><span class="o">|</span>
+</span><span class="line">      <span class="n">start</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="ss">:process_running</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mi">5</span><span class="o">.</span><span class="n">seconds</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">restart_if</span> <span class="k">do</span> <span class="o">|</span><span class="n">restart</span><span class="o">|</span>
+</span><span class="line">      <span class="n">restart</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="ss">:memory_usage</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">above</span> <span class="o">=</span> <span class="mi">150</span><span class="o">.</span><span class="n">megabytes</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span> <span class="c1"># 3 out of 5 intervals</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">notify</span> <span class="o">=</span> <span class="s1">&#39;your_name&#39;</span>      <span class="c1"># 报警邮件发送对象</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">      <span class="n">restart</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="ss">:cpu_usage</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">above</span> <span class="o">=</span> <span class="mi">50</span><span class="o">.</span><span class="n">percent</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">notify</span> <span class="o">=</span> <span class="s1">&#39;your_name&#39;</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">w</span><span class="o">.</span><span class="n">lifecycle</span> <span class="k">do</span> <span class="o">|</span><span class="n">on</span><span class="o">|</span>
+</span><span class="line">      <span class="n">on</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="ss">:flapping</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">to_state</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:start</span><span class="p">,</span> <span class="ss">:restart</span><span class="o">]</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">within</span> <span class="o">=</span> <span class="mi">5</span><span class="o">.</span><span class="n">minute</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">transition</span> <span class="o">=</span> <span class="ss">:unmonitored</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">retry_in</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">minutes</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">retry_times</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">retry_within</span> <span class="o">=</span> <span class="mi">2</span><span class="o">.</span><span class="n">hours</span>
+</span><span class="line">        <span class="n">c</span><span class="o">.</span><span class="n">notify</span> <span class="o">=</span> <span class="s1">&#39;your_name&#39;</span>
+</span><span class="line">      <span class="k">end</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>由于测试服务器上只是i5双核，nginx 开4个 worker_process 就可以了。派发本地 8001~8005端口，旧有的 api 就用 passenger 启动省事。注意要修改 hosts 文件，如果是本地测试就改成 <code>127.0.0.1 api_new.dev api_old.dev</code>，测试跑在测试服务器上也是修改本地 hosts，只是需要把 127.0.0.1 改成测试服务器的ip，这样 dns 才能正确解析，同时也能共用 80 端口</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">worker_processes</span> <span class="mi">4</span>
+</span><span class="line">
+</span><span class="line"><span class="n">upstream</span> <span class="n">api_cluster</span> <span class="p">{</span>
+</span><span class="line">  <span class="n">server</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">8001</span><span class="p">;</span>
+</span><span class="line">  <span class="n">server</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">8002</span><span class="p">;</span>
+</span><span class="line">  <span class="n">server</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">8003</span><span class="p">;</span>
+</span><span class="line">  <span class="n">server</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">8004</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="n">server</span> <span class="p">{</span>
+</span><span class="line">  <span class="n">listen</span>       <span class="mi">80</span><span class="p">;</span>
+</span><span class="line">  <span class="n">server_name</span>  <span class="n">api_new</span><span class="o">.</span><span class="n">dev</span><span class="p">;</span>
+</span><span class="line">  <span class="n">location</span> <span class="o">/</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">proxy_pass</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">api_cluster</span><span class="p">;</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="n">server</span> <span class="p">{</span>
+</span><span class="line">  <span class="n">listen</span>       <span class="mi">80</span><span class="p">;</span>
+</span><span class="line">  <span class="n">server_name</span>  <span class="n">api_old</span><span class="o">.</span><span class="n">dev</span><span class="p">;</span>
+</span><span class="line">  <span class="n">location</span> <span class="o">/</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">passenger_enabled</span> <span class="n">on</span><span class="p">;</span>
+</span><span class="line">    <span class="n">root</span> <span class="sr">/path/</span><span class="n">to</span><span class="o">/</span><span class="n">rails</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="kp">public</span><span class="p">;</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>接着跑下 ab 测试，数据量以我们流量平均值3k为大小，并发2000，测试时间1分钟。如果想测试次数，需要先 -t 设置时间之后再 -n，这样可以设置一个超过 ab 最大测试数 50000 的值</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># api_old</span>
+</span><span class="line"><span class="n">apr_socket_recv</span><span class="p">:</span> <span class="no">Connection</span> <span class="n">reset</span> <span class="n">by</span> <span class="n">peer</span> <span class="p">(</span><span class="mi">54</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># api_new</span>
+</span><span class="line"><span class="no">Requests</span> <span class="n">per</span> <span class="n">second</span><span class="p">:</span>    <span class="mi">6</span><span class="o">.</span><span class="mi">44</span> <span class="o">[</span><span class="c1">#/sec] (mean)</span>
+</span><span class="line"><span class="no">Time</span> <span class="n">per</span> <span class="n">request</span><span class="p">:</span>       <span class="mi">310788</span><span class="o">.</span><span class="mi">789</span> <span class="o">[</span><span class="n">ms</span><span class="o">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+</span><span class="line"><span class="no">Time</span> <span class="n">per</span> <span class="n">request</span><span class="p">:</span>       <span class="mi">155</span><span class="o">.</span><span class="mi">394</span> <span class="o">[</span><span class="n">ms</span><span class="o">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">across</span> <span class="n">all</span> <span class="n">concurrent</span> <span class="n">requests</span><span class="p">)</span>
+</span><span class="line"><span class="no">Transfer</span> <span class="n">rate</span><span class="p">:</span>          <span class="mi">18</span><span class="o">.</span><span class="mo">02</span> <span class="o">[</span><span class="no">Kbytes</span><span class="o">/</span><span class="n">sec</span><span class="o">]</span> <span class="n">received</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>passenger 直接就扛不住了，goliath 虽然慢点，但也还是扛住了。最后测试了几次，最大并发在 2500 左右，这也跟测试环境机器性能，家里的渣路由有关。以正式环境32核的cpu及良好的带宽，应该能在这个基础上至少翻一倍。这个测试结果按照我们目前的流量还是比较满意的</p>
+
+<p>最后介绍下god监控：如果需要 god 发送监控邮件，可以在 listen.god 中配置下smtp服务器和发送信息</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># 以下用于发送监控邮件(进程未启动/内存超限/CPU超限)</span>
+</span><span class="line"><span class="no">God</span><span class="o">::</span><span class="no">Contacts</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">defaults</span> <span class="k">do</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">from_email</span> <span class="o">=</span> <span class="s1">&#39;from_email&#39;</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">from_name</span> <span class="o">=</span> <span class="s1">&#39;your_name&#39;</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">delivery_method</span> <span class="o">=</span> <span class="ss">:smtp</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">server_host</span> <span class="o">=</span> <span class="s1">&#39;email_host&#39;</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">server_port</span> <span class="o">=</span> <span class="mi">25</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">server_auth</span> <span class="o">=</span> <span class="ss">:login</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">server_domain</span> <span class="o">=</span> <span class="s1">&#39;email_domail&#39;</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">server_user</span> <span class="o">=</span> <span class="s1">&#39;email_address&#39;</span>
+</span><span class="line">  <span class="n">d</span><span class="o">.</span><span class="n">server_password</span> <span class="o">=</span> <span class="s1">&#39;your_email&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="no">God</span><span class="o">.</span><span class="n">contact</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line"> <span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;your_name&#39;</span>
+</span><span class="line"> <span class="n">c</span><span class="o">.</span><span class="n">to_email</span> <span class="o">=</span> <span class="s1">&#39;your_email&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>参考</p>
+
+<ol>
+  <li><a href="http://confreaks.com/videos/653-gogaruco2011-0-60-with-goliath-building-high-performance-ruby-web-services">0-60-with-goliath-building-high-performance-ruby-web-services</a></li>
+  <li><a href="https://github.com/djones/grape-goliath-example">grape-goliath-example</a></li>
+  <li><a href="https://github.com/postrank-labs/goliath/wiki">goliath wiki</a> &amp; <a href="https://github.com/postrank-labs/goliath/tree/master/examples">examples</a></li>
+  <li><a href="https://groups.google.com/forum/?fromgroups#!forum/goliath-io">google mail group</a></li>
+</ol>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">bigcircle</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-05T18:00:00+08:00" pubdate data-updated="true">2013-01-05 18:00:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/use-ruby-to-build-api-with-goliath.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/use-ruby-to-build-api-with-goliath.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/use-ruby-to-build-api-with-grape.html/" title="Previous Post: 用 ruby 构建 api 之 grape">&larr; 用 ruby 构建 api 之 grape</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (5)</a></li>
+<li class='category'><a href='/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/blog/categories/shell/'>shell (3)</a></li>
+<li class='category'><a href='/blog/categories/sublime/'>sublime (1)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (6)</a></li>
+<li class='category'><a href='/blog/categories/work/'>work (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/use-ruby-to-build-api-with-goliath.html/">用 ruby 构建 api 之 goliath</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/use-ruby-to-build-api-with-grape.html/">用 ruby 构建 api 之 grape</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/wo-de-2012.html/">我的2012</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/improve-ruby-performance.html/">修改 GC 参数提高 Ruby 性能</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/setup-redis-on-server.html/">服务器上搭建redis环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/use-sublime-to-modify-remote-file.html/">使用 sublime 修改远程文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/a-funny-command-line-tool.html/">一个好玩的东东--终端输出cow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/enhance-your-touchpad.html/">增强触控板之 Jitouch</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - <a href="https://github.com/bigcircle">bigcircle</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class='platform'>Made on </span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'bigcircle';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/use-ruby-to-build-api-with-goliath.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/use-ruby-to-build-api-with-goliath.html/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
