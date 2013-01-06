@@ -8,7 +8,9 @@ keywords: ruby api goliath grape
 description: 
 ---
 上期说到在 rails 中用 grape 方便构建 api，如果是日常简单运用还可以，但是一般需要api的地方都不是请求量很低的运用，或多或少都对并发量有所要求，用 rails 这种重型框架做可能就有点大材小用，而且并不是很符合高并发要求，很多慢查询会导致请求阻塞，有时候甚至丢失请求，这个就不 happy 了，也是不能容忍的，与其费时间优化代码，不如从框架层面找个更合适的选择
+
 <!--more-->
+
 有次在 beijing ruby 聚会时汉东哥分享了下他们用 goliath 做高并发 api 的经验，刚好最近也准备把 api 作为单独的服务从项目中独立出来，就用 goliath 尝试了下，效果很不错，简单介绍下 goliath
 
 `goliath is an open source version of the non-blocking (asynchronous) ruby lightweight web server framework, powered by an eventMachine reactor`
@@ -157,7 +159,7 @@ PROCESS_NUM = 4
 end
 ```
 
-由于测试服务器上只是i5双核，nginx 开4个 worker_process 就可以了。派发本地 8001~8005端口，旧有的 api 就用 passenger 启动省事。注意要修改 hosts 文件，如果是本地测试就改成 `127.0.0.1 api_new.dev api_old.dev`，测试跑在测试服务器上也是修改本地 hosts，只是需要把 127.0.0.1 改成测试服务器的ip，这样 dns 才能正确解析，同时也能共用 80 端口
+由于测试服务器上只是i5双核，nginx 开4个 worker_process 就可以了。派发本地 8001~8004端口，旧有的 api 就用 passenger 启动省事。注意要修改 hosts 文件，如果是本地测试就改成 `127.0.0.1 api_new.dev api_old.dev`，测试跑在测试服务器上也是修改本地 hosts，只是需要把 127.0.0.1 改成测试服务器的ip，这样 dns 才能正确解析，同时也能共用 80 端口
 
 ```
 worker_processes 4
@@ -187,7 +189,7 @@ server {
 }
 ```
 
-接着跑下 ab 测试，数据量以我们流量平均值3k为大小，并发2000，测试时间1分钟。如果想测试次数，需要先 -t 设置时间之后再 -n，这样可以设置一个超过 ab 最大测试数 50000 的值
+接着跑下 ab 测试，数据量以我们流量平均值3k为大小，并发2000，测试时间1分钟。如果想测试次数，需要先 -t 设置时间之后再 -n，这样可以设置一个超过 ab 最大测试数 50000 的值，同时控制超时时间，至少让测试能够跑完
 
 ```
 # api_old
