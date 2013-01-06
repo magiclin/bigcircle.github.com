@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "用ruby 构建 api 之 grape"
+title: "用 ruby 构建 api 之 grape"
 date: 2013-01-03 17:08
 comments: true
 categories: ruby
