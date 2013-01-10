@@ -436,7 +436,7 @@
 </span><span class="line"><span class="no">Transfer</span> <span class="n">rate</span><span class="p">:</span>          <span class="mi">18</span><span class="o">.</span><span class="mo">02</span> <span class="o">[</span><span class="no">Kbytes</span><span class="o">/</span><span class="n">sec</span><span class="o">]</span> <span class="n">received</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>passenger 直接就扛不住了，goliath 虽然慢点，但也还是扛住了。最后测试了几次，最大并发在 2500 左右，这也跟测试环境机器性能，家里的渣路由有关。以正式环境32核的cpu及良好的带宽，应该能在这个基础上至少翻一倍。这个测试结果按照我们目前的流量还是比较满意的</p>
+<p>passenger 直接就扛不住了，goliath 虽然慢点，但也还是扛住了。最后测试了几次，最大并发在 2500 左右，这也跟测试环境机器性能，家里的渣路由有关。以正式环境更好的配置及良好的带宽，应该能在这个基础上至少翻一倍。这个测试结果按照我们目前的流量还是比较满意的</p>
 
 <p>最后介绍下god监控：如果需要 god 发送监控邮件，可以在 listen.god 中配置下smtp服务器和发送信息</p>
 
