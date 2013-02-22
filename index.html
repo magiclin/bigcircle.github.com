@@ -9,7 +9,7 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="上期说到在 rails 中用 grape 方便构建 api，如果是日常简单运用还可以，但是一般需要api的地方都不是请求量很低的运用，或多或少都对并发量有所要求，用 rails 这种重型框架做可能就有点大材小用，而且并不是很符合高并发要求，很多慢查询会导致请求阻塞，有时候甚至丢失请求，这个就不 &hellip;">
+  <meta name="description" content="最近在听以前星光比赛的歌曲，很多经典的歌曲又一次次回味，不得不说华语乐坛这几十年一直都是湾湾在引领，就像香港之于电影，电视剧一样。我们现在听到的很多歌曲基本都是出自巅峰时期的4大唱片公司，以前很多马来西亚，新加坡甚至香港的华语歌手专辑都是在台湾制作的，首先在台湾发行，由此可见其音乐产业的发达。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/one-fair-sounding-song-queen.html/">一首好听的歌 - 天后</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-22T15:55:00+08:00" pubdate data-updated="true">2013-02-22 15:55:00</time>
+        
+         | <a href="/blog/one-fair-sounding-song-queen.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近在听以前星光比赛的歌曲，很多经典的歌曲又一次次回味，不得不说华语乐坛这几十年一直都是湾湾在引领，就像香港之于电影，电视剧一样。我们现在听到的很多歌曲基本都是出自巅峰时期的4大唱片公司，以前很多马来西亚，新加坡甚至香港的华语歌手专辑都是在台湾制作的，首先在台湾发行，由此可见其音乐产业的发达。而内地刚好相反，最近几十年已然变成了文化的沙漠，过多的管制造成各种文化作品的低劣，想出现像香港电影，台湾唱片这样的引领华语文化的现象至少目前看不到苗头，就算莫言获得了诺贝尔文学奖，那也是他个人的成功，并非内地文学繁荣的结果。想造就文化繁荣，就必须放开文化管制，xx部，gxw，这样的文化糟粕必须被抛弃，但这是我们dang能做到的嘛，没有文化输出的大国是赢不到华语世界认同的。
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/one-fair-sounding-song-queen.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -258,62 +300,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/setup-redis-on-server.html/">服务器上搭建redis环境</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-13T16:19:00+08:00" pubdate data-updated="true">2012-11-13 16:19:00</time>
-        
-         | <a href="/blog/setup-redis-on-server.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在 Centos 上搭一个redis服务，本来准备直接 yum 安装，看了下攻略发现编译更简单，顺便可以自定义下配置文件，做下小笔记，以备后用</p>
-
-<ul>
-  <li>先去主页下个最新版本 http://redis.io/download</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">cd</span> <span class="sr">/usr/</span><span class="n">local</span> <span class="o">&amp;&amp;</span> <span class="n">wget</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">redis</span><span class="o">.</span><span class="n">googlecode</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-</span><span class="line"><span class="n">tar</span> <span class="n">zxvf</span> <span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">redis</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span>
-</span><span class="line"><span class="c1"># make 会把功能创建到 src 目录下，make install 会将几个服务命令copy到 /usr/local/bin下</span>
-</span><span class="line"><span class="n">make</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">install</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/setup-redis-on-server.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -329,7 +315,7 @@
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (2)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
@@ -345,6 +331,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/one-fair-sounding-song-queen.html/">一首好听的歌 - 天后</a>
+      </li>
     
       <li class="post">
         <a href="/blog/use-ruby-to-build-api-with-goliath.html/">用 ruby 构建 api 之 goliath</a>
@@ -380,10 +370,6 @@
     
       <li class="post">
         <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
       </li>
     
   </ul>

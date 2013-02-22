@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>给Octopress添加分类列表 - Hi, I’m dayuan</title>
+  <title>一首好听的歌 - 天后 - Hi, I’m dayuan</title>
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表 新建分类列表 source/_inclide/custom/ &hellip;">
-  
+  <meta name="description" content="最近在听以前星光比赛的歌曲，很多经典的歌曲又一次次回味，不得不说华语乐坛这几十年一直都是湾湾在引领，就像香港之于电影，电视剧一样。我们现在听到的很多歌曲基本都是出自巅峰时期的4大唱片公司，以前很多马来西亚，新加坡甚至香港的华语歌手专辑都是在台湾制作的，首先在台湾发行，由此可见其音乐产业的发达。 &hellip;">
+  <meta name="keywords" content="song fair-sounding song queen">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/">
+  <link rel="canonical" href="http://Bigcircle.github.com/blog/one-fair-sounding-song-queen.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -78,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">给Octopress添加分类列表</h1>
+      <h1 class="entry-title">一首好听的歌 - 天后</h1>
     
     
       <p class="meta">
@@ -94,7 +93,7 @@
   
 
 
-<time datetime="2012-08-27T11:24:00+08:00" pubdate data-updated="true">2012-08-27 11:24:00</time>
+<time datetime="2013-02-22T15:55:00+08:00" pubdate data-updated="true">2013-02-22 15:55:00</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -103,61 +102,20 @@
   </header>
 
 
-<div class="entry-content"><p>Octopress可定制的功能很多，可以在侧边栏添加分类列表，最近评论，Twitter/Weibo，tags云 或者自己能想到的差不多都能定制，就看网上能不能找到现成的或者自己能不能写了。
-为了使界面简洁点，就只添加了一个分类列表</p>
+<div class="entry-content"><p>最近在听以前星光比赛的歌曲，很多经典的歌曲又一次次回味，不得不说华语乐坛这几十年一直都是湾湾在引领，就像香港之于电影，电视剧一样。我们现在听到的很多歌曲基本都是出自巅峰时期的4大唱片公司，以前很多马来西亚，新加坡甚至香港的华语歌手专辑都是在台湾制作的，首先在台湾发行，由此可见其音乐产业的发达。而内地刚好相反，最近几十年已然变成了文化的沙漠，过多的管制造成各种文化作品的低劣，想出现像香港电影，台湾唱片这样的引领华语文化的现象至少目前看不到苗头，就算莫言获得了诺贝尔文学奖，那也是他个人的成功，并非内地文学繁荣的结果。想造就文化繁荣，就必须放开文化管制，xx部，gxw，这样的文化糟粕必须被抛弃，但这是我们dang能做到的嘛，没有文化输出的大国是赢不到华语世界认同的。
+<!--more--></p>
 
-<ul>
-  <li>新建分类列表 source/_inclide/custom/asides/category_list.html</li>
-</ul>
+<p>貌似扯的有点远了。还是回到歌的主题上，这首歌是最近看曾沛慈个人小型演唱会的时候听到的，初听感觉有点耳熟，想起来以前听回音哥 <a href="http://fc.5sing.com/4116611.html">翻唱过</a>，不过还是女生的好听点。倒不是这首歌歌词多么励志，曲境多么优雅，只是单纯觉得好听而已。</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="o">&lt;</span><span class="nx">section</span><span class="o">&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Categories</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;categories&quot;</span><span class="o">&gt;</span>
-</span><span class="line">    <span class="p">{</span><span class="o">%</span> <span class="nx">category_list</span> <span class="o">%</span><span class="p">}</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="err">/ul&gt;</span>
-</span><span class="line"><span class="o">&lt;</span><span class="err">/section&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>搜了下好像只有 youtube 上有这个视频，我也懒得下下来上传到优酷，感兴趣的朋友还是翻下吧，又没多少技术含量。现在已经习惯 youtube 上高清画质的视频了，不得不说 youtube 无论是 ui 设计还是用户体验都比优酷好很多，而且视频质量默认都320p了，技术实力就更不用说了。</p>
 
-<ul>
-  <li>新建插件： plugins/category_list_tag.rb</li>
-</ul>
+<p>防白板：<a href="http://www.youtube.com/watch?v=zw_lOAt2TMI">http://www.youtube.com/watch?v=zw_lOAt2TMI</a> 视频前面废话有点多，想听歌的直接从1分40秒开始</p>
 
-<!-- more -->
+<iframe width="640" height="360" src="http://www.youtube.com/embed/zw_lOAt2TMI" frameborder="0" allowfullscreen=""></iframe>
 
-<div><script src="https://gist.github.com/3485442.js?file=category_list_tag.rb"></script>
-<noscript><pre><code>module Jekyll
-  class CategoryListTag &lt; Liquid::Tag
-    def render(context)
-      html = &quot;&quot;
-      categories = context.registers[:site].categories.keys
-      categories.sort.each do |category|
-        posts_in_category = context.registers[:site].categories[category].size
-        category_dir = context.registers[:site].config['category_dir']
-        category_url = File.join(category_dir, category.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase)
-        html &lt;&lt; &quot;&lt;li class='category'&gt;&lt;a href='/#{category_url}/'&gt;#{category} (#{posts_in_category})&lt;/a&gt;&lt;/li&gt;\n&quot;
-      end
-      html
-    end
-  end
-end
+<p>跟随星光2班一直看到现在，里面出现了很多唱歌很好听的歌手，像大家都熟悉的杨宗纬，林宥嘉，萧敬腾，胡夏，还有不熟悉的赖铭伟，曾沛慈，徐佳莹，阎奕格，包括很多踢馆高手等等，每个人都是很用心在唱歌，选歌的质量很高，评委水平也都很专业，不像内地的选秀节目粗制滥造，评委自己都不知道自己再说什么，粉丝各种脑残举动，春哥，曾哥大行其道，深深伤了广大观众的那颗爱音乐的心，也让大家对内地音乐创作的匮乏感到无奈，想想过去10年，我们一起听过的歌手，周杰棍，双截伦，jolin, she, 力宏，陶喆，五月天，刘若英，林俊杰，梁静茹，也还都是台湾的或者台湾制作，这不是妄自菲薄，只是大环境如此，用领导人敏感词的话讲就是国情不同，我们还在发展中。期待下一个十年总结的时候，能多听到一些出自内地歌手的好作品</p>
 
-Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></pre></noscript></div>
-
-<ul>
-  <li> 更改配置 _config.yml</li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="yaml"><span class="line"><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_posts.html</span><span class="p-Indicator">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>同时把侧边栏默认显示在最下面，保留可以在侧面打开的功能，页面布局看起来就简单多了</p>
+<p>扯了这么多没几句是跟这首歌相关的，只是突然有感而发，最后说下这首歌原唱是陈势安，<a href="http://v.youku.com/v_show/id_XMjIwNDE0NTMy.html">原唱在此</a>，唱得软绵绵的，怪不得这么好的歌没有火</p>
 </div>
 
 
@@ -180,12 +138,12 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
   
 
 
-<time datetime="2012-08-27T11:24:00+08:00" pubdate data-updated="true">2012-08-27 11:24:00</time>
+<time datetime="2013-02-22T15:55:00+08:00" pubdate data-updated="true">2013-02-22 15:55:00</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -194,7 +152,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://Bigcircle.github.com/blog/one-fair-sounding-song-queen.html/" data-via="" data-counturl="http://Bigcircle.github.com/blog/one-fair-sounding-song-queen.html/" >Tweet</a>
   
   
   
@@ -203,10 +161,8 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/start-goagent-automatically-when-boot-in-mac.html/" title="Previous Post: Mac设置goagent开机自启动">&larr; Mac设置goagent开机自启动</a>
+        <a class="basic-alignment left" href="/blog/use-ruby-to-build-api-with-goliath.html/" title="Previous Post: 用 ruby 构建 api 之 goliath">&larr; 用 ruby 构建 api 之 goliath</a>
       
-      
-        <a class="basic-alignment right" href="/blog/modify-octopress-style-and-color.html/" title="Next Post: 修改Octopress主题样式">修改Octopress主题样式 &rarr;</a>
       
     </p>
   </footer>
@@ -307,8 +263,8 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)</code></
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/';
-        var disqus_url = 'http://Bigcircle.github.com/blog/add-category-list-for-octopress.html/';
+        var disqus_identifier = 'http://Bigcircle.github.com/blog/one-fair-sounding-song-queen.html/';
+        var disqus_url = 'http://Bigcircle.github.com/blog/one-fair-sounding-song-queen.html/';
         var disqus_script = 'embed.js';
       
     (function () {

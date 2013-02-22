@@ -9,15 +9,19 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="接着上期说 你可能错过的 Rails 技巧(一) 11 - 显示数据迁移记录 1
-rake db:migrate:status 会输出 migration 的状态，这在解决迁移版本冲突的时候很有用 1
+  <meta name="description" content="中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 这篇 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听 21 - 自动写文件 1
 2
 3
 4
 5
 6
 7
-database: db/development.sqlite3 &hellip;">
+8
+9
+10
+11
+12
+class Comment &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +86,96 @@ database: db/development.sqlite3 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">你可能错过的 Rails 技巧(三)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T09:55:00+08:00" pubdate data-updated="true">2012-08-31 09:55:00</time>
+        
+         | <a href="/blog/10-things-you-didnt-know-rails-could-do-3.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>中场休息时，去找了下 RailsConf 2012 的视频看了看，刚好看到关于 <a href="http://confreaks.com/videos/889-railsconf2012-ten-things-you-didn-t-know-rails-could-do">这篇</a> 的介绍，片子还挺长，41分钟，演讲者长相和声音都很不符合大家对 Rails 的认知，大家有兴趣的可以去听听</p>
+
+<h6 id="section">21 - 自动写文件</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class="line">  <span class="c1"># ...</span>
+</span><span class="line">  <span class="no">Q_DIR</span> <span class="o">=</span> <span class="p">(</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;comment_queue&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:mkpath</span><span class="p">)</span>
+</span><span class="line">  <span class="n">after_save</span> <span class="ss">:queue_comment</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">queue_comment</span>
+</span><span class="line">    <span class="no">File</span><span class="o">.</span><span class="n">atomic_write</span><span class="p">(</span><span class="no">Q_DIR</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Article: </span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">subject</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;User:    </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">      <span class="n">f</span><span class="o">.</span><span class="n">puts</span> <span class="n">body</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>找了下 <a href="http://api.rubyonrails.org/">Api</a> 是 Rails 对 Ruby 基础类的扩展</p>
+
+<h6 id="hash">22 - 合并嵌套 Hash</h6>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class="line"><span class="no">Loading</span> <span class="n">development</span> <span class="n">environment</span> <span class="p">(</span><span class="no">Rails</span> <span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="p">{</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span><span class="o">.</span><span class="n">deep_merge</span><span class="p">(</span><span class="n">nested</span><span class="p">:</span> <span class="p">{</span><span class="n">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:nested</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:one</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:two</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">}}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>主要是用到了 deep_merge 合并相同的 key
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/10-things-you-didnt-know-rails-could-do-3.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -391,84 +485,6 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/explain-select-on-rails-hepler.html/">Rails View Select 方法学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-28T10:52:00+08:00" pubdate data-updated="true">2012-08-28 10:52:00</time>
-        
-         | <a href="/blog/explain-select-on-rails-hepler.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂</p>
-
-<p>rails的actionview提供了简单的select方法生产表单选择项，根据 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html">Api</a> 指示，用法如下：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<ul>
-  <li>object是指select选项所修饰的目标对象，通常是一个Model对象</li>
-  <li>method是目标对象的属性（方法）名</li>
-  <li>choices可以是任何可枚举的对象，数组，Hash或者是包含了选择框的数据库查询结果</li>
-  <li>options选项</li>
-  <li>html_options是html相关选项</li>
-</ul>
-
-<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.
-例如对于  @post.person_id =&gt; 2</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="s2">&quot;person_id&quot;</span><span class="p">,</span> <span class="no">Person</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">p</span><span class="o">.</span><span class="n">id</span> <span class="o">]</span> <span class="p">},</span> <span class="p">{</span><span class="ss">:include_blank</span> <span class="o">=&gt;</span> <span class="s1">&#39;None&#39;</span><span class="p">})</span>
-</span><span class="line">
-</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;post[person_id]&quot;</span><span class="o">&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="no">None</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
-</span><span class="line"><span class="sr">  &lt;option value=&quot;1&quot;&gt;David&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
-</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;2&quot;</span> <span class="n">selected</span><span class="o">=</span><span class="s2">&quot;selected&quot;</span><span class="o">&gt;</span><span class="no">Sam</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
-</span><span class="line"><span class="sr">  &lt;option value=&quot;3&quot;&gt;Tobias&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
-</span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/explain-select-on-rails-hepler.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -486,7 +502,7 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (2)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
@@ -502,6 +518,10 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/one-fair-sounding-song-queen.html/">一首好听的歌 - 天后</a>
+      </li>
     
       <li class="post">
         <a href="/blog/use-ruby-to-build-api-with-goliath.html/">用 ruby 构建 api 之 goliath</a>
@@ -537,10 +557,6 @@ ninja 最近才新加到 brew 的 Formula 里面，如果安装提示没有的�
     
       <li class="post">
         <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
       </li>
     
   </ul>

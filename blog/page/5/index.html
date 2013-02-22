@@ -9,7 +9,8 @@
   <meta name="author" content="bigcircle">
 
   
-  <meta name="description" content="默认的Octopress已经烂大街了，第一眼可能看着还行，看多了加上别人的都是这个主题，总想自己搞个，不过想把大的框架做的好看真的很难，于是就在原有基础上随便修修补补，能看就行 主要修改了以下几个方面： 默认隐藏侧边栏，添加上class之后会挤到下面，看着也凑合，就没去掉 整体颜色以 # &hellip;">
+  <meta name="description" content="开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂 rails的actionview提供了简单的select方法生产表单选择项，根据 Api 指示，用法如下： 1
+select(object, method, choices, options &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +75,84 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/explain-select-on-rails-hepler.html/">Rails View Select 方法学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T10:52:00+08:00" pubdate data-updated="true">2012-08-28 10:52:00</time>
+        
+         | <a href="/blog/explain-select-on-rails-hepler.html/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>开始几篇都是扯些闲蛋，从这篇开始多写点技术方面学习的东西，多谈点实际，少谈点主义，做只勤劳的小蜜蜂</p>
+
+<p>rails的actionview提供了简单的select方法生产表单选择项，根据 <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html">Api</a> 指示，用法如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="nb">method</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">html_options</span> <span class="o">=</span> <span class="p">{})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>object是指select选项所修饰的目标对象，通常是一个Model对象</li>
+  <li>method是目标对象的属性（方法）名</li>
+  <li>choices可以是任何可枚举的对象，数组，Hash或者是包含了选择框的数据库查询结果</li>
+  <li>options选项</li>
+  <li>html_options是html相关选项</li>
+</ul>
+
+<p>include_blank 会显示值为空的默认选项，prompt 会给个提示选择，比如提示 Select One.
+例如对于  @post.person_id =&gt; 2</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">select</span><span class="p">(</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="s2">&quot;person_id&quot;</span><span class="p">,</span> <span class="no">Person</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">p</span><span class="o">.</span><span class="n">id</span> <span class="o">]</span> <span class="p">},</span> <span class="p">{</span><span class="ss">:include_blank</span> <span class="o">=&gt;</span> <span class="s1">&#39;None&#39;</span><span class="p">})</span>
+</span><span class="line">
+</span><span class="line"><span class="o">&lt;</span><span class="nb">select</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;post[person_id]&quot;</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="no">None</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;1&quot;&gt;David&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line">  <span class="o">&lt;</span><span class="n">option</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;2&quot;</span> <span class="n">selected</span><span class="o">=</span><span class="s2">&quot;selected&quot;</span><span class="o">&gt;</span><span class="no">Sam</span><span class="o">&lt;</span><span class="sr">/option&gt;</span>
+</span><span class="line"><span class="sr">  &lt;option value=&quot;3&quot;&gt;Tobias&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+</span><span class="line"><span class="o">&lt;</span><span class="sr">/select&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/explain-select-on-rails-hepler.html/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -295,60 +374,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/modify-mac-to-8g-memory.html/">Mac升级内存手记，高清大图(12P)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-21T20:58:00+08:00" pubdate data-updated="true">2012-08-21 20:58:00</time>
-        
-         | <a href="/blog/modify-mac-to-8g-memory.html/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>月初新入手Mac 2012新款 <a href="http://store.apple.com/cn/browse/home/shop_mac/family/macbook_pro/select">MD103</a> 作为未来N年主力开发机，虽说新版 Retina 屏是极好的，无奈同时极好的价格，还是下次吧。(可恨的同学在第二天就入手了视网膜版，羡慕嫉妒恨啊！)
-主要是已经习惯Mac开发的便捷和Linux各种不爽，同时也就省了系统层面的瞎折腾，关于Mac的好处，小总结了下，有以下几点</p>
-
-<ul>
-  <li>系统牛X，Unix 内核，环境易搭，工具丰富 ，稳定性安全性高，开发首选</li>
-  <li>外形拉轰，think different 理念，适合与众不同的人。。</li>
-  <li>操作快捷，内置各种快捷键，借助 Alfred / QuickSilver 可以做到全盘快捷键</li>
-  <li>装软件方便，很多dmg包打开即用，win7下很多常用软件都有原装品/替代品</li>
-  <li>待机时间长，广告号称7小时，虽说目前Mountain Lion在待机方面可能比预期的短点，但4～5个小时还是没有问题的，相对于普通pc的2个小时强太多了，相信下个补丁应该能在待机时间方面优化优化</li>
-  <li>用很长时间不用重装系统，也没有处理磁盘碎片的烦恼，不用时盖上盖即可，一个月不关机是常事</li>
-</ul>
-
-<p>当然缺点也是有的，特别是对于已经习惯windows的同学来说，这里就不罗列啦。。
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/modify-mac-to-8g-memory.html/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -366,7 +391,7 @@
   <ul id="categories">
     <li class='category'><a href='/blog/categories/domain/'>domain (1)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
-<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (2)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (10)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
 <li class='category'><a href='/blog/categories/rails/'>rails (6)</a></li>
@@ -382,6 +407,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/one-fair-sounding-song-queen.html/">一首好听的歌 - 天后</a>
+      </li>
     
       <li class="post">
         <a href="/blog/use-ruby-to-build-api-with-goliath.html/">用 ruby 构建 api 之 goliath</a>
@@ -417,10 +446,6 @@
     
       <li class="post">
         <a href="/blog/intro-flico-and-touchpad.html/">新装备之 Flico & Trackpad</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/iterm2-keymaps.html/">iterm2 快捷键介绍</a>
       </li>
     
   </ul>
